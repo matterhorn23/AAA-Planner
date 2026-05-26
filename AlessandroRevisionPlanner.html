@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alessandro — 7-Day Revision Planner</title>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --maths:#185FA5;--maths-bg:#E6F1FB;--maths-text:#0C447C;
+  --physics:#0F6E56;--physics-bg:#E1F5EE;--physics-text:#085041;
+  --chemistry:#8B3A1A;--chem-bg:#FAECE7;--chem-text:#5C2410;
+  --english:#534AB7;--english-bg:#EEEDFE;--english-text:#3C3489;
+  --geo:#3B6D11;--geo-bg:#EAF3DE;--geo-text:#27500A;
+  --french:#854F0B;--french-bg:#FAEEDA;--french-text:#633806;
+  --biology:#185FA5;--bio-bg:#E6F1FB;--bio-text:#0C447C;
+  --sim:#1A1917;--sim-bg:#F7F5F0;--sim-text:#1A1917;
+  --page-bg:#F7F5F0;--card-bg:#FFFFFF;--border:#E2DDD5;
+  --text-main:#1A1917;--text-muted:#6B6860;--text-light:#9E9B95;
+  --success:#0F6E56;--warn-bg:#FFF8ED;--warn-border:#D4860A;--warn-text:#7A4D06;
+  --cornell-bg:#FFFBF0;--cornell-border:#E8D5A3;--cornell-text:#5C4A1A;
+  --mixed-bg:#F3F0FF;--mixed-border:#8B7ED8;--mixed-text:#3C3489;
+  --sim-day-bg:#1A1917;--tech-bg:#FAFAF8;
+  --radius:10px;--radius-sm:6px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--page-bg);color:var(--text-main);font-size:14px;line-height:1.6;padding:40px 20px 80px}
+.page-wrap{max-width:900px;margin:0 auto}
+.page-header{padding-bottom:28px;margin-bottom:32px;border-bottom:1.5px solid var(--text-main)}
+.header-eyebrow{font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+.header-title{font-family:Georgia,'Times New Roman',serif;font-size:42px;line-height:1.1;color:var(--text-main);margin-bottom:6px}
+.header-sub{font-size:14px;color:var(--text-muted)}
+.header-meta{display:flex;gap:24px;margin-top:20px;flex-wrap:wrap}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-light)}
+.meta-value{font-size:16px;font-weight:500}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}
+.stat{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.stat-n{font-family:Georgia,'Times New Roman',serif;font-size:32px;line-height:1;margin-bottom:4px}
+.stat-label{font-size:11px;color:var(--text-muted)}
+.flow-banner{background:var(--warn-bg);border-left:3px solid var(--warn-border);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--warn-text)}
+.flow-steps{display:flex;gap:0;margin-bottom:24px;flex-wrap:wrap}
+.flow-step{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:7px 12px;background:var(--card-bg);border:1px solid var(--border)}
+.flow-step:first-child{border-radius:var(--radius-sm) 0 0 var(--radius-sm)}
+.flow-step:last-child{border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+.flow-step.cornell{background:var(--cornell-bg);border-color:var(--cornell-border);color:var(--cornell-text)}
+.flow-step.mixed{background:var(--mixed-bg);border-color:var(--mixed-border);color:var(--mixed-text)}
+.flow-step .step-n{font-size:10px;background:var(--border);color:var(--text-muted);width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.flow-step.cornell .step-n{background:var(--cornell-border);color:var(--cornell-text)}
+.flow-step.mixed .step-n{background:var(--mixed-border);color:#fff}
+.flow-arrow{font-size:11px;color:var(--text-light);padding:0 2px;display:flex;align-items:center}
+.progress-wrap{margin-bottom:28px}
+.progress-label{font-size:12px;color:var(--text-muted);margin-bottom:6px;display:flex;justify-content:space-between}
+.progress-track{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:var(--success);border-radius:3px;width:0%;transition:width 0.4s ease}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:28px;font-size:12px;color:var(--text-muted)}
+.legend-item{display:flex;align-items:center;gap:6px}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.days{display:flex;flex-direction:column;gap:16px}
+.day-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;animation:fadeUp 0.4s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.day-card:nth-child(1){animation-delay:.05s}.day-card:nth-child(2){animation-delay:.1s}
+.day-card:nth-child(3){animation-delay:.15s}.day-card:nth-child(4){animation-delay:.2s}
+.day-card:nth-child(5){animation-delay:.25s}.day-card:nth-child(6){animation-delay:.3s}
+.day-card:nth-child(7){animation-delay:.35s}
+.day-header{display:flex;align-items:center;padding:14px 18px;border-bottom:1px solid var(--border);gap:14px;cursor:pointer;user-select:none;transition:background .15s}
+.day-header:hover{background:#FAFAF8}
+.day-number{font-family:Georgia,'Times New Roman',serif;font-size:28px;color:var(--text-light);line-height:1;min-width:28px}
+.day-name-block{flex:1}
+.day-name{font-size:15px;font-weight:500}
+.day-desc{font-size:12px;color:var(--text-muted);margin-top:1px}
+.day-pills{display:flex;gap:5px;flex-wrap:wrap}
+.pill{font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px}
+.pill-maths{background:var(--maths-bg);color:var(--maths-text)}
+.pill-physics{background:var(--physics-bg);color:var(--physics-text)}
+.pill-chemistry{background:var(--chem-bg);color:var(--chem-text)}
+.pill-english{background:var(--english-bg);color:var(--english-text)}
+.pill-geo{background:var(--geo-bg);color:var(--geo-text)}
+.pill-french{background:var(--french-bg);color:var(--french-text)}
+.pill-sim{background:var(--text-main);color:#fff}
+.day-toggle{font-size:18px;color:var(--text-light);transition:transform .2s;flex-shrink:0}
+.day-card.open .day-toggle{transform:rotate(180deg)}
+.day-body{display:none}
+.day-card.open .day-body{display:block}
+.sessions{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:640px){.sessions{grid-template-columns:1fr}}
+.session{padding:16px 18px;border-right:1px solid var(--border)}
+.session:last-child{border-right:none}
+@media(max-width:640px){.session{border-right:none;border-bottom:1px solid var(--border)}.session:last-child{border-bottom:none}}
+.session-label{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-bottom:8px}
+.session-bar{width:3px;height:14px;border-radius:2px;flex-shrink:0}
+.bar-maths{background:var(--maths)}.bar-physics{background:var(--physics)}
+.bar-chemistry{background:var(--chemistry)}.bar-english{background:var(--english)}
+.bar-geo{background:var(--geo)}.bar-french{background:var(--french)}
+.bar-biology{background:var(--biology)}.bar-sim{background:var(--text-main)}
+.session-topic{font-size:14px;font-weight:500;line-height:1.4;margin-bottom:10px;color:var(--text-main)}
+.flags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.flag{font-size:10px;font-weight:500;padding:2px 8px;border-radius:12px}
+.flag-reinforce{background:#E1F5EE;color:#085041}
+.flag-priority{background:#FCEBEB;color:#791F1F}
+.flag-gap{background:#FFF0D6;color:#7A4D06}
+.flag-new{background:#F1EFE8;color:#444441}
+.flag-test{background:#FCEBEB;color:#791F1F}
+.flag-homework{background:#FFF0D6;color:#7A4D06}
+.flag-consolidate{background:#E6F1FB;color:#0C447C}
+.flag-dedicated{background:#EEEDFE;color:#3C3489}
+.flag-paired{background:#EAF3DE;color:#27500A}
+.flag-sim{background:var(--text-main);color:#fff}
+.split-note{font-size:11px;color:var(--text-muted);background:#F7F5F0;border-radius:var(--radius-sm);padding:6px 10px;margin-bottom:12px;border-left:2px solid var(--border)}
+.cross-link{background:#F0F4FF;border-left:3px solid #185FA5;border-radius:0 6px 6px 0;padding:7px 12px;margin-bottom:12px;font-size:11px;color:#2A3A5C;line-height:1.5}
+.cross-link strong{color:#185FA5}
+/* Cornell */
+.cornell-block{background:var(--cornell-bg);border:1px solid var(--cornell-border);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:14px}
+.cornell-header{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--cornell-text);margin-bottom:8px}
+.cornell-badge{font-size:9px;font-weight:500;background:var(--cornell-border);color:var(--cornell-text);padding:1px 6px;border-radius:8px}
+.cornell-grid{display:grid;grid-template-columns:1fr 1.6fr;border:1px solid var(--cornell-border);border-radius:4px;overflow:hidden;font-size:11px;margin-bottom:6px}
+.cornell-col-head{padding:4px 8px;font-weight:500;font-size:10px;color:var(--cornell-text);background:#F5E9C8;border-bottom:1px solid var(--cornell-border)}
+.cornell-col-head:first-child{border-right:1px solid var(--cornell-border)}
+.cornell-col-body{padding:6px 8px;color:var(--text-muted);font-size:11px;line-height:1.5;background:var(--cornell-bg)}
+.cornell-col-body:first-child{border-right:1px solid var(--cornell-border)}
+.cornell-summary{border-top:1px solid var(--cornell-border);padding:6px 8px;font-size:11px;color:var(--text-muted);background:var(--cornell-bg)}
+.cornell-summary span{font-weight:500;color:var(--cornell-text)}
+.cornell-examiner{border-top:1px solid var(--cornell-border);padding:6px 8px;font-size:11px;color:var(--mixed-text);background:var(--mixed-bg);font-style:italic}
+.cornell-examiner strong{font-style:normal;font-weight:500}
+.cornell-optional{font-size:11px;color:var(--cornell-text);font-style:italic}
+/* Mixed recall */
+.mixed-block{background:var(--mixed-bg);border:1px solid var(--mixed-border);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:14px}
+.mixed-header{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--mixed-text);margin-bottom:8px}
+.mixed-badge{font-size:9px;font-weight:500;background:var(--mixed-border);color:#fff;padding:1px 6px;border-radius:8px}
+.mixed-q{font-size:12px;color:var(--text-muted);margin-bottom:4px;padding-left:4px;border-left:2px solid var(--mixed-border)}
+.mixed-q strong{color:var(--mixed-text);font-weight:500}
+/* Resources */
+.resources{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.resource{display:flex;align-items:flex-start;gap:7px;font-size:12px;color:var(--text-muted);line-height:1.4}
+.resource-icon{font-size:13px;flex-shrink:0;margin-top:1px}
+.resource a{color:var(--maths);text-decoration:none}
+.resource a:hover{text-decoration:underline}
+.section-heading{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-light);border-top:1px solid var(--border);padding-top:10px;margin-bottom:8px}
+/* Ticks */
+.ticks{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.tick-item{display:flex;align-items:flex-start;gap:8px;cursor:pointer;user-select:none}
+.tick-box{width:15px;height:15px;border:1.5px solid #C5C1BA;border-radius:3px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s}
+.tick-box svg{display:none}
+.tick-item.done .tick-box{background:var(--success);border-color:var(--success)}
+.tick-item.done .tick-box svg{display:block}
+.tick-text{font-size:12px;color:var(--text-muted);line-height:1.4;transition:color .15s}
+.tick-item.done .tick-text{color:var(--text-light);text-decoration:line-through}
+.tick-item.cornell-tick .tick-text{color:var(--cornell-text)}
+.tick-item.cornell-tick .tick-box{border-color:var(--cornell-border)}
+.tick-item.cornell-tick.done .tick-box{background:#C8A84B;border-color:#C8A84B}
+.tick-item.mixed-tick .tick-text{color:var(--mixed-text)}
+.tick-item.mixed-tick .tick-box{border-color:var(--mixed-border)}
+.tick-item.mixed-tick.done .tick-box{background:var(--mixed-border);border-color:var(--mixed-border)}
+/* Day 7 sim */
+.sim-day{background:var(--text-main);color:#fff}
+.sim-day .day-header{border-bottom-color:#333;background:var(--text-main)}
+.sim-day .day-header:hover{background:#2A2927}
+.sim-day .day-number{color:#666}
+.sim-day .day-name{color:#fff}
+.sim-day .day-desc{color:#999}
+.sim-day .day-toggle{color:#666}
+.sim-body{padding:24px}
+.sim-intro{font-size:13px;color:#aaa;margin-bottom:24px;line-height:1.6;border-left:3px solid #444;padding-left:12px}
+.sim-intro strong{color:#fff}
+.sim-subject{margin-bottom:24px;border:1px solid #333;border-radius:var(--radius);overflow:hidden}
+.sim-subject-header{padding:10px 16px;font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:8px}
+.sim-subject-header.maths{background:#0C447C;color:#E6F1FB}
+.sim-subject-header.physics{background:#085041;color:#E1F5EE}
+.sim-subject-header.chemistry{background:#5C2410;color:#FAECE7}
+.sim-subject-header.other{background:#333;color:#ccc}
+.sim-qs{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.sim-q{font-size:13px;color:#ccc;line-height:1.5;padding-left:10px;border-left:2px solid #444}
+.sim-q strong{color:#fff;font-weight:500}
+.sim-q .topic-tag{font-size:10px;background:#333;color:#999;padding:1px 6px;border-radius:8px;margin-left:6px}
+.sim-check{margin-top:6px;font-size:11px;color:#666;font-style:italic}
+.sim-gap-section{margin-top:24px;border:1px solid #333;border-radius:var(--radius);padding:16px}
+.sim-gap-title{font-size:12px;font-weight:500;color:#aaa;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.sim-gap-item{font-size:12px;color:#888;padding:6px 0;border-bottom:1px solid #2A2927;display:flex;align-items:center;gap:8px}
+.sim-gap-item:last-child{border-bottom:none}
+.sim-gap-subject{font-size:10px;font-weight:500;padding:2px 6px;border-radius:8px;flex-shrink:0}
+.sim-gap-subject.maths{background:#0C447C;color:#E6F1FB}
+.sim-gap-subject.physics{background:#085041;color:#E1F5EE}
+.sim-gap-subject.chemistry{background:#5C2410;color:#FAECE7}
+.sim-ticks{display:flex;flex-direction:column;gap:6px;margin-top:20px}
+.sim-tick{display:flex;align-items:flex-start;gap:8px;cursor:pointer;user-select:none}
+.sim-tick .tick-box{border-color:#444}
+.sim-tick.done .tick-box{background:#fff;border-color:#fff}
+.sim-tick.done .tick-box svg path{stroke:var(--text-main)}
+.sim-tick.done .tick-text{color:#555;text-decoration:line-through}
+.sim-tick .tick-text{font-size:12px;color:#aaa;line-height:1.4}
+/* Exam technique */
+.tech-section{margin-top:40px;border-top:1.5px solid var(--text-main);padding-top:32px}
+.tech-title{font-family:Georgia,'Times New Roman',serif;font-size:28px;margin-bottom:8px}
+.tech-sub{font-size:13px;color:var(--text-muted);margin-bottom:28px}
+.tech-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+@media(max-width:640px){.tech-cards{grid-template-columns:1fr}}
+.tech-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.tech-card-header{padding:10px 14px;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em}
+.tech-card-header.maths{background:var(--maths-bg);color:var(--maths-text)}
+.tech-card-header.physics{background:var(--physics-bg);color:var(--physics-text)}
+.tech-card-header.chemistry{background:var(--chem-bg);color:var(--chem-text)}
+.tech-card-body{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.tech-item{font-size:12px;color:var(--text-muted);padding-left:8px;border-left:2px solid var(--border);line-height:1.4}
+.tech-item strong{display:block;font-size:11px;font-weight:500;color:var(--text-main);margin-bottom:1px}
+.tech-commands{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px}
+.tech-commands-title{font-size:12px;font-weight:500;margin-bottom:12px;color:var(--text-main)}
+.tech-cmd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.tech-cmd{font-size:12px;color:var(--text-muted);padding:6px 10px;background:var(--page-bg);border-radius:var(--radius-sm)}
+.tech-cmd strong{font-weight:500;color:var(--text-main);display:block;margin-bottom:1px}
+.page-footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);font-size:12px;color:var(--text-light);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<header class="page-header">
+  <div class="header-eyebrow">Edexcel iGCSE · Sep 2026</div>
+  <h1 class="header-title">Revision Planner</h1>
+  <div class="header-sub">Alessandro · 7 days · All 9 subjects</div>
+  <div class="header-meta">
+    <div class="meta-item"><span class="meta-label">Total study time</span><span class="meta-value">28 hours</span></div>
+    <div class="meta-item"><span class="meta-label">Daily sessions</span><span class="meta-value">2 × 2h</span></div>
+    <div class="meta-item"><span class="meta-label">Based on</span><span class="meta-value">9 tutor lessons (Apr–May 2026)</span></div>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="stat-n">28h</div><div class="stat-label">total revision time</div></div>
+  <div class="stat"><div class="stat-n">14</div><div class="stat-label">sessions across the week</div></div>
+  <div class="stat"><div class="stat-n">9</div><div class="stat-label">subjects covered</div></div>
+  <div class="stat"><div class="stat-n" id="tick-count">0</div><div class="stat-label">tasks completed</div></div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label"><span>Weekly progress</span><span id="progress-pct">0%</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+
+<div class="flow-banner">
+  <strong>Every session follows this order.</strong> Cornell notes required for new topics. Mixed recall at the end of every session — 3 questions from a different topic.
+</div>
+<div class="flow-steps">
+  <div class="flow-step"><span class="step-n">1</span>Watch video</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step cornell"><span class="step-n">2</span>Cornell notes<span style="font-size:10px;margin-left:4px;opacity:.7">(new topics)</span></div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step"><span class="step-n">3</span>Flashcards</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step"><span class="step-n">4</span>Practice questions</div>
+  <div class="flow-arrow">→</div>
+  <div class="flow-step mixed"><span class="step-n">5</span>Mixed recall</div>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><span class="legend-dot" style="background:var(--maths)"></span>Maths</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--physics)"></span>Physics</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--chemistry)"></span>Chemistry</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--english)"></span>English</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--geo)"></span>Geo/History</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--french)"></span>French/TPE</div>
+  <div class="legend-item"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--cornell-border)"></span>Cornell step</div>
+  <div class="legend-item"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--mixed-border)"></span>Mixed recall</div>
+</div>
+
+<div class="days" id="days-container"></div>
+
+<!-- Day 7 Exam Simulation -->
+<div class="day-card sim-day" id="day-6">
+  <div class="day-header" onclick="toggleDay(6)">
+    <div class="day-number">7</div>
+    <div class="day-name-block">
+      <div class="day-name">Day 7 — Exam Simulation</div>
+      <div class="day-desc">Mixed questions from all school topics covered this year · timed · self-mark</div>
+    </div>
+    <div class="day-pills"><span class="pill pill-sim">Simulation</span></div>
+    <div class="day-toggle">▾</div>
+  </div>
+  <div class="day-body">
+    <div class="sim-body">
+      <p class="sim-intro">
+        <strong>How this works:</strong> Each block below is timed. Close all notes before starting. Attempt every question, then check your answers using the mark notes provided. This is not about getting everything right — it's about finding out what sticks and what doesn't under exam conditions.<br><br>
+        <strong>Covered in the planner this week</strong> = full questions. <strong>On the school list but not revised this week</strong> = quick scan questions at the end — just enough to flag gaps.
+      </p>
+
+      <div class="sim-subject">
+        <div class="sim-subject-header maths">⏱ Maths — 30 minutes · no notes · no calculator for first 10 min</div>
+        <div class="sim-qs">
+          <div class="sim-q"><strong>Q1.</strong> Solve simultaneously: 3x + 2y = 16 and x − y = 2 <span class="topic-tag">Simultaneous equations</span><div class="sim-check">✓ x=4, y=2 — elimination: multiply eq2 by 2, add to eq1</div></div>
+          <div class="sim-q"><strong>Q2.</strong> Rearrange to make r the subject: A = πr² <span class="topic-tag">Manipulation of formulae</span><div class="sim-check">✓ r = √(A/π) — divide by π, then square root</div></div>
+          <div class="sim-q"><strong>Q3.</strong> Solve: x² + 5x + 6 = 0 <span class="topic-tag">Quadratic equations</span><div class="sim-check">✓ (x+2)(x+3) = 0 → x = −2 or x = −3</div></div>
+          <div class="sim-q"><strong>Q4.</strong> A rectangle has area 48 cm². One side is (x+2). The other is (x−2). Find x. <span class="topic-tag">Expanding + quadratics</span><div class="sim-check">✓ (x+2)(x−2) = x²−4 = 48 → x² = 52 → x = √52 ≈ 7.2</div></div>
+          <div class="sim-q"><strong>Q5.</strong> A trapezium has parallel sides 6 cm and 10 cm, height 4 cm. Find its area. <span class="topic-tag">Area / mensuration</span><div class="sim-check">✓ A = ½(6+10)×4 = 32 cm²</div></div>
+          <div class="sim-q"><strong>Q6.</strong> A triangle has sides 7 cm and 9 cm with included angle 54°. Find the area. <span class="topic-tag">Trigonometry / area</span><div class="sim-check">✓ A = ½ × 7 × 9 × sin54° = ½ × 63 × 0.809 ≈ 25.5 cm²</div></div>
+        </div>
+      </div>
+
+      <div class="sim-subject">
+        <div class="sim-subject-header physics">⏱ Physics — 25 minutes · no notes</div>
+        <div class="sim-qs">
+          <div class="sim-q"><strong>Q1.</strong> A substance has mass 240 g and volume 80 cm³. Calculate its density. State the unit. <span class="topic-tag">Introduction: density</span><div class="sim-check">✓ ρ = m/V = 240/80 = 3 g/cm³</div></div>
+          <div class="sim-q"><strong>Q2.</strong> Name the three types of nuclear radiation. State one property of each. <span class="topic-tag">Nuclear Physics</span><div class="sim-check">✓ Alpha (helium nucleus, stopped by paper), Beta (electron, stopped by aluminium), Gamma (EM wave, reduced by lead)</div></div>
+          <div class="sim-q"><strong>Q3.</strong> A radioactive sample has a half-life of 4 hours. It starts with 800 atoms. How many remain after 12 hours? <span class="topic-tag">Nuclear Physics: half-life</span><div class="sim-check">✓ 3 half-lives: 800 → 400 → 200 → 100 atoms</div></div>
+          <div class="sim-q"><strong>Q4.</strong> State the difference between nuclear fission and nuclear fusion. <span class="topic-tag">Nuclear Physics</span><div class="sim-check">✓ Fission: splitting a large nucleus. Fusion: joining two small nuclei. Both release energy.</div></div>
+          <div class="sim-q"><strong>Q5.</strong> A force of 150 N acts on an area of 0.5 m². Calculate the pressure. <span class="topic-tag">Introduction: pressure</span><div class="sim-check">✓ P = F/A = 150/0.5 = 300 Pa</div></div>
+        </div>
+      </div>
+
+      <div class="sim-subject">
+        <div class="sim-subject-header chemistry">⏱ Chemistry — 25 minutes · no notes</div>
+        <div class="sim-qs">
+          <div class="sim-q"><strong>Q1.</strong> Balance this equation and add state symbols: Mg + O₂ → MgO <span class="topic-tag">Equations: balancing + state symbols</span><div class="sim-check">✓ 2Mg(s) + O₂(g) → 2MgO(s) — state symbols often carry 1 dedicated mark</div></div>
+          <div class="sim-q"><strong>Q2.</strong> Approximately what percentage of the atmosphere is: (a) nitrogen (b) oxygen (c) carbon dioxide? <span class="topic-tag">Atmosphere</span><div class="sim-check">✓ N₂ ≈ 78%, O₂ ≈ 21%, CO₂ ≈ 0.04%</div></div>
+          <div class="sim-q"><strong>Q3.</strong> What is the greenhouse effect? Name two greenhouse gases. <span class="topic-tag">Atmosphere</span><div class="sim-check">✓ Greenhouse gases trap heat/infrared radiation re-emitted from Earth's surface. CO₂ and methane (CH₄).</div></div>
+          <div class="sim-q"><strong>Q4.</strong> Explain the difference between ionic and covalent bonding. Give one example of each. <span class="topic-tag">Bonding</span><div class="sim-check">✓ Ionic: electron transfer between metal + non-metal (e.g. NaCl). Covalent: electron sharing between non-metals (e.g. H₂O).</div></div>
+          <div class="sim-q"><strong>Q5.</strong> Write a word equation for the combustion of methane. <span class="topic-tag">Equations: types of reaction</span><div class="sim-check">✓ Methane + oxygen → carbon dioxide + water</div></div>
+        </div>
+      </div>
+
+      <div class="sim-gap-section">
+        <div class="sim-gap-title">📋 School topics not revised this week — quick scan (5 min each, no timer)</div>
+        <div class="sim-gap-item"><span class="sim-gap-subject maths">Maths</span>Can I sketch a linear graph from y = 2x + 3? Can I find the nth term of: 5, 8, 11, 14...?</div>
+        <div class="sim-gap-item"><span class="sim-gap-subject maths">Maths</span>Can I solve 3x − 4 > 11? Do I know the interior angle sum of a hexagon?</div>
+        <div class="sim-gap-item"><span class="sim-gap-subject physics">Physics</span>Can I state the difference between distance-time and velocity-time graphs?</div>
+        <div class="sim-gap-item"><span class="sim-gap-subject physics">Physics</span>Can I name the stages of a star's life cycle from nebula to white dwarf?</div>
+        <div class="sim-gap-item"><span class="sim-gap-subject chemistry">Chemistry</span>Can I define: element, compound, mixture? Can I describe paper chromatography?</div>
+        <div class="sim-gap-item"><span class="sim-gap-subject chemistry">Chemistry</span>Can I name 4 factors that affect the rate of a reaction?</div>
+      </div>
+
+      <div class="sim-ticks" id="sim-ticks">
+        <div class="section-heading" style="color:#666;border-top-color:#333;padding-top:16px;margin-top:4px">tick off as you go</div>
+        <div class="sim-tick tick-item" onclick="toggleTick(this)"><div class="tick-box"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="#1A1917" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="tick-text">Maths block completed — 30 min timed, no notes</span></div>
+        <div class="sim-tick tick-item" onclick="toggleTick(this)"><div class="tick-box"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="#1A1917" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="tick-text">Physics block completed — 25 min timed, no notes</span></div>
+        <div class="sim-tick tick-item" onclick="toggleTick(this)"><div class="tick-box"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="#1A1917" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="tick-text">Chemistry block completed — 25 min timed, no notes</span></div>
+        <div class="sim-tick tick-item" onclick="toggleTick(this)"><div class="tick-box"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="#1A1917" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="tick-text">Answers self-marked — honest score noted</span></div>
+        <div class="sim-tick tick-item" onclick="toggleTick(this)"><div class="tick-box"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="#1A1917" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="tick-text">Gap topics scanned — flagged what needs work next week</span></div>
+        <div class="sim-tick tick-item" onclick="toggleTick(this)"><div class="tick-box"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="#1A1917" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="tick-text">Written 3 topics that need more work before the exam</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Exam Technique Section -->
+<div class="tech-section">
+  <h2 class="tech-title">Exam Technique</h2>
+  <p class="tech-sub">The most common ways marks are lost — not because you don't know the content, but because of how you answer. Read this before every exam.</p>
+
+  <div class="tech-cards">
+    <div class="tech-card">
+      <div class="tech-card-header maths">Maths</div>
+      <div class="tech-card-body">
+        <div class="tech-item"><strong>Show all working</strong>Even if your final answer is wrong, method marks are available. Never skip steps.</div>
+        <div class="tech-item"><strong>Check units</strong>Density in g/cm³ or kg/m³. Area in cm² or m². Always write the unit — marks are lost without it.</div>
+        <div class="tech-item"><strong>Re-read the question</strong>Highlight what's being asked. Many marks lost by answering the wrong thing (e.g. finding x when they asked for 2x+1).</div>
+        <div class="tech-item"><strong>Don't leave blanks</strong>If stuck, write the formula. Substituting numbers into the right formula often earns a mark even without the final answer.</div>
+        <div class="tech-item"><strong>Check your answer makes sense</strong>A negative length or a probability over 1 means something went wrong.</div>
+      </div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-card-header physics">Physics</div>
+      <div class="tech-card-body">
+        <div class="tech-item"><strong>Write the equation first</strong>State the formula before substituting. Examiners award a mark for the correct equation even if the arithmetic is wrong.</div>
+        <div class="tech-item"><strong>Units are mandatory</strong>No unit = no mark on calculation questions. Memorise: Pa for pressure, kg/m³ for density, m/s for speed, J for energy.</div>
+        <div class="tech-item"><strong>"Describe" vs "Explain"</strong>Describe = say what happens. Explain = say why it happens. Missing the "why" loses the second mark.</div>
+        <div class="tech-item"><strong>6-mark questions need structure</strong>Use: what happens → why it happens → what the effect is. Cover all three or lose marks.</div>
+        <div class="tech-item"><strong>Standard form in calculations</strong>Don't round too early — keep 3 significant figures throughout, round only at the end.</div>
+      </div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-card-header chemistry">Chemistry</div>
+      <div class="tech-card-body">
+        <div class="tech-item"><strong>State symbols matter</strong>(s), (l), (g), (aq) — often 1 mark in equation questions. Don't omit them.</div>
+        <div class="tech-item"><strong>Balancing — never change subscripts</strong>Only change the big number in front. Changing subscripts changes the compound entirely.</div>
+        <div class="tech-item"><strong>"Suggest" questions are opinion-free</strong>"Suggest" means use your scientific knowledge to give a reasoned answer — not a guess. Link to a principle you know.</div>
+        <div class="tech-item"><strong>Rate of reaction questions</strong>Always link to collision theory: more collisions = faster rate. State frequency and energy of collisions.</div>
+        <div class="tech-item"><strong>Read graphs carefully</strong>Rate = gradient of a concentration-time graph. Steeper = faster. Flat = reaction stopped.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tech-commands">
+    <div class="tech-commands-title">Command words — what the examiner actually wants</div>
+    <div class="tech-cmd-grid">
+      <div class="tech-cmd"><strong>State / Name / Give</strong>One word or one sentence. No explanation needed.</div>
+      <div class="tech-cmd"><strong>Describe</strong>Say what you observe or what happens. No need to explain why.</div>
+      <div class="tech-cmd"><strong>Explain</strong>Give a reason. Use "because" or "therefore". This is always worth more marks.</div>
+      <div class="tech-cmd"><strong>Calculate</strong>Show formula → substitute → calculate → unit. All four steps.</div>
+      <div class="tech-cmd"><strong>Suggest</strong>Apply knowledge to an unfamiliar situation. Use a scientific principle.</div>
+      <div class="tech-cmd"><strong>Compare</strong>State both similarities AND differences. Don't just describe one.</div>
+      <div class="tech-cmd"><strong>Evaluate</strong>Give evidence for and against, then reach a conclusion.</div>
+      <div class="tech-cmd"><strong>Sketch</strong>A rough graph is fine — but label axes and mark key points.</div>
+    </div>
+  </div>
+</div>
+
+<footer class="page-footer">
+  <span>Alessandro · Edexcel iGCSE · September 2026 exams</span>
+  <span>Generated from 9 tutor sessions (Apr–May 2026) · All 9 subjects</span>
+</footer>
+</div>
+
+<script>
+const days = [
+  {
+    day:"1",name:"Day 1",desc:"Maths: Simultaneous eq + Manipulation · Physics: Distance & Speed",subjects:["maths","physics"],
+    sessions:[
+      {
+        subject:"maths",label:"Session 1 · 9:00–11:00",
+        topic:"Simultaneous equations + Manipulation of formulae",
+        flags:[["reinforce","reinforce"],["high priority","priority"]],
+        crossLink:"🔗 <strong>Physics:</strong> rearranging v=u+at, F=ma, P=F/A, ρ=m/V &nbsp;|&nbsp; <strong>Chemistry:</strong> rearranging n=m/Mr, concentration, % yield",
+        cornell:null,
+        cornellOptional:"Jot 3–5 key steps from the video — e.g. the elimination method stages.",
+        resources:[
+          {icon:"▶",text:"Video: Simultaneous equations (Cognito)",url:"https://www.youtube.com/watch?v=68hMhae269k"},
+          {icon:"▶",text:"Video: Rearrange formulas (Cognito)",url:"https://www.youtube.com/watch?v=_BYxuxEIZqw"},
+          {icon:"◈",text:"Flashcards: PMT Edexcel Algebra",url:"https://www.physicsandmathstutor.com/maths-revision/gcse-edexcel/"},
+          {icon:"◻",text:"Practice: PMT Simultaneous Equations (H) QP",url:"https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Solving-Equations-and-Inequalities/Simultaneous%20Equations%20(H)%20QP.pdf"},
+          {icon:"◻",text:"Practice: PMT Manipulation of Formulae (H) QP",url:"https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Notation-Vocabulary-and-Manipulation/Manipulation%20of%20Formulae%20(H)%20QP.pdf"}
+        ],
+        mixedRecall:[
+          {q:"What is the density of an object with mass 300g and volume 150cm³?",topic:"Physics: density"},
+          {q:"Balance: Fe + O₂ → Fe₂O₃",topic:"Chemistry: balancing"},
+          {q:"A car travels 120km in 1.5 hours. What is its average speed?",topic:"Physics: distance & speed"}
+        ],
+        ticks:[
+          {text:"Watched both videos",cornell:false,mixed:false},
+          {text:"Optional: jotted key steps from video",cornell:true,mixed:false},
+          {text:"Flashcards completed",cornell:false,mixed:false},
+          {text:"Simultaneous equations QP attempted",cornell:false,mixed:false},
+          {text:"Manipulation of formulae QP attempted",cornell:false,mixed:false},
+          {text:"Mixed recall: 3 questions from different topics",cornell:false,mixed:true}
+        ]
+      },
+      {
+        subject:"physics",label:"Session 2 · 12:00–14:00",
+        topic:"Introduction: Distance & Speed + Forces — d=s×t, v=u+at, Newton's laws, momentum",
+        flags:[["new topic","new"]],
+        crossLink:"🔗 <strong>Maths (Session 1 today):</strong> manipulation of formulae used directly in d=s×t and v=u+at &nbsp;|&nbsp; linear graphs: distance-time gradient=speed, velocity-time gradient=acceleration &nbsp;|&nbsp; SOHCAHTOA for resolving forces",
+        cornell:{
+          questions:["What does d=s×t mean?","What does v=u+at mean?","State Newton's 3 laws simply","What is momentum and its unit?"],
+          notes:["d=distance, s=speed, t=time — rearranges to s=d/t and t=d/s","v=final velocity, u=initial, a=acceleration, t=time","1: stays still unless acted on. 2: F=ma. 3: equal+opposite reactions","momentum = mass × velocity (kg m/s) — conserved in collisions"],
+          summary:"Speed = distance/time. Acceleration links to force via F=ma. Momentum is conserved. Distance-time gradient = speed; velocity-time gradient = acceleration.",
+          examiner:"Examiners combine distance-time graphs with speed calculations, then ask about forces causing change. Read graph → calculate gradient → explain the force. All three steps needed for full marks."
+        },
+        resources:[
+          {icon:"▶",text:"Video: Forces & Motion — Cognito Physics",url:"https://cognitoedu.org/course/igcse-physics-edexcel"},
+          {icon:"▶",text:"Video: Free Science Lessons — Forces & Motion",url:"https://www.youtube.com/@FreeScienceLessons"},
+          {icon:"◈",text:"Flashcards: PMT Physics — Forces & Motion",url:"https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/"},
+          {icon:"◻",text:"Practice: PMT Forces & Motion exam questions",url:"https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/"}
+        ],
+        mixedRecall:[
+          {q:"Solve simultaneously: 3x + y = 13 and x + y = 5",topic:"Maths: simultaneous equations"},
+          {q:"Rearrange to make t the subject: v = u + at",topic:"Maths: manipulation of formulae"},
+          {q:"What percentage of the atmosphere is nitrogen?",topic:"Chemistry: atmosphere"}
+        ],
+        ticks:[
+          {text:"Videos watched",cornell:false,mixed:false},
+          {text:"Cornell notes: all columns filled",cornell:true,mixed:false},
+          {text:"Cornell: summary in own words",cornell:true,mixed:false},
+          {text:"Cornell: examiner angle considered",cornell:true,mixed:false},
+          {text:"Flashcards started",cornell:false,mixed:false},
+          {text:"Practice questions attempted",cornell:false,mixed:false},
+          {text:"Recall: d=s×t, v=u+at, F=ma, momentum — all from memory",cornell:false,mixed:false},
+          {text:"Mixed recall: 3 questions from different topics",cornell:false,mixed:true}
+        ]
+      }
+    ]
+  },
+  {
+    day:"2",name:"Day 2",desc:"Physics: Density + Solids/Liquids/Gases · Chemistry: Bonding",subjects:["physics","chemistry"],
+    sessions:[
+      {
+        subject:"physics",label:"Session 1 · 9:00–11:00",
+        topic:"Introduction: Investigating density + Solids, Liquids & Gases — pressure, kinetic theory",
+        flags:[["reinforce","reinforce"]],
+        crossLink:"🔗 <strong>Maths:</strong> ρ=m/V and P=F/A require manipulation of formulae &nbsp;|&nbsp; bounds & sig. figs in practical measurement &nbsp;|&nbsp; <strong>Chemistry:</strong> kinetic theory underpins gas behaviour in atmosphere topic",
+        cornell:null,
+        cornellOptional:"Cornell grid: write the two key equations (ρ=m/V and P=F/A) with one question each. Cover and recall.",
+        resources:[
+          {icon:"▶",text:"Video: Density",url:"https://www.youtube.com/watch?v=sfnsuS0-o58"},
+          {icon:"▶",text:"Video: Pressure in fluids",url:"https://www.youtube.com/watch?v=m2P2DdfebiU"},
+          {icon:"▶",text:"Video: Kinetic theory of gases",url:"https://www.youtube.com/watch?v=oX7vbbF1wmk"},
+          {icon:"◈",text:"Flashcards: PMT Topic 5 (all cards incl. 16+)",url:"https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Flashcards%20-%20Topic%205%20Solids%2C%20Liquids%20and%20Gases%20-%20Edexcel%20Physics%20IGCSE.pdf"},
+          {icon:"◻",text:"Practice: PMT Density & Pressure exam questions",url:"https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Topic-Qs/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Set-A1/Density%20and%20Pressure%201%20QP.pdf"},
+          {icon:"◻",text:"Mark scheme: check your answers",url:"https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Topic-Qs/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Set-A1/Density%20and%20Pressure%201%20MS.pdf"}
+        ],
+        mixedRecall:[
+          {q:"Solve simultaneously: 2x + y = 10 and x − y = 2",topic:"Maths: simultaneous equations"},
+          {q:"State the two types of nuclear radiation that are particles (not waves)",topic:"Physics: nuclear"},
+          {q:"Write the chemical equation for complete combustion of methane (CH₄)",topic:"Chemistry: equations"}
+        ],
+        ticks:[
+          {text:"Watched all 3 videos",cornell:false,mixed:false},
+          {text:"Optional: Cornell grid with equations + recall",cornell:true,mixed:false},
+          {text:"All flashcards completed (incl. 16+)",cornell:false,mixed:false},
+          {text:"PMT exam questions attempted",cornell:false,mixed:false},
+          {text:"Answers checked against mark scheme",cornell:false,mixed:false},
+          {text:"Mixed recall: 3 questions from different topics",cornell:false,mixed:true}
+        ]
+      },
+      {
+        subject:"chemistry",label:"Session 2 · 12:00–14:00",
+        topic:"Balancing equations (recap) + Ionic & Covalent bonding",
+        flags:[["reinforce","reinforce"],["homework topic","homework"]],
+        crossLink:"🔗 <strong>Maths:</strong> ratio & proportion = molar ratios in balanced equations &nbsp;|&nbsp; manipulation of formulae = rearranging mole equations",
+        cornell:{
+          questions:["What makes a bond ionic?","What makes a bond covalent?","How do I balance an equation?","What does conservation of mass mean?"],
+          notes:["Metal + non-metal → ionic (electron transfer)","Non-metal + non-metal → covalent (electron sharing)","Match atoms on both sides by adjusting big numbers","Total mass same before and after reaction"],
+          summary:"Ionic = transfer of electrons (metal/non-metal). Covalent = sharing electrons (non-metals). Balance by adjusting coefficients, never subscripts.",
+          examiner:"State symbols (s)(l)(g)(aq) are often 1 dedicated mark per equation — frequently lost. Every balanced equation should include them. Also: examiners often ask you to write AND balance the equation for an ionic compound forming."
+        },
+        resources:[
+          {icon:"▶",text:"Video: Balancing equations",url:"https://www.youtube.com/watch?v=rM7qErgZfNo"},
+          {icon:"▶",text:"Video: Ionic bonding",url:"https://www.youtube.com/watch?v=7IkYm7ZgiAw"},
+          {icon:"▶",text:"Video: Covalent bonding",url:"https://www.youtube.com/watch?v=ybi6kQHKVws"},
+          {icon:"◻",text:"SME: Ionic bonding doc",url:"https://cdn.savemyexams.com/pdfs/9C9FK68wWDwwFFBp.pdf"},
+          {icon:"◻",text:"SME: Covalent bonding doc",url:"https://cdn.savemyexams.com/pdfs/4jK8nYV9pzn4qnq7.pdf"},
+          {icon:"◈",text:"State symbols (s)(l)(g)(aq) — PMT flashcards / SME quick reference",url:"https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/"}
+        ],
+        mixedRecall:[
+          {q:"Rearrange P = F/A to make F the subject",topic:"Maths: manipulation of formulae"},
+          {q:"A sample has 400 atoms and half-life of 2 hours. How many atoms after 6 hours?",topic:"Physics: half-life"},
+          {q:"What is the approximate % of nitrogen in the atmosphere?",topic:"Chemistry: atmosphere"}
+        ],
+        ticks:[
+          {text:"Watched all 3 videos",cornell:false,mixed:false},
+          {text:"Cornell notes: questions + notes columns filled",cornell:true,mixed:false},
+          {text:"Cornell: summary in own words",cornell:true,mixed:false},
+          {text:"Cornell: examiner question considered",cornell:true,mixed:false},
+          {text:"Cornell: covered notes, recalled from memory",cornell:true,mixed:false},
+          {text:"Read ionic + covalent bonding SME docs",cornell:false,mixed:false},
+          {text:"⚠ State symbols drilled: (s)(l)(g)(aq) — write 3 equations including them",cornell:false,mixed:false},
+          {text:"Mixed recall: 3 questions from different topics",cornell:false,mixed:true}
+        ]
+      }
+    ]
+  },
+  {
+    day:"3",name:"Day 3",desc:"Maths: Quadratics · English: dedicated session",subjects:["maths","english"],
+    sessions:[
+      {
+        subject:"maths",label:"Session 1 · 9:00–11:00",
+        topic:"Quadratic equations — factorising, quadratic formula, completing the square",
+        flags:[["gap: completing the square","gap"]],
+        crossLink:"🔗 <strong>Physics:</strong> s=ut+½at² rearranges to a quadratic when solving for time (projectile motion)",
+        cornell:{
+          questions:["When do I factorise vs use the formula?","Steps for completing the square?","How do I know if it factorises?","What does the discriminant tell me?"],
+          notes:["Factorise: if it factors neatly into integers","Formula: always works — use when stuck","Try to find two numbers that multiply to c and add to b","b²-4ac: >0 two solutions, =0 one, <0 none"],
+          summary:"Three methods. Factorise when it works cleanly. Formula always works. Completing the square needed for some harder questions and turning points.",
+          examiner:"How might an examiner combine quadratics with other topics? Quadratic area problems (set area equation equal to value, then solve). Or quadratic = distance in a physics context."
+        },
+        resources:[
+          {icon:"▶",text:"Video: Solving quadratics (Cognito)",url:"https://www.youtube.com/watch?v=CaUgHGV-JdI"},
+          {icon:"▶",text:"Video: Factorising quadratics pt 1 (Cognito)",url:"https://www.youtube.com/watch?v=3kE_Q-JdlO4"},
+          {icon:"▶",text:"Video: Quadratic formula + factorising",url:"https://www.youtube.com/watch?v=mYsHbiOEYAc"},
+          {icon:"◈",text:"Flashcards: SME quadratic equations",url:"https://www.savemyexams.com/igcse/maths/edexcel/23/revision-notes/algebra/quadratics/"},
+          {icon:"◻",text:"Practice: PMT Solving Quadratic Equations (H) QP",url:"https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Solving-Equations-and-Inequalities/Solving%20Quadratic%20Equations%20(H)%20QP.pdf"}
+        ],
+        mixedRecall:[
+          {q:"A substance has density 2.5 g/cm³ and volume 40 cm³. What is its mass?",topic:"Physics: density"},
+          {q:"Explain what ionic bonding is. Give one example.",topic:"Chemistry: bonding"},
+          {q:"What is the area of a triangle with base 8 cm and height 5 cm?",topic:"Maths: area"}
+        ],
+        ticks:[
+          {text:"Watched all 3 videos",cornell:false,mixed:false},
+          {text:"Cornell notes: all columns filled",cornell:true,mixed:false},
+          {text:"Cornell: summary in own words",cornell:true,mixed:false},
+          {text:"Cornell: examiner question considered",cornell:true,mixed:false},
+          {text:"Flashcards completed",cornell:false,mixed:false},
+          {text:"QP: factorising + quadratic formula questions",cornell:false,mixed:false},
+          {text:"Attempted completing the square (new)",cornell:false,mixed:false},
+          {text:"Mixed recall: 3 questions from different topics",cornell:false,mixed:true}
+        ]
+      },
+      {
+        subject:"english",label:"Session 2 · 12:00–14:00",
+        topic:"English — Shakespeare's World · Conflict Poetry · Fahrenheit 451 · Writing for the Environment",
+        flags:[["dedicated","dedicated"]],
+        crossLink:"",
+        split:"Rotate across your 4 English topics — spend ~25 min on each. Prioritise the one your exam covers first.",
+        cornell:{
+          questions:["What is the key theme of the text/poem today?","Which specific quotes support this theme?","What technique does the writer use and what effect does it create?","How would an examiner ask about this?"],
+          notes:["Text or poem studied + theme (e.g. Power & Leadership in Macbeth Act 3 Sc 1)","2–3 key quotes with act/scene or stanza reference","Technique (metaphor/imagery/structure) + effect on the reader","Likely exam question: 'How does the writer present X?' → point → evidence → explain"],
+          summary:"Write one sentence per text studied today: what is the writer's main message and how do they convey it?",
+          examiner:"Examiners always ask 'how does the writer present...' — not just 'what happens'. Always explain the effect of a technique, not just name it. For Conflict Poetry: be ready to compare two poems on the same theme."
+        },
+        resources:[
+          {icon:"📖",text:"Shakespeare's World — Macbeth Act 3 Scene 1: class annotated text + notes (PRIMARY)",url:"#"},
+          {icon:"📖",text:"Shakespeare's World — Henry IV Part 1: class annotated text + notes (PRIMARY)",url:"#"},
+          {icon:"▶",text:"Macbeth Act 3 Scene 1 — BBC Bitesize analysis",url:"https://www.bbc.co.uk/bitesize/guides/z9d3msg/revision/1"},
+          {icon:"▶",text:"Macbeth themes (Power, Ambition, Guilt) — SME",url:"https://www.savemyexams.com/gcse/english-literature/aqa/17/revision-notes/macbeth/"},
+          {icon:"📖",text:"Conflict Poetry — class anthology + annotations (PRIMARY)",url:"#"},
+          {icon:"▶",text:"Conflict Poetry overview — BBC Bitesize",url:"https://www.bbc.co.uk/bitesize/topics/z6hkb9q"},
+          {icon:"📖",text:"Fahrenheit 451 — class annotated text + notes (PRIMARY)",url:"#"},
+          {icon:"▶",text:"Fahrenheit 451 themes + analysis — SparkNotes",url:"https://www.sparknotes.com/lit/451/"},
+          {icon:"▶",text:"Fahrenheit 451 — LitCharts (themes, quotes, symbols)",url:"https://www.litcharts.com/lit/fahrenheit-451"},
+          {icon:"📖",text:"Writing for the Environment — class frameworks + exemplars (PRIMARY)",url:"#"},
+          {icon:"▶",text:"Writing for a purpose — BBC Bitesize English Language",url:"https://www.bbc.co.uk/bitesize/topics/zxhnb9q"}
+        ],
+        mixedRecall:[
+          {q:"Solve: x² − 7x + 12 = 0",topic:"Maths: quadratics"},
+          {q:"What are the products of complete combustion of a hydrocarbon?",topic:"Chemistry: equations"},
+          {q:"State Newton's First Law of motion",topic:"Physics: forces"}
+        ],
+        ticks:[
+          {text:"Shakespeare's World: re-read Act 3 Scene 1 or Henry IV passage + class notes",cornell:false,mixed:false},
+          {text:"Shakespeare's World: Cornell notes — theme + 2 quotes + technique + effect",cornell:true,mixed:false},
+          {text:"Conflict Poetry: read chosen poem + class annotations",cornell:false,mixed:false},
+          {text:"Conflict Poetry: Cornell notes — theme + quote + technique + comparison angle",cornell:true,mixed:false},
+          {text:"Fahrenheit 451: review key chapter or theme from class notes",cornell:false,mixed:false},
+          {text:"Fahrenheit 451: Cornell notes — theme + quote + writer's message",cornell:true,mixed:false},
+          {text:"Writing for the Environment: read class exemplar + note key structural features",cornell:false,mixed:false},
+          {text:"Cornell: examiner angle considered for each text",cornell:true,mixed:false},
+          {text:"Mixed recall: 3 questions from different topics",cornell:false,mixed:true}
+        ]
+      }
+    ]
+  },
+  {
+    day:"4",name:"Day 4",desc:"Chemistry: atmosphere test prep · Physics: Distance, Speed & Forces",subjects:["chemistry","physics"],
+    sessions:[
+      {
+        subject:"chemistry",label:"Session 1 · 9:00–11:00",
+        topic:"Composition of air + Gases in the atmosphere — full coverage",
+        flags:[["test prep","test"]],
+        crossLink:"🔗 <strong>Maths:</strong> percentage calculations = % O₂, % yield &nbsp;|&nbsp; ratio = atmospheric gas proportions &nbsp;|&nbsp; <strong>Physics:</strong> greenhouse effect links to radiation & energy transfer",
+        cornell:{
+          questions:["% of O₂, N₂, CO₂ in air?","How do we measure % of O₂ experimentally?","What causes the greenhouse effect?","What is thermal decomposition?"],
+          notes:["O₂ ~21%, N₂ ~78%, CO₂ ~0.04%, noble gases ~1%","Burn iron wool/copper — measures O₂ used up","CO₂ + methane trap infrared radiation — global warming","Heat breaks a compound into simpler substances"],
+          summary:"Air is mostly nitrogen (78%) and oxygen (21%). Greenhouse gases trap heat. Combustion uses oxygen; thermal decomposition uses heat to break compounds apart.",
+          examiner:"Examiners often combine % O₂ measurement with a graph question — drawing or reading a graph showing the volume of gas decreasing as oxygen is used up. Also: combustion is a type of chemical reaction — examiners may ask you to identify reaction types (combustion, decomposition, synthesis, displacement). Know all four."
+        },
+        resources:[
+          {icon:"▶",text:"SME: Composition of air revision notes",url:"https://www.savemyexams.com/igcse/chemistry/edexcel/19/revision-notes/2-inorganic-chemistry/2-3-gases-in-the-atmosphere/2-3-1-composition-of-air/"},
+          {icon:"◻",text:"SME: Gases in the atmosphere doc (tutor attached)",url:"https://cdn.savemyexams.com/pdfs/YHmKKmcxPT8FwpyV.pdf"},
+          {icon:"◈",text:"Flashcards: PMT Chemistry iGCSE Topic 2",url:"https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/"}
+        ],
+        mixedRecall:[
+          {q:"Rearrange to make v the subject: KE = ½mv²",topic:"Maths: manipulation of formulae"},
+          {q:"What is the half-life of a sample that goes from 1000 to 125 atoms in 6 hours?",topic:"Physics: half-life"},
+          {q:"Balance: C₃H₈ + O₂ → CO₂ + H₂O",topic:"Chemistry: balancing"}
+        ],
+        ticks:[
+          {text:"Read SME composition of air notes",cornell:false,mixed:false},
+          {text:"Cornell notes: all columns filled",cornell:true,mixed:false},
+          {text:"Cornell: summary in own words",cornell:true,mixed:false},
+          {text:"Cornell: examiner question considered",cornell:true,mixed:false},
+          {text:"Flashcards completed",cornell:false,mixed:false},
+          {text:"Self-test: list gas percentages from memory",cornell:false,mixed:false},
+          {text:"Mixed recall: 3 questions from different topics",cornell:false,mixed:true}
+        ]
+      },
+      {
+        subject:"physics",label:"Session 2 · 12:00–14:00",
+        topic:"Nuclear Physics — Radioactivity, Fission, Fusion & Half-life (light refresher)",
+        flags:[["reinforce","reinforce"]],
+        crossLink:"🔗 <strong>Maths:</strong> geometric sequences = half-life decay (number halves each period) &nbsp;|&nbsp; powers & standard form for nuclear energy &nbsp;|&nbsp; <strong>Chemistry (Session 1 today):</strong> atomic structure shared directly",
+        cornell:null,
+        cornellOptional:"This is your strongest Physics topic — no full Cornell notes needed. Instead write 5 exam questions on this topic from memory, answer them, then check against your flashcards.",
+        resources:[
+          {icon:"▶",text:"Video: Full topic recap — 35 min (skim sections you know well)",url:"https://www.youtube.com/watch?v=GoaPHUIxyYo"},
+          {icon:"◈",text:"Flashcards: PMT Topic 7 (cards 42+ to finish)",url:"https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/7-Radioactivity-and-Particles/Flashcards%20-%20Topic%207%20Radioactivity%20and%20Particles%20-%20Edexcel%20Physics%20IGCSE.pdf"},
+          {icon:"◻",text:"Practice: PMT Topic 7 exam questions",url:"https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/radioactivity-and-particles/"}
+        ],
+        mixedRecall:[
+          {q:"Factorise: x² + 7x + 10",topic:"Maths: quadratics"},
+          {q:"What is covalent bonding? Give one example.",topic:"Chemistry: bonding"},
+          {q:"A car travels 180 km at 60 km/h. How long does the journey take?",topic:"Physics: distance & speed"}
+        ],
+        ticks:[
+          {text:"Skimmed video — focused on any uncertain sections only",cornell:false,mixed:false},
+          {text:"Optional: 5 exam Qs written + answered from memory",cornell:true,mixed:false},
+          {text:"Flashcards 42+ completed",cornell:false,mixed:false},
+          {text:"PMT exam questions attempted",cornell:false,mixed:false},
+          {text:"Recall: alpha/beta/gamma properties without notes",cornell:false,mixed:false},
+          {text:"Recall: half-life calculation from a decay curve",cornell:false,mixed:false},
+          {text:"Recall: fission vs fusion — key difference",cornell:false,mixed:false},
+          {text:"Mixed recall: 3 questions from different topics",cornell:false,mixed:true}
+        ]
+      }
+    ]
+  },
+  {
+    day:"5",name:"Day 5",desc:"Maths: Number topics · Geography & History",subjects:["maths","geo"],
+    sessions:[
+      {
+        subject:"maths",label:"Session 1 · 9:00–11:00",
+        topic:"Number — Bounds, ratio, percentages, powers & roots",
+        flags:[["new topic","new"]],
+        crossLink:"🔗 <strong>Physics:</strong> efficiency %, Hooke's Law (ratio), Boyle's Law (inverse proportion) &nbsp;|&nbsp; <strong>Chemistry:</strong> % yield, molar ratios, significant figures in practicals",
+        cornell:{
+          questions:["What are upper and lower bounds?","How do I divide a ratio?","% increase formula?","What is a negative index?"],
+          notes:["Upper = round up, Lower = round down from given precision","Divide total by sum of parts, multiply each share","% increase = (new−old)/old × 100","x⁻ⁿ = 1/xⁿ  e.g. 2⁻³ = 1/8"],
+          summary:"Bounds describe measurement precision. Ratio divides proportionally. Percentages compare to 100. Negative indices flip the fraction.",
+          examiner:"Examiners combine bounds with calculation — e.g. 'the length is 8 cm to the nearest cm. What is the upper bound of the area?' Always apply upper bound to both dimensions."
+        },
+        resources:[
+          {icon:"▶",text:"Video: Bounds — Maths Genie",url:"https://www.mathsgenie.co.uk/gcse.html"},
+          {icon:"▶",text:"Video: Ratio — Cognito",url:"https://cognitoedu.org/coursesubtopic/m2-gcse-edexcel-h_3.1"},
+          {icon:"▶",text:"Video: Percentage increase/decrease — Cognito",url:"https://cognitoedu.org/coursesubtopic/m2-gcse-edexcel-h_1.5"},
+          {icon:"▶",text:"Video: Powers & roots — Cognito",url:"https://cognitoedu.org"},
+          {icon:"◈",text:"Flashcards: Dr Frost Maths — Number",url:"https://www.drfrostmaths.com"},
+          {icon:"◻",text:"Practice: PMT Number topic questions",url:"https://www.physicsandmathstutor.com/maths-revision/gcse-questions-edexcel/"}
+        ],
+        mixedRecall:[
+          {q:"A car accelerates from rest to 20 m/s in 5 seconds. Calculate the acceleration.",topic:"Physics: forces"},
+          {q:"What is the formula for the area of a trapezium?",topic:"Maths: area"},
+          {q:"Give two factors that increase the rate of a chemical reaction.",topic:"Chemistry: rates"}
+        ],
+        ticks:[
+          {text:"Videos watched — all 4 Number topics",cornell:false,mixed:false},
+          {text:"Cornell notes: all columns filled",cornell:true,mixed:false},
+          {text:"Cornell: summary in own words",cornell:true,mixed:false},
+          {text:"Cornell: examiner question considered",cornell:true,mixed:false},
+          {text:"Flashcards: all 4 topics",cornell:false,mixed:false},
+          {text:"Practice questions: bounds + ratio + % + powers",cornell:false,mixed:false},
+          {text:"Mixed recall: 3 questions from different topics",cornell:false,mixed:true}
+        ]
+      },
+      {
+        subject:"geo",label:"Session 2 · 12:00–14:00",
+        topic:"Geography (1h) + History (1h) — WW1 / Holocaust / Slavery",
+        flags:[["paired · 1h each","paired"]],
+        crossLink:"",
+        split:"Split equally — 1 hour Geography then 1 hour History. For History: choose one unit (WW1, Holocaust or Slavery) and go deep on one sub-topic rather than skimming all three.",
+        cornell:{
+          questions:["Geography: key concept or case study today?","History: which unit + which specific sub-topic?","What is the examiner likely to ask?","One-sentence summary of each?"],
+          notes:["Geography: topic + 3 key facts or case study details","History: sub-topic + 3 key facts/events/names","Likely exam Q — 'explain why' or 'how significant was...'","Own-words summary of each"],
+          summary:"One sentence Geography. One sentence History. For History — make sure your sentence includes a 'because' or 'which led to'.",
+          examiner:"History examiners test 'explain' and 'evaluate' — not just what happened but why it mattered and how significant it was. For WW1: know causes and consequences. For Holocaust: know the Browning argument. For Slavery: know the debate around abolition."
+        },
+        resources:[
+          {icon:"▶",text:"Geography — BBC Bitesize GCSE Geography",url:"https://www.bbc.co.uk/bitesize/examspecs/ztc2bdm"},
+          {icon:"◈",text:"Geography — Seneca Learning",url:"https://senecalearning.com"},
+          {icon:"📖",text:"History — class notes + handouts (PRIMARY for all three units)",url:"#"},
+          {icon:"▶",text:"WW1 — BBC Bitesize",url:"https://www.bbc.co.uk/bitesize/topics/zqhyb9q"},
+          {icon:"▶",text:"Holocaust — BBC Bitesize",url:"https://www.bbc.co.uk/bitesize/topics/z83tn9q"},
+          {icon:"▶",text:"Slavery / Slave Trade — BBC Bitesize",url:"https://www.bbc.co.uk/bitesize/topics/zrqqvcw"},
+          {icon:"◈",text:"History — Seneca Learning",url:"https://senecalearning.com"},
+          {icon:"◻",text:"History — SME GCSE History",url:"https://www.savemyexams.com/gcse/history/"}
+        ],
+        mixedRecall:[
+          {q:"What is 35% of 240?",topic:"Maths: percentages"},
+          {q:"State one use and one hazard of ultraviolet radiation",topic:"Physics: EM spectrum"},
+          {q:"What is the difference between an element and a compound?",topic:"Chemistry: ECM"}
+        ],
+        ticks:[
+          {text:"Geography — topic chosen + 30 min video/reading",cornell:false,mixed:false},
+          {text:"Geography — Cornell notes completed",cornell:true,mixed:false},
+          {text:"Geography — past paper Q attempted",cornell:false,mixed:false},
+          {text:"History — unit chosen (WW1 / Holocaust / Slavery)",cornell:false,mixed:false},
+          {text:"History — class notes reviewed for chosen sub-topic",cornell:false,mixed:false},
+          {text:"History — Cornell notes completed",cornell:true,mixed:false},
+          {text:"History — examiner angle considered (explain/evaluate)",cornell:true,mixed:false},
+          {text:"Mixed recall: 3 questions from different topics",cornell:false,mixed:true}
+        ]
+      }
+    ]
+  },
+  {
+    day:"6",name:"Day 6",desc:"Maths: Graphs/Sequences/Angles · French & TPE",subjects:["maths","french"],
+    sessions:[
+      {
+        subject:"maths",label:"Session 1 · 9:00–11:00",
+        topic:"Graphs + Sequences (quadratic/geometric) + Inequalities + Angles",
+        flags:[["new topic","new"]],
+        crossLink:"🔗 <strong>Physics:</strong> distance-time & velocity-time graphs, I-V graphs, half-life (geometric seq.) &nbsp;|&nbsp; <strong>Chemistry:</strong> rate of reaction graphs, cooling curves, periodic table trends",
+        cornell:{
+          questions:["y=mx+c — what does each part mean?","nth term of a quadratic sequence?","How do I show an inequality on a number line?","Interior angle sum of a polygon?"],
+          notes:["m=gradient (steepness), c=y-intercept (where it crosses y-axis)","Find second differences → halve for a in an²+bn+c","Open circle = strict (</>), closed circle = or equal (≤/≥)","(n−2)×180 — e.g. hexagon: (6−2)×180 = 720°"],
+          summary:"Graphs use y=mx+c. Quadratic sequences need second differences. Inequalities need careful circle type. Polygon angles from (n−2)×180.",
+          examiner:"Graphs are often combined with other topics — e.g. draw a velocity-time graph then calculate the distance (area under the graph). In Chemistry, you may need to draw a rate of reaction graph and calculate the gradient."
+        },
+        resources:[
+          {icon:"▶",text:"Video: Graphs — linear, quadratic, reciprocal (Cognito)",url:"https://cognitoedu.org/coursesubtopic/m2-gcse-edexcel-h_5.1"},
+          {icon:"▶",text:"Video: Quadratic sequences nth term (Cognito)",url:"https://cognitoedu.org/coursesubtopic/m2-gcse-edexcel-h_6.3"},
+          {icon:"▶",text:"Video: Inequalities + Angles — Maths Genie",url:"https://www.mathsgenie.co.uk/gcse.html"},
+          {icon:"◈",text:"Flashcards: SME Algebra & Geometry",url:"https://www.savemyexams.com/igcse/maths/edexcel/"},
+          {icon:"◻",text:"Practice: PMT Graphs / Sequences / Angles topic questions",url:"https://www.physicsandmathstutor.com/maths-revision/gcse-questions-edexcel/"}
+        ],
+        mixedRecall:[
+          {q:"A train travels 240 km at 80 km/h. How long does it take?",topic:"Physics: distance & speed"},
+          {q:"What happens to the rate of reaction when temperature increases? Why?",topic:"Chemistry: rates"},
+          {q:"Solve: 2x − 3 = 11. Then check your answer.",topic:"Maths: linear equations"}
+        ],
+        ticks:[
+          {text:"Videos: all 4 topics watched",cornell:false,mixed:false},
+          {text:"Cornell notes: all columns filled",cornell:true,mixed:false},
+          {text:"Cornell: summary in own words",cornell:true,mixed:false},
+          {text:"Cornell: examiner question considered",cornell:true,mixed:false},
+          {text:"Flashcards completed",cornell:false,mixed:false},
+          {text:"Practice questions attempted",cornell:false,mixed:false},
+          {text:"Mixed recall: 3 questions from different topics",cornell:false,mixed:true}
+        ]
+      },
+      {
+        subject:"french",label:"Session 2 · 12:00–14:00",
+        topic:"French (1h) + TPE (1h) — paired session",
+        flags:[["paired · 1h each","paired"]],
+        crossLink:"",
+        split:"Split equally — 1 hour French then 1 hour TPE.",
+        cornell:{
+          questions:["Key vocabulary from today's French topic?","Key grammar rule today?","TPE: main concept/argument?","One sentence summary of each?"],
+          notes:["French: 5–8 new words + meanings","Grammar rule + example sentence","TPE: main idea + supporting detail","Summary sentence for each half"],
+          summary:"French: one sentence on today's topic. TPE: one sentence on today's topic.",
+          examiner:"For French: examiners often test vocabulary in context — not just translation but using words correctly in a sentence. For TPE: be ready to explain not just what but why."
+        },
+        resources:[
+          {icon:"▶",text:"French — BBC Bitesize GCSE French",url:"https://www.bbc.co.uk/bitesize/examspecs/zr4dwmn"},
+          {icon:"◈",text:"French — Seneca Learning",url:"https://senecalearning.com"},
+          {icon:"▶",text:"TPE — school resources / teacher notes",url:"#"},
+          {icon:"◈",text:"TPE — Seneca Learning",url:"https://senecalearning.com"}
+        ],
+        mixedRecall:[
+          {q:"Find the nth term of the sequence: 1, 4, 9, 16, 25...",topic:"Maths: sequences"},
+          {q:"Name the stages in the life cycle of a star (from nebula onwards)",topic:"Physics: astrophysics"},
+          {q:"What is chromatography used for? What does the Rf value represent?",topic:"Chemistry: ECM"}
+        ],
+        ticks:[
+          {text:"French — topic chosen + 30 min video/listening",cornell:false,mixed:false},
+          {text:"French — Cornell notes + vocabulary test",cornell:true,mixed:false},
+          {text:"TPE — topic chosen + 30 min reading/video",cornell:false,mixed:false},
+          {text:"TPE — Cornell notes completed",cornell:true,mixed:false},
+          {text:"Mixed recall: 3 questions from different topics",cornell:false,mixed:true}
+        ]
+      }
+    ]
+  }
+];
+
+const pillMap={maths:"pill-maths",physics:"pill-physics",chemistry:"pill-chemistry",english:"pill-english",geo:"pill-geo",french:"pill-french",biology:"pill-maths"};
+const barMap={maths:"bar-maths",physics:"bar-physics",chemistry:"bar-chemistry",english:"bar-english",geo:"bar-geo",french:"bar-french",biology:"bar-maths"};
+let totalTicks=0,doneTicks=0;
+
+function cornellBlock(c,optional){
+  if(c){
+    const rows=c.questions.map((q,i)=>`<div class="cornell-col-body">${q}</div><div class="cornell-col-body">${c.notes[i]||''}</div>`).join('');
+    const examiner=c.examiner?`<div class="cornell-examiner"><strong>💡 Examiner angle:</strong> ${c.examiner}</div>`:'';
+    return`<div class="cornell-block">
+      <div class="cornell-header">✏ Cornell notes <span class="cornell-badge">required · 5–10 min</span></div>
+      <div class="cornell-grid">
+        <div class="cornell-col-head">My questions</div><div class="cornell-col-head">My notes</div>
+        ${rows}
+      </div>
+      <div class="cornell-summary"><span>Summary (own words):</span> ${c.summary}</div>
+      ${examiner}
+    </div>`;
+  }
+  if(optional){
+    return`<div class="cornell-block">
+      <div class="cornell-header">✏ Cornell notes <span class="cornell-badge">optional · 5 min</span></div>
+      <p class="cornell-optional">${optional}</p>
+    </div>`;
+  }
+  return'';
+}
+
+function mixedBlock(qs){
+  if(!qs||!qs.length)return'';
+  const qsHtml=qs.map(q=>`<div class="mixed-q"><strong>${q.q}</strong> <span style="font-size:10px;color:var(--mixed-text);opacity:.7">${q.topic}</span></div>`).join('');
+  return`<div class="mixed-block">
+    <div class="mixed-header">🔀 Mixed recall <span class="mixed-badge">end of session · no notes · 10 min</span></div>
+    ${qsHtml}
+  </div>`;
+}
+
+function build(){
+  const container=document.getElementById('days-container');
+  let html='';
+  days.forEach((d,di)=>{
+    const pills=[...new Set(d.subjects)].map(s=>`<span class="pill ${pillMap[s]||'pill-maths'}">${s.charAt(0).toUpperCase()+s.slice(1)}</span>`).join('');
+    const sessionsHtml=d.sessions.map(s=>{
+      const sc=barMap[s.subject]||'bar-maths';
+      const flagsHtml=s.flags.map(([label,type])=>`<span class="flag flag-${type}">${label}</span>`).join('');
+      const splitHtml=s.split?`<div class="split-note">⏱ ${s.split}</div>`:'';
+      const crossHtml=s.crossLink?`<div class="cross-link">${s.crossLink}</div>`:'';
+      const resHtml=s.resources.map(r=>`<div class="resource"><span class="resource-icon">${r.icon}</span><span><a href="${r.url}" target="_blank" rel="noopener">${r.text}</a></span></div>`).join('');
+      const cBlock=cornellBlock(s.cornell,s.cornellOptional);
+      const mBlock=mixedBlock(s.mixedRecall);
+      const ticksHtml=s.ticks.map(t=>{
+        totalTicks++;
+        const cls=t.cornell?'tick-item cornell-tick':t.mixed?'tick-item mixed-tick':'tick-item';
+        return`<div class="${cls}" onclick="toggleTick(this)"><div class="tick-box"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="tick-text">${t.text}</span></div>`;
+      }).join('');
+      return`<div class="session">
+        <div class="session-label"><span class="session-bar ${sc}"></span>${s.label}</div>
+        <div class="session-topic">${s.topic}</div>
+        ${s.flags.length?`<div class="flags">${flagsHtml}</div>`:''}
+        ${splitHtml}${crossHtml}
+        <div class="section-heading">resources</div>
+        <div class="resources">${resHtml}</div>
+        ${cBlock}${mBlock}
+        <div class="section-heading">tick off as you go</div>
+        <div class="ticks">${ticksHtml}</div>
+      </div>`;
+    }).join('');
+    html+=`<div class="day-card" id="day-${di}"><div class="day-header" onclick="toggleDay(${di})"><div class="day-number">${d.day}</div><div class="day-name-block"><div class="day-name">${d.name}</div><div class="day-desc">${d.desc}</div></div><div class="day-pills">${pills}</div><div class="day-toggle">▾</div></div><div class="day-body"><div class="sessions">${sessionsHtml}</div></div></div>`;
+  });
+  container.innerHTML=html;
+  document.getElementById('day-0').classList.add('open');
+  // Count Day 7 sim ticks
+  document.querySelectorAll('.sim-tick').forEach(()=>totalTicks++);
+}
+
+function toggleDay(idx){
+  const card=document.getElementById('day-'+idx);
+  if(card)card.classList.toggle('open');
+}
+function toggleTick(el){
+  const was=el.classList.contains('done');
+  el.classList.toggle('done');
+  doneTicks=was?doneTicks-1:doneTicks+1;
+  updateProgress();
+}
+function updateProgress(){
+  document.getElementById('tick-count').textContent=doneTicks;
+  const pct=totalTicks>0?Math.round((doneTicks/totalTicks)*100):0;
+  document.getElementById('progress-pct').textContent=pct+'%';
+  document.getElementById('progress-fill').style.width=pct+'%';
+}
+
+build();updateProgress();
+</script>
+</body>
+</html>
