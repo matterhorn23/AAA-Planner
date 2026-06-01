@@ -694,14 +694,14 @@ const days = [
     sessions:[
       {
         subject:"maths",label:"Session 1 · 9:00–11:00",
-        topic:"Number — Bounds, ratio, percentages, powers & roots",
-        flags:[["ratio covered L12","reinforce"],["bounds/% new topic","new"]],
+        topic:"Number — Bounds, ratio, percentages, powers & roots + Fractions",
+        flags:[["ratio covered L12","reinforce"],["% + fractions covered L13","reinforce"],["bounds/powers new","new"]],
         crossLink:"🔗 <strong>Physics:</strong> efficiency %, Hooke's Law (ratio), Boyle's Law (inverse proportion) &nbsp;|&nbsp; <strong>Chemistry:</strong> % yield, molar ratios, significant figures in practicals",
         cornell:{
-          questions:["What are upper and lower bounds?","How do I divide a ratio?","% increase formula?","What is a negative index?"],
-          notes:["Upper = round up, Lower = round down from given precision","Divide total by sum of parts, multiply each share","% increase = (new−old)/old × 100","x⁻ⁿ = 1/xⁿ  e.g. 2⁻³ = 1/8"],
-          summary:"Bounds describe measurement precision. Ratio divides proportionally. Percentages compare to 100. Negative indices flip the fraction.",
-          examiner:"Examiners combine bounds with calculation — e.g. 'the length is 8 cm to the nearest cm. What is the upper bound of the area?' Always apply upper bound to both dimensions."
+          questions:["What are upper and lower bounds?","% increase formula? Reverse %?","Compound interest formula?","How do I multiply mixed fractions?"],
+          notes:["Upper = round up, Lower = round down from given precision","% increase = (new−old)/old × 100 | Reverse %: divide by multiplier","A = P(1 + r/100)ⁿ where P=principal, r=rate, n=years","Convert to top-heavy first, multiply numerators + denominators, simplify"],
+          summary:"Bounds = precision. % increase/decrease uses multipliers. Compound interest uses repeated multiplication. Fractions: always convert mixed to top-heavy first.",
+          examiner:"Examiners combine these — e.g. compound interest question where you also need reverse % to find the original amount. Or a bounds question where the answer is a fraction. Practise mixed problem types."
         },
         resources:[
           {icon:"▶",text:"Video: Bounds — Maths Genie",url:"https://www.mathsgenie.co.uk/gcse.html"},
@@ -711,7 +711,11 @@ const days = [
           {icon:"◈",text:"Flashcards: Dr Frost Maths — Number",url:"https://www.drfrostmaths.com"},
           {icon:"◻",text:"Practice: PMT Number topic questions",url:"https://www.physicsandmathstutor.com/maths-revision/gcse-questions-edexcel/"},
           {icon:"◻",text:"L12: PMT Ratio (H) QP — continue from lesson",url:"https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Ratio-Proportion-and-Rates-of-Change/QP/Higher/Ratio%20(H)%20QP.pdf"},
-          {icon:"▶",text:"L12 video: ratio and proportion",url:"https://www.youtube.com/watch?v=li-bS-50WxY&list=PLZWMa5i8p1cKe_JP9tb37xQQ6SzF204QL"}
+          {icon:"▶",text:"L12 video: ratio and proportion",url:"https://www.youtube.com/watch?v=li-bS-50WxY&list=PLZWMa5i8p1cKe_JP9tb37xQQ6SzF204QL"},
+          {icon:"◻",text:"L13: PMT Fractions (H) QP — continue from lesson",url:"https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Number/QP/Higher/Fractions-Decimals-and-Percentages/Fractions%20(H)%20QP.pdf"},
+          {icon:"◻",text:"L13: PMT % Increase/Decrease (H) QP Set 4",url:"https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel/Set-4/Ratio-Proportion-and-Rates-of-Change/Higher/QP/Percentage%20Increase%20or%20Decrease%20(H)%20QP.pdf"},
+          {icon:"◻",text:"L13: PMT % Increase/Decrease (H) QP Set 5",url:"https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel/Set-5/Ratio-Proportion-and-Rates-of-Change/Higher/QP/Percentage%20Increase%20or%20Decrease%20(H)%20QP.pdf"},
+          {icon:"◻",text:"L13: PMT % Increase/Decrease iGCSE QP",url:"https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Ratio-Proportion-and-Rates-of-Change/QP/Higher/Percentage%20Increase%20or%20Decrease%20(H)%20QP.pdf"}
         ],
         mixedRecall:[
           {q:"A car accelerates from rest to 20 m/s in 5 seconds. Calculate the acceleration.",topic:"Physics: forces"},
@@ -724,7 +728,10 @@ const days = [
           {text:"Cornell: summary in own words",cornell:true,mixed:false},
           {text:"Cornell: examiner question considered",cornell:true,mixed:false},
           {text:"Flashcards: all 4 topics",cornell:false,mixed:false},
-          {text:"Practice questions: bounds + ratio + % + powers",cornell:false,mixed:false},
+          {text:"Practice Qs: bounds + powers (new topics)",cornell:false,mixed:false},
+          {text:"L13: Fractions QP — continue from lesson",cornell:false,mixed:false},
+          {text:"L13: % increase/decrease QPs (Sets 4, 5, iGCSE) — continue",cornell:false,mixed:false},
+          {text:"L13: Reverse % + compound interest attempted",cornell:false,mixed:false},
           {text:"Mixed recall: 3 questions from different topics",cornell:false,mixed:true}
         ]
       },
