@@ -406,7 +406,7 @@ const days = [
       {
         subject:"maths",label:"Session 1 · 9:00–11:00",
         topic:"Simultaneous equations + Manipulation of formulae",
-        flags:[["reinforce","reinforce"],["high priority","priority"]],
+        flags:[["reinforce","reinforce"],["high priority","priority"],["L15: subject appears twice","gap"]],
         crossLink:"🔗 <strong>Physics:</strong> rearranging v=u+at, F=ma, P=F/A, ρ=m/V &nbsp;|&nbsp; <strong>Chemistry:</strong> rearranging n=m/Mr, concentration, % yield",
         cornell:null,
         cornellOptional:"Jot 3–5 key steps from the video — e.g. the elimination method stages.",
@@ -415,7 +415,9 @@ const days = [
           {icon:"▶",text:"Video: Rearrange formulas (Cognito)",url:"https://www.youtube.com/watch?v=_BYxuxEIZqw"},
           {icon:"◈",text:"Flashcards: PMT Edexcel Algebra",url:"https://www.physicsandmathstutor.com/maths-revision/gcse-edexcel/"},
           {icon:"◻",text:"Practice: PMT Simultaneous Equations (H) QP",url:"https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Solving-Equations-and-Inequalities/Simultaneous%20Equations%20(H)%20QP.pdf"},
-          {icon:"◻",text:"Practice: PMT Manipulation of Formulae (H) QP",url:"https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Notation-Vocabulary-and-Manipulation/Manipulation%20of%20Formulae%20(H)%20QP.pdf"}
+          {icon:"◻",text:"Practice: PMT Manipulation of Formulae (H) QP",url:"https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Notation-Vocabulary-and-Manipulation/Manipulation%20of%20Formulae%20(H)%20QP.pdf"},
+          {icon:"▶",text:"L15: Rearranging formulas — Cognito",url:"https://www.youtube.com/watch?v=_BYxuxEIZqw&t=33s"},
+          {icon:"▶",text:"L15: Subject appears twice — advanced technique",url:"https://www.youtube.com/watch?v=5lcefrczJlE&t=22s"}
         ],
         mixedRecall:[
           {q:"What is the density of an object with mass 300g and volume 150cm³?",topic:"Physics: density"},
@@ -461,6 +463,35 @@ const days = [
           {text:"Flashcards started",cornell:false,mixed:false},
           {text:"Practice questions attempted",cornell:false,mixed:false},
           {text:"Recall: d=s×t, v=u+at, F=ma, momentum — all from memory",cornell:false,mixed:false},
+          {text:"Mixed recall: 3 questions from different topics",cornell:false,mixed:true}
+        ]
+      },
+      {
+        subject:"maths",label:"Session 1 continued · Advanced technique",
+        topic:"Manipulation of formulae — subject appears twice (L15 new technique)",
+        flags:[["new technique L15","gap"]],
+        crossLink:"🔗 This technique appears when rearranging equations like v=u+at for u when v also contains u, or in Physics/Chemistry formula rearrangement at Higher level",
+        cornell:{
+          questions:["What does 'subject appears twice' mean?","How do I factorise to isolate the subject?","Example: make x the subject of ax + b = cx + d","When does this come up in Physics/Chemistry?"],
+          notes:["Subject appears on both sides of the equation","Collect all subject terms on one side, factorise out the subject","ax - cx = d - b → x(a-c) = d-b → x = (d-b)/(a-c)","Physics: optics, lens equations | Chemistry: equilibrium expressions"],
+          summary:"When the subject appears twice, move all instances to one side, factorise it out, then divide. This is the most advanced manipulation technique at GCSE.",
+          examiner:"This technique is a classic discriminator — it separates grade 7-9 from grade 5-6. Examiners use it to test whether students can manipulate confidently. Practise until automatic."
+        },
+        resources:[
+          {icon:"▶",text:"L15: Subject appears twice — advanced technique",url:"https://www.youtube.com/watch?v=5lcefrczJlE&t=22s"},
+          {icon:"◻",text:"PMT Manipulation of Formulae (H) QP — harder questions",url:"https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Notation-Vocabulary-and-Manipulation/Manipulation%20of%20Formulae%20(H)%20QP.pdf"}
+        ],
+        mixedRecall:[
+          {q:"Balance: Ca + O₂ → CaO (include state symbols)",topic:"Chemistry: balancing + state symbols"},
+          {q:"A rectangle has area 60cm². Width is x, length is (x+3). Find x.",topic:"Maths: quadratics + area"},
+          {q:"What is the half-life of a sample that decays from 800 to 100 atoms in 9 hours?",topic:"Physics: half-life"}
+        ],
+        ticks:[
+          {text:"Watched V2: subject appears twice video",cornell:false,mixed:false},
+          {text:"Cornell notes: factorising technique written out",cornell:true,mixed:false},
+          {text:"Cornell: 2 examples worked through without notes",cornell:true,mixed:false},
+          {text:"Cornell: examiner angle noted — grade discriminator",cornell:true,mixed:false},
+          {text:"PMT QP: harder manipulation questions attempted",cornell:false,mixed:false},
           {text:"Mixed recall: 3 questions from different topics",cornell:false,mixed:true}
         ]
       }
