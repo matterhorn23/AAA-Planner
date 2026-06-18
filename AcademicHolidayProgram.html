@@ -399,16 +399,475 @@ function getSessionContent(subj, week, type) {
   return weekTopics;
 }
 
+// Topic-specific resource map — tutor sources first, then PMT, then BBC/SME
+const TOPIC_RESOURCES = {
+  // ── MATHS ──────────────────────────────────────────────
+  m1:{
+    videos:[{label:'Simultaneous equations (Cognito — tutor rec.)',url:'https://www.youtube.com/watch?v=68hMhae269k'}],
+    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
+    pp:{label:'PMT Simultaneous Equations (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Solving-Equations-and-Inequalities/Simultaneous%20Equations%20(H)%20QP.pdf'}
+  },
+  m2:{
+    videos:[
+      {label:'Rearranging formulas (Cognito — tutor rec.)',url:'https://www.youtube.com/watch?v=_BYxuxEIZqw&t=33s'},
+      {label:'Subject appears twice — advanced (tutor rec.)',url:'https://www.youtube.com/watch?v=5lcefrczJlE&t=22s'}
+    ],
+    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
+    pp:{label:'PMT Manipulation of Formulae (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Notation-Vocabulary-and-Manipulation/Manipulation%20of%20Formulae%20(H)%20QP.pdf'}
+  },
+  m3:{
+    videos:[
+      {label:'Solving quadratics (Cognito — tutor rec.)',url:'https://www.youtube.com/watch?v=CaUgHGV-JdI'},
+      {label:'Factorising quadratics pt 1 (Cognito — tutor rec.)',url:'https://www.youtube.com/watch?v=3kE_Q-JdlO4'},
+      {label:'Quadratic formula (tutor rec.)',url:'https://www.youtube.com/watch?v=mYsHbiOEYAc'}
+    ],
+    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
+    pp:{label:'PMT Solving Quadratic Equations (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Solving-Equations-and-Inequalities/Solving%20Quadratic%20Equations%20(H)%20QP.pdf'}
+  },
+  m4:{
+    videos:[
+      {label:'Rearranging formulas (Cognito — tutor rec.)',url:'https://www.youtube.com/watch?v=_BYxuxEIZqw&t=33s'},
+      {label:'Subject appears twice — advanced (tutor rec.)',url:'https://www.youtube.com/watch?v=5lcefrczJlE&t=22s'}
+    ],
+    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
+    pp:{label:'PMT Manipulation of Formulae (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Notation-Vocabulary-and-Manipulation/Manipulation%20of%20Formulae%20(H)%20QP.pdf'}
+  },
+  m5:{
+    videos:[
+      {label:'Fractions (tutor rec. L13)',url:'https://www.youtube.com/watch?v=MTxNPBupKMo&t=18s'},
+      {label:'Fractions — operations (tutor rec. L13)',url:'https://www.youtube.com/watch?v=Kh-euMm_6Is'}
+    ],
+    fc:{label:'PMT iGCSE Number flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'},
+    pp:{label:'PMT Fractions (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Number/QP/Higher/Fractions-Decimals-and-Percentages/Fractions%20(H)%20QP.pdf'}
+  },
+  m6:{
+    videos:[
+      {label:'Percentages (tutor rec. L13)',url:'https://www.youtube.com/watch?v=qeWRewXB91g'},
+      {label:'Compound interest / reverse % (tutor rec. L13)',url:'https://www.youtube.com/watch?v=BKnPKiSrUm8'}
+    ],
+    fc:{label:'PMT iGCSE Number flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'},
+    pp:{label:'PMT % Increase/Decrease (H) QP iGCSE',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Ratio-Proportion-and-Rates-of-Change/QP/Higher/Percentage%20Increase%20or%20Decrease%20(H)%20QP.pdf'}
+  },
+  m7:{
+    videos:[{label:'Ratio and proportion (tutor rec. L12)',url:'https://www.youtube.com/watch?v=li-bS-50WxY&list=PLZWMa5i8p1cKe_JP9tb37xQQ6SzF204QL'}],
+    fc:{label:'PMT iGCSE Ratio flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-ratio-proportion-and-rates-of-change/questions-edexcel-igcse/'},
+    pp:{label:'PMT Ratio (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Ratio-Proportion-and-Rates-of-Change/QP/Higher/Ratio%20(H)%20QP.pdf'}
+  },
+  m8:{
+    videos:[
+      {label:'Expanding double brackets (Cognito — tutor rec.)',url:'https://www.youtube.com/watch?v=Dvo1Q-yBBhk'},
+      {label:'Expanding equations (tutor rec. L9)',url:'https://www.youtube.com/watch?v=oQlV9IEFp_o'}
+    ],
+    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
+    pp:{label:'PMT Expanding Equations (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Notation-Vocabulary-and-Manipulation/Expanding%20Equations%20(H)%20QP.pdf'}
+  },
+  m9:{
+    videos:[{label:'Bounds — PMT topic page',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'}],
+    fc:{label:'PMT iGCSE Number flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'},
+    pp:{label:'PMT Bounds (H) QP iGCSE',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Number/MA/Higher/Measures-and-Accuracy/Bounds%20(H)%20MA.pdf'}
+  },
+  m10:{
+    videos:[{label:'Standard form + indices — PMT iGCSE Number',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'}],
+    fc:{label:'PMT iGCSE Number flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'},
+    pp:{label:'PMT Indices & Standard Form (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Number/QP/Higher/Indices-and-Surds/Indices%20(H)%20QP.pdf'}
+  },
+  m11:{
+    videos:[{label:'Linear graphs y=mx+c — PMT iGCSE Algebra',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'}],
+    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
+    pp:{label:'PMT Graphs of Linear Equations (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Graphs/Graphs%20of%20Linear%20Equations%20(H)%20QP.pdf'}
+  },
+  m12:{
+    videos:[{label:'Quadratic + other graphs — PMT iGCSE Algebra',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'}],
+    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
+    pp:{label:'PMT Graphs of Quadratic Equations (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Graphs/Graphs%20of%20Quadratic%20Equations%20(H)%20QP.pdf'}
+  },
+  m13:{
+    videos:[{label:'Sequences nth term (Cognito — tutor rec.)',url:'https://www.youtube.com/watch?v=RAjTpz3yQ3Q'}],
+    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
+    pp:{label:'PMT Sequences (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Sequences/Sequences%20(H)%20QP.pdf'}
+  },
+  m14:{
+    videos:[{label:'Inequalities — PMT iGCSE Algebra',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'}],
+    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
+    pp:{label:'PMT Inequalities (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Solving-Equations-and-Inequalities/Inequalities%20(H)%20QP.pdf'}
+  },
+  m15:{
+    videos:[{label:'Angles — PMT iGCSE Geometry',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-geometry-and-measures/questions-edexcel-igcse/'}],
+    fc:{label:'PMT iGCSE Geometry flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-geometry-and-measures/questions-edexcel-igcse/'},
+    pp:{label:'PMT Angles (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Geometry-and-Measures/QP/Higher/Angles/Angles%20(H)%20QP.pdf'}
+  },
+  m16:{
+    videos:[{label:'Sine & cosine rule — PMT iGCSE Geometry',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-geometry-and-measures/questions-edexcel-igcse/'}],
+    fc:{label:'PMT iGCSE Geometry flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-geometry-and-measures/questions-edexcel-igcse/'},
+    pp:{label:'PMT Trigonometry (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Geometry-and-Measures/QP/Higher/Trigonometry/Trigonometry%20(H)%20QP.pdf'}
+  },
+  m17:{
+    videos:[
+      {label:'SOHCAHTOA (tutor rec. L5)',url:'https://www.youtube.com/watch?v=CnHgqfBSgco&t=65s'},
+      {label:'Area + Pythagoras (tutor rec. L5)',url:'https://www.youtube.com/watch?v=WFH_7n7hpHo&t=159s'}
+    ],
+    fc:{label:'PMT iGCSE Geometry flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-geometry-and-measures/questions-edexcel-igcse/'},
+    pp:{label:'PMT Pythagoras (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Geometry-and-Measures/QP/Higher/Pythagoras/Pythagoras%20(H)%20QP.pdf'}
+  },
+  m18:{
+    videos:[
+      {label:'Area trapezium + compound shapes (tutor rec. L5)',url:'https://www.youtube.com/watch?v=tN95TLKpmVQ&t=3s'},
+      {label:'Area triangles (tutor rec. L5)',url:'https://www.youtube.com/watch?v=WFH_7n7hpHo&t=159s'}
+    ],
+    fc:{label:'PMT iGCSE Geometry flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-geometry-and-measures/questions-edexcel-igcse/'},
+    pp:{label:'PMT Area (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Geometry-and-Measures/QP/Higher/Mensuration-and-Calculation/Area%20(H)%20QP.pdf'}
+  },
+  // ── PHYSICS ────────────────────────────────────────────
+  p1:{
+    videos:[
+      {label:'Density (tutor rec. L2/L10)',url:'https://www.youtube.com/watch?v=sfnsuS0-o58&t=20s'},
+      {label:'Density supplementary (tutor rec. L10)',url:'https://www.youtube.com/watch?v=zjkBMk5d3tM'}
+    ],
+    fc:{label:'PMT Physics Ch.5 flashcards (tutor rec.)',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Flashcards%20-%20Topic%205%20Solids%2C%20Liquids%20and%20Gases%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Density & Pressure QP (tutor rec.)',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Topic-Qs/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Set-A1/Density%20and%20Pressure%201%20QP.pdf'}
+  },
+  p2:{
+    videos:[
+      {label:'Pressure in fluids (tutor rec. L2/L10)',url:'https://www.youtube.com/watch?v=m2P2DdfebiU&t=2s'},
+      {label:'Pressure extra (tutor rec. L10)',url:'https://www.youtube.com/watch?v=SnKba6aVZTc'},
+      {label:'Pressure extra 2 (tutor rec. L10)',url:'https://www.youtube.com/watch?v=OIpvOIb3GAg'}
+    ],
+    fc:{label:'PMT Physics Ch.5 flashcards (tutor rec.)',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Flashcards%20-%20Topic%205%20Solids%2C%20Liquids%20and%20Gases%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Density & Pressure MS (check answers)',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Topic-Qs/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Set-A1/Density%20and%20Pressure%201%20MS.pdf'}
+  },
+  p3:{
+    videos:[
+      {label:'Kinetic theory (tutor rec. L2)',url:'https://www.youtube.com/watch?v=oX7vbbF1wmk&t=64s'},
+      {label:'Kinetic theory supplementary (tutor rec. L10)',url:'https://www.youtube.com/watch?v=yumeVlrnj8s'}
+    ],
+    fc:{label:'PMT Physics Ch.5 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Flashcards%20-%20Topic%205%20Solids%2C%20Liquids%20and%20Gases%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Physics Ch.5 topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/solids-liquids-and-gases/'}
+  },
+  p4:{
+    videos:[{label:'Full radioactivity topic — 35 min animations (tutor rec. L7)',url:'https://www.youtube.com/watch?v=GoaPHUIxyYo'}],
+    fc:{label:'PMT Physics Ch.7 flashcards (tutor rec. L7)',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/7-Radioactivity-and-Particles/Flashcards%20-%20Topic%207%20Radioactivity%20and%20Particles%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Radioactivity topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/radioactivity-and-particles/'}
+  },
+  p5:{
+    videos:[{label:'Full radioactivity topic (tutor rec. L7)',url:'https://www.youtube.com/watch?v=GoaPHUIxyYo'}],
+    fc:{label:'PMT Physics Ch.7 flashcards (cards 42+)',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/7-Radioactivity-and-Particles/Flashcards%20-%20Topic%207%20Radioactivity%20and%20Particles%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Radioactivity topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/radioactivity-and-particles/'}
+  },
+  p6:{
+    videos:[{label:'Full radioactivity topic (tutor rec. L7)',url:'https://www.youtube.com/watch?v=GoaPHUIxyYo'}],
+    fc:{label:'PMT Physics Ch.7 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/7-Radioactivity-and-Particles/Flashcards%20-%20Topic%207%20Radioactivity%20and%20Particles%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Radioactivity topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/radioactivity-and-particles/'}
+  },
+  p7:{
+    videos:[{label:'PMT Physics Topic 1 — Forces & Motion (notes + videos)',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}],
+    fc:{label:'PMT Physics Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/1-Forces-and-Motion/Flashcards%20-%20Topic%201%20Forces%20and%20Motion%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Forces & Motion topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}
+  },
+  p8:{
+    videos:[{label:'PMT Physics Topic 1 — Forces & Motion',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}],
+    fc:{label:'PMT Physics Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/1-Forces-and-Motion/Flashcards%20-%20Topic%201%20Forces%20and%20Motion%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Forces & Motion topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}
+  },
+  p9:{
+    videos:[{label:'PMT Physics Topic 1 — Forces & Motion',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}],
+    fc:{label:'PMT Physics Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/1-Forces-and-Motion/Flashcards%20-%20Topic%201%20Forces%20and%20Motion%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Forces & Motion topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}
+  },
+  p10:{
+    videos:[{label:'PMT Physics Topic 4 — Energy Resources',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/energy-resources-and-transfer/'}],
+    fc:{label:'PMT Physics Ch.4 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/4-Energy-Resources-and-Energy-Transfer/Flashcards%20-%20Topic%204%20Energy%20Resources%20and%20Energy%20Transfer%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Energy topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/energy-resources-and-transfer/'}
+  },
+  p11:{
+    videos:[{label:'PMT Physics Topic 3 — Waves (notes + videos + questions)',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/waves/'}],
+    fc:{label:'PMT Physics Ch.3 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/3-Waves/Flashcards%20-%20Topic%203%20Waves%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Waves topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/waves/'}
+  },
+  p12:{
+    videos:[{label:'PMT Physics Topic 3 — Waves & EM Spectrum',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/waves/'}],
+    fc:{label:'PMT Physics Ch.3 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/3-Waves/Flashcards%20-%20Topic%203%20Waves%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Waves topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/waves/'}
+  },
+  p13:{
+    videos:[{label:'PMT Physics Topic 2 — Electricity (notes + videos + questions)',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/electricity/'}],
+    fc:{label:'PMT Physics Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/2-Electricity/Flashcards%20-%20Topic%202%20Electricity%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Electricity topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/electricity/'}
+  },
+  p14:{
+    videos:[{label:'PMT Physics Topic 2 — Electricity: V=IR',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/electricity/'}],
+    fc:{label:'PMT Physics Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/2-Electricity/Flashcards%20-%20Topic%202%20Electricity%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Electricity topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/electricity/'}
+  },
+  p15:{
+    videos:[{label:'PMT Physics Topic 2 — Electricity: Circuits',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/electricity/'}],
+    fc:{label:'PMT Physics Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/2-Electricity/Flashcards%20-%20Topic%202%20Electricity%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Electricity topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/electricity/'}
+  },
+  p16:{
+    videos:[{label:'PMT Physics Topic 8 — Astrophysics (notes + videos + questions)',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/astrophysics/'}],
+    fc:{label:'PMT Physics Ch.8 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/8-Astrophysics/Flashcards%20-%20Topic%208%20Astrophysics%20-%20Edexcel%20Physics%20IGCSE.pdf'},
+    pp:{label:'PMT Astrophysics topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/astrophysics/'}
+  },
+  // ── CHEMISTRY ──────────────────────────────────────────
+  c1:{
+    videos:[{label:'Balancing equations (tutor rec. L3)',url:'https://www.youtube.com/watch?v=rM7qErgZfNo'}],
+    fc:{label:'PMT Chemistry Ch.1 flashcards (tutor rec.)',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Chemical Formulae + Equations QP (tutor rec. L14)',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/1-Principles-of-Chemistry/Set-A1/Chemical%20Formulae%2C%20Equations%2C%20Calculations%201%20QP.pdf'}
+  },
+  c2:{
+    videos:[
+      {label:'Ionic bonding (tutor rec. L3)',url:'https://www.youtube.com/watch?v=7IkYm7ZgiAw'},
+      {label:'Covalent bonding (tutor rec. L3)',url:'https://www.youtube.com/watch?v=ybi6kQHKVws'}
+    ],
+    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Ionic Bonding QP (tutor rec. L14)',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/1-Principles-of-Chemistry/Set-A2/Ionic%20Bonding%20QP.pdf'}
+  },
+  c3:{
+    videos:[{label:'PMT Chemistry Topic 1 — Principles (notes + videos)',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],
+    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Elements Compounds Mixtures QP (tutor rec. L14)',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/1-Principles-of-Chemistry/Set-A2/Elements%2C%20Compounds%2C%20Mixtures%20QP.pdf'}
+  },
+  c4:{
+    videos:[{label:'SME Composition of Air revision notes (tutor rec.)',url:'https://www.savemyexams.com/igcse/chemistry/edexcel/19/revision-notes/2-inorganic-chemistry/2-3-gases-in-the-atmosphere/2-3-1-composition-of-air/'}],
+    fc:{label:'PMT Chemistry Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/2-Inorganic-Chemistry/Flashcards%20-%20Topic%202%20Inorganic%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Gases in Atmosphere QP (tutor rec. L12)',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/2-Inorganic-Chemistry/Set-A1/Gases%20in%20the%20Atmosphere%20QP.pdf'}
+  },
+  c5:{
+    videos:[{label:'PMT Chemistry Topic 1 — Chemical Formulae',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],
+    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Chemical Formulae Equations Calculations QP (tutor rec. L14)',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/1-Principles-of-Chemistry/Set-A1/Chemical%20Formulae%2C%20Equations%2C%20Calculations%201%20QP.pdf'}
+  },
+  c6:{
+    videos:[{label:'PMT Chemistry Topic 1 — Types of reactions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],
+    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Chemistry Topic 1 questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}
+  },
+  c7:{
+    videos:[{label:'PMT Chemistry Topic 1 — States of matter',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],
+    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Chemistry Topic 1 questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}
+  },
+  c8:{
+    videos:[{label:'PMT Chemistry Topic 1 — Atomic structure',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],
+    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Chemistry Topic 1 questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}
+  },
+  c9:{
+    videos:[{label:'PMT Chemistry Topic 2 — Inorganic Chemistry (reactivity)',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/inorganic-chemistry/'}],
+    fc:{label:'PMT Chemistry Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/2-Inorganic-Chemistry/Flashcards%20-%20Topic%202%20Inorganic%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Inorganic Chemistry topic questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/inorganic-chemistry/'}
+  },
+  c10:{
+    videos:[{label:'PMT Chemistry Topic 2 — Acids and bases',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/inorganic-chemistry/'}],
+    fc:{label:'PMT Chemistry Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/2-Inorganic-Chemistry/Flashcards%20-%20Topic%202%20Inorganic%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Acids topic questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/inorganic-chemistry/'}
+  },
+  c11:{
+    videos:[{label:'PMT Chemistry Topic 3 — Physical Chemistry (rates)',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/physical-chemistry/'}],
+    fc:{label:'PMT Chemistry Ch.3 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/3-Physical-Chemistry/Flashcards%20-%20Topic%203%20Physical%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Rates of Reaction QP',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/3-Physical-Chemistry/Set-A1/Rates%20of%20Reaction%20QP.pdf'}
+  },
+  c12:{
+    videos:[{label:'PMT Chemistry Topic 3 — Rates graphs',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/physical-chemistry/'}],
+    fc:{label:'PMT Chemistry Ch.3 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/3-Physical-Chemistry/Flashcards%20-%20Topic%203%20Physical%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Rates of Reaction QP',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/3-Physical-Chemistry/Set-A1/Rates%20of%20Reaction%20QP.pdf'}
+  },
+  c13:{
+    videos:[{label:'PMT Chemistry Topic 1 — Electrolysis',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],
+    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Chemistry Topic 1 questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}
+  },
+  c14:{
+    videos:[{label:'PMT Chemistry Topic 1 — Chromatography + separation',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],
+    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Chemistry Topic 1 questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}
+  },
+  c15:{
+    videos:[{label:'PMT Chemistry Topic 4 — Organic Chemistry',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/organic-chemistry/'}],
+    fc:{label:'PMT Chemistry Ch.4 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/4-Organic-Chemistry/Flashcards%20-%20Topic%204%20Organic%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Organic Chemistry topic questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/organic-chemistry/'}
+  },
+  c16:{
+    videos:[{label:'PMT Chemistry Topic 4 — Organic Chemistry (alkenes)',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/organic-chemistry/'}],
+    fc:{label:'PMT Chemistry Ch.4 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/4-Organic-Chemistry/Flashcards%20-%20Topic%204%20Organic%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
+    pp:{label:'PMT Organic Chemistry topic questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/organic-chemistry/'}
+  },
+  // ── BIOLOGY ────────────────────────────────────────────
+  b1:{
+    videos:[{label:'PMT Biology Topic 1 — Nature and Variety of Living Organisms',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}],
+    fc:{label:'PMT Biology Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/1-Nature-and-Variety-of-Living-Organisms/Flashcards%20-%20Topic%201%20Nature%20and%20Variety%20of%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 1 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}
+  },
+  b2:{
+    videos:[{label:'PMT Biology Topic 1 — Living organisms + cells',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}],
+    fc:{label:'PMT Biology Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/1-Nature-and-Variety-of-Living-Organisms/Flashcards%20-%20Topic%201%20Nature%20and%20Variety%20of%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 1 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}
+  },
+  b3:{
+    videos:[{label:'PMT Biology Topic 2 — Structures and Functions in Living Organisms',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
+    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
+  },
+  b4:{
+    videos:[{label:'PMT Biology Topic 2 — Active transport',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
+    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
+  },
+  b5:{
+    videos:[{label:'PMT Biology Topic 2 — Gas exchange in humans',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
+    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
+  },
+  b6:{
+    videos:[{label:'PMT Biology Topic 2 — Breathing mechanism',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
+    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
+  },
+  b7:{
+    videos:[{label:'PMT Biology Topic 2 — Human reproduction',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
+    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
+  },
+  b8:{
+    videos:[{label:'PMT Biology Topic 2 — Menstrual cycle + hormones',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
+    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
+  },
+  b9:{
+    videos:[{label:'PMT Biology Topic 2 — Plant reproduction',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
+    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
+  },
+  b10:{
+    videos:[{label:'PMT Biology Topic 2 — Photosynthesis',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
+    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
+  },
+  b11:{
+    videos:[{label:'PMT Biology Topic 4 — Ecology and Environment',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}],
+    fc:{label:'PMT Biology Ch.4 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/4-Ecology-and-the-Environment/Flashcards%20-%20Topic%204%20Ecology%20and%20the%20Environment%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 4 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}
+  },
+  b12:{
+    videos:[{label:'PMT Biology Topic 4 — Energy transfer in ecosystems',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}],
+    fc:{label:'PMT Biology Ch.4 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/4-Ecology-and-the-Environment/Flashcards%20-%20Topic%204%20Ecology%20and%20the%20Environment%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 4 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}
+  },
+  b13:{
+    videos:[{label:'PMT Biology Topic 4 — Nutrient cycles',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}],
+    fc:{label:'PMT Biology Ch.4 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/4-Ecology-and-the-Environment/Flashcards%20-%20Topic%204%20Ecology%20and%20the%20Environment%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 4 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}
+  },
+  b14:{
+    videos:[{label:'PMT Biology Topic 4 — Human impact on environment',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}],
+    fc:{label:'PMT Biology Ch.4 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/4-Ecology-and-the-Environment/Flashcards%20-%20Topic%204%20Ecology%20and%20the%20Environment%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 4 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}
+  },
+  b15:{
+    videos:[{label:'PMT Biology Topic 1 — Nature and Variety of Living Organisms',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}],
+    fc:{label:'PMT Biology Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/1-Nature-and-Variety-of-Living-Organisms/Flashcards%20-%20Topic%201%20Nature%20and%20Variety%20of%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 1 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}
+  },
+  b16:{
+    videos:[{label:'PMT Biology Topic 3 — Reproduction and Inheritance',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/reproduction-and-inheritance/'}],
+    fc:{label:'PMT Biology Ch.3 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/3-Reproduction-and-Inheritance/Flashcards%20-%20Topic%203%20Reproduction%20and%20Inheritance%20-%20Edexcel%20Biology%20IGCSE.pdf'},
+    pp:{label:'PMT Biology Topic 3 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/reproduction-and-inheritance/'}
+  },
+  // ── HISTORY ────────────────────────────────────────────
+  h1:{
+    videos:[{label:'BBC Bitesize — WW1 causes',url:'https://www.bbc.co.uk/bitesize/topics/zqhyb9q'}],
+    fc:{label:'Class notes + handouts (PRIMARY resource)',url:'#'},
+    pp:{label:'SME GCSE History',url:'https://www.savemyexams.com/gcse/history/'}
+  },
+  h2:{
+    videos:[{label:'BBC Bitesize — WW1 trench warfare + Somme',url:'https://www.bbc.co.uk/bitesize/topics/zqhyb9q'}],
+    fc:{label:'Class notes + handouts (PRIMARY resource)',url:'#'},
+    pp:{label:'SME GCSE History',url:'https://www.savemyexams.com/gcse/history/'}
+  },
+  h3:{
+    videos:[{label:'BBC Bitesize — Holocaust + Nazi Germany',url:'https://www.bbc.co.uk/bitesize/topics/z83tn9q'}],
+    fc:{label:'Class notes + handouts (PRIMARY resource — Browning interview etc.)',url:'#'},
+    pp:{label:'SME GCSE History',url:'https://www.savemyexams.com/gcse/history/'}
+  },
+  h4:{
+    videos:[{label:'BBC Bitesize — Holocaust',url:'https://www.bbc.co.uk/bitesize/topics/z83tn9q'}],
+    fc:{label:'Class notes — Wannsee Conference, Police Battalion 101',url:'#'},
+    pp:{label:'SME GCSE History',url:'https://www.savemyexams.com/gcse/history/'}
+  },
+  h5:{
+    videos:[{label:'BBC Bitesize — Slave Trade',url:'https://www.bbc.co.uk/bitesize/topics/zrqqvcw'}],
+    fc:{label:'Class notes + handouts (PRIMARY resource)',url:'#'},
+    pp:{label:'SME GCSE History',url:'https://www.savemyexams.com/gcse/history/'}
+  },
+  h6:{
+    videos:[{label:'BBC Bitesize — Abolition of Slavery',url:'https://www.bbc.co.uk/bitesize/topics/zrqqvcw'}],
+    fc:{label:'Class notes + handouts (PRIMARY resource)',url:'#'},
+    pp:{label:'SME GCSE History',url:'https://www.savemyexams.com/gcse/history/'}
+  },
+  h7:{
+    videos:[{label:'BBC Bitesize — Source skills in History',url:'https://www.bbc.co.uk/bitesize/examspecs/zk8xtfr'}],
+    fc:{label:'Class notes on source analysis technique',url:'#'},
+    pp:{label:'SME GCSE History — source questions',url:'https://www.savemyexams.com/gcse/history/'}
+  },
+  h8:{
+    videos:[{label:'BBC Bitesize — History essay skills',url:'https://www.bbc.co.uk/bitesize/examspecs/zk8xtfr'}],
+    fc:{label:'Class essay frameworks',url:'#'},
+    pp:{label:'SME GCSE History — exam technique',url:'https://www.savemyexams.com/gcse/history/'}
+  },
+  // ── GEOGRAPHY ──────────────────────────────────────────
+  g1:{
+    videos:[{label:'PMT Geography — River Environments',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/river-environments/'}],
+    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
+    pp:{label:'PMT Geography River Environments topic questions',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/river-environments/'}
+  },
+  g2:{
+    videos:[{label:'PMT Geography — Coastal Environments',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/coastal-environments/'}],
+    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
+    pp:{label:'PMT Geography Coastal Environments topic questions',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/coastal-environments/'}
+  },
+  g3:{
+    videos:[{label:'PMT Geography — Hazardous Environments',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/hazardous-environments/'}],
+    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
+    pp:{label:'PMT Geography Hazardous Environments topic questions',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/hazardous-environments/'}
+  },
+  g4:{
+    videos:[{label:'PMT Geography — Economic Activity and Energy',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/economic-activity-and-energy/'}],
+    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
+    pp:{label:'PMT Geography Economic Activity topic questions',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/economic-activity-and-energy/'}
+  },
+  g5:{
+    videos:[{label:'PMT Geography — Ecosystems and Rural Environments',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/ecosystems-and-rural-environments/'}],
+    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
+    pp:{label:'PMT Geography Ecosystems topic questions',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/ecosystems-and-rural-environments/'}
+  },
+  g6:{
+    videos:[{label:'PMT Geography — Urban Environments',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/urban-environments/'}],
+    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
+    pp:{label:'PMT Geography Urban Environments topic questions',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/urban-environments/'}
+  },
+  g7:{
+    videos:[{label:'PMT Geography iGCSE — Skills + Practical Enquiry',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'}],
+    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
+    pp:{label:'SME GCSE Geography — skills questions',url:'https://www.savemyexams.com/gcse/geography/'}
+  },
+  g8:{
+    videos:[{label:'PMT Geography iGCSE — Global Issues',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/fragile-environments/'}],
+    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
+    pp:{label:'PMT Geography Fragile Environments topic questions',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/fragile-environments/'}
+  },
+};
+
 function getResources(subj, week, type) {
-  const base = {
-    maths:     {video:'Cognito Maths / Maths Genie / Dr Frost', url:'https://cognitoedu.org', fc:'PMT Edexcel Maths flashcards', fcUrl:'https://www.physicsandmathstutor.com/maths-revision/gcse-edexcel/', pp:'PMT topic question papers', ppUrl:'https://www.physicsandmathstutor.com/maths-revision/gcse-questions-edexcel/'},
-    physics:   {video:'Cognito Physics / Free Science Lessons', url:'https://cognitoedu.org/course/igcse-physics-edexcel', fc:'PMT Physics iGCSE flashcards', fcUrl:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/', pp:'PMT Physics topic questions', ppUrl:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/'},
-    chemistry: {video:'Cognito Chemistry / Free Science Lessons', url:'https://cognitoedu.org/course/igcse-chemistry-edexcel', fc:'PMT Chemistry iGCSE flashcards', fcUrl:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/', pp:'PMT Chemistry topic questions', ppUrl:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/'},
-    biology:   {video:'Free Science Lessons / Cognito Biology', url:'https://www.youtube.com/@FreeScienceLessons', fc:'PMT Biology iGCSE flashcards', fcUrl:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/', pp:'SME Biology revision notes', ppUrl:'https://www.savemyexams.com/igcse/biology/edexcel/'},
-    history:   {video:'BBC Bitesize / Seneca History', url:'https://www.bbc.co.uk/bitesize/examspecs/zk8xtfr', fc:'Class notes + handouts (PRIMARY)', fcUrl:'#', pp:'SME GCSE History', ppUrl:'https://www.savemyexams.com/gcse/history/'},
-    geo:       {video:'BBC Bitesize / Seneca Geography', url:'https://www.bbc.co.uk/bitesize/examspecs/ztc2bdm', fc:'PMT Geography iGCSE flashcards', fcUrl:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/', pp:'SME GCSE Geography', ppUrl:'https://www.savemyexams.com/gcse/geography/'},
+  // Not used directly anymore — getTopicResources is called per topic
+  return null;
+}
+
+function getTopicResources(topicId) {
+  return TOPIC_RESOURCES[topicId] || {
+    videos:[{label:'PMT iGCSE revision — topic page',url:'https://www.physicsandmathstutor.com'}],
+    fc:{label:'PMT flashcards',url:'https://www.physicsandmathstutor.com'},
+    pp:{label:'PMT topic questions',url:'https://www.physicsandmathstutor.com'}
   };
-  return base[subj];
 }
 
 function getMixedQuestions(subj, week) {
@@ -644,8 +1103,9 @@ function renderToday() {
   }
   const s1topics = getSessionContent(d.s1.subj, currentWeek, d.s1.type);
   const s2topics = getSessionContent(d.s2.subj, currentWeek, d.s2.type);
-  const res1 = getResources(d.s1.subj, currentWeek, d.s1.type);
-  const res2 = getResources(d.s2.subj, currentWeek, d.s2.type);
+  // Resources are rendered per-topic below
+  const res1 = null;
+  const res2 = null;
   const mixed = getMixedQuestions(d.s1.subj, currentWeek);
   const s1 = SUBJECTS[d.s1.subj];
   const s2 = SUBJECTS[d.s2.subj];
@@ -718,9 +1178,7 @@ function renderToday() {
 
             <div class="session-eyebrow" style="margin-top:12px">Resources</div>
             <div class="res-list">
-              <div class="res-item"><span class="res-icon">▶</span><a href="${res1.url}" target="_blank">${res1.video}</a></div>
-              <div class="res-item"><span class="res-icon">◈</span><a href="${res1.fcUrl}" target="_blank">${res1.fc}</a></div>
-              <div class="res-item"><span class="res-icon">◻</span><a href="${res1.ppUrl}" target="_blank">${res1.pp}</a></div>
+              ${s1topics.map(t=>{const r=getTopicResources(t.id);return r.videos.map(v=>`<div class="res-item"><span class="res-icon">▶</span><a href="${v.url}" target="_blank">${v.label}</a></div>`).join('')+`<div class="res-item"><span class="res-icon">◈</span><a href="${r.fc.url}" target="_blank">${r.fc.label}</a></div><div class="res-item"><span class="res-icon">◻</span><a href="${r.pp.url}" target="_blank">${r.pp.label}</a></div>`;}).join('')}
             </div>
 
             ${cornelHtml(s1topics, d.s1.subj)}
@@ -760,9 +1218,7 @@ function renderToday() {
 
             <div class="session-eyebrow" style="margin-top:12px">Resources</div>
             <div class="res-list">
-              <div class="res-item"><span class="res-icon">▶</span><a href="${res2.url}" target="_blank">${res2.video}</a></div>
-              <div class="res-item"><span class="res-icon">◈</span><a href="${res2.fcUrl}" target="_blank">${res2.fc}</a></div>
-              <div class="res-item"><span class="res-icon">◻</span><a href="${res2.ppUrl}" target="_blank">${res2.pp}</a></div>
+              ${s2topics.map(t=>{const r=getTopicResources(t.id);return r.videos.map(v=>`<div class="res-item"><span class="res-icon">▶</span><a href="${v.url}" target="_blank">${v.label}</a></div>`).join('')+`<div class="res-item"><span class="res-icon">◈</span><a href="${r.fc.url}" target="_blank">${r.fc.label}</a></div><div class="res-item"><span class="res-icon">◻</span><a href="${r.pp.url}" target="_blank">${r.pp.label}</a></div>`;}).join('')}
             </div>
 
             ${cornelHtml(s2topics, d.s2.subj)}
