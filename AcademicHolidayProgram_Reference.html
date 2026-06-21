@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academic Holiday Program — Reference Document</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:#fff;color:#1C2B4A;font-size:14px;line-height:1.8;padding:40px 20px 80px}
+.page{max-width:780px;margin:0 auto}
+h1{font-family:Georgia,serif;font-size:32px;font-weight:normal;color:#1C2B4A;margin:0 0 8px;line-height:1.2}
+h2{font-family:Georgia,serif;font-size:22px;font-weight:normal;color:#1C2B4A;margin:48px 0 16px;padding-bottom:8px;border-bottom:1.5px solid #1C2B4A}
+h3{font-size:16px;font-weight:600;color:#2E4270;margin:32px 0 12px}
+h4{font-size:14px;font-weight:600;color:#5A6780;margin:20px 0 8px}
+p{margin-bottom:14px;color:#2E4270}
+.subtitle{font-size:16px;color:#5A6780;margin-bottom:4px}
+.meta{font-size:12px;color:#8A96A8;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid #DDE3EC}
+strong{color:#1C2B4A}
+em{font-style:italic}
+table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:13px}
+th{background:#E8EDF5;color:#1C2B4A;padding:8px 12px;text-align:left;font-weight:600;border:1px solid #DDE3EC}
+td{padding:8px 12px;border:1px solid #DDE3EC;color:#2E4270;vertical-align:top}
+tr:nth-child(even) td{background:#FAFBFC}
+.callout{background:#F4F6F8;border-left:3px solid #1C2B4A;padding:14px 16px;margin:16px 0 20px;border-radius:0 8px 8px 0;font-size:13px;color:#2E4270}
+.callout strong{display:block;margin-bottom:4px;color:#1C2B4A}
+.callout-green{border-left-color:#1A7A4A;background:#D6F5E3}
+.callout-green strong{color:#0F4A2A}
+.callout-amber{border-left-color:#B85C00;background:#FFF0D6}
+.callout-amber strong{color:#7A3C00}
+.callout-red{border-left-color:#C0392B;background:#FDEDED}
+.callout-red strong{color:#7A2020}
+.toc{background:#F4F6F8;border:1px solid #DDE3EC;border-radius:8px;padding:20px 24px;margin:24px 0 32px}
+.toc h3{margin:0 0 12px;font-size:14px}
+.toc ol{padding-left:20px}
+.toc li{margin-bottom:6px;font-size:13px;color:#2E4270}
+.toc a{color:#185FA5;text-decoration:none}
+.toc a:hover{text-decoration:underline}
+.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 24px}
+.profile-card{background:#F4F6F8;border:1px solid #DDE3EC;border-radius:8px;padding:14px 16px}
+.profile-card h4{margin:0 0 8px;font-size:13px;color:#5A6780}
+.profile-val{font-family:Georgia,serif;font-size:22px;color:#1C2B4A;margin-bottom:2px}
+.profile-desc{font-size:12px;color:#8A96A8}
+.feature-box{background:#F4F6F8;border:1px solid #DDE3EC;border-radius:8px;padding:16px;margin:16px 0 20px}
+.feature-box h4{margin:0 0 8px;color:#1C2B4A}
+.rule-list{counter-reset:rules;list-style:none;padding:0;margin:16px 0}
+.rule-list li{counter-increment:rules;padding:8px 0 8px 36px;position:relative;font-size:13px;color:#2E4270;border-bottom:1px solid #F0F2F5}
+.rule-list li::before{content:counter(rules);position:absolute;left:0;top:8px;width:24px;height:24px;background:#1C2B4A;color:#fff;border-radius:50%;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center}
+@media print{body{padding:20px}h2{page-break-before:always}table{page-break-inside:avoid}.callout{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>Academic Holiday Program</h1>
+<p class="subtitle">Reference Document — Design, Rationale and Implementation Guide</p>
+<p class="meta">Student: Alessandro · Year 9→10 Transition · Charterhouse School · Edexcel iGCSE<br>
+Document prepared: June 2026 · Target assessment: November 2026<br>
+Version: 1.0</p>
+
+<div class="toc">
+<h3>Contents</h3>
+<ol>
+<li><a href="#exec">Executive Summary</a></li>
+<li><a href="#student">Student Profile and Context</a></li>
+<li><a href="#philosophy">Design Philosophy</a></li>
+<li><a href="#structure">Program Structure</a></li>
+<li><a href="#features">Feature Guide</a></li>
+<li><a href="#ai">The AI Practice Tutor</a></li>
+<li><a href="#connections">Weekly Connections</a></li>
+<li><a href="#resources">Resources and Data Sources</a></li>
+<li><a href="#outcomes">Expected Outcomes</a></li>
+<li><a href="#parent">Parent and Tutor Guide</a></li>
+</ol>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<h2 id="exec">1. Executive Summary</h2>
+
+<p>The Academic Holiday Program is an 8-week self-guided revision and retention tool designed for a specific student — Alessandro, 14, transitioning from Year 9 to Year 10 at Charterhouse School. It is not a generic revision guide. Every element has been tailored to Alessandro's cognitive profile, his exam results, his tutor's observations across 15 lessons, and the Edexcel iGCSE specifications he is studying.</p>
+
+<p>The program covers 6 subjects (Mathematics, Physics, Chemistry, Biology, History and Geography) across a 6-day weekly cycle with one float rest day. It is delivered as a single HTML file accessible via a bookmarked URL on the student's iPad, with no login, no account and no app installation required.</p>
+
+<p>The program integrates five distinct pedagogical components: retrieval-first practice, traffic light confidence tracking with trajectory visibility, within-subject and cross-subject mixed recall, weekly real-world connection scenarios, and an AI practice tutor built on the Socratic method. Together these address the specific gap identified in Alessandro's exam performance: the ability to recall and apply knowledge under exam conditions, not the knowledge itself.</p>
+
+<div class="callout">
+<strong>The core insight:</strong>
+Alessandro scored 85% on his Foundation Maths paper but 11% on the harder paper. He scored 65% in English (top decile for his year). The problem is not intelligence or knowledge — it is retrieval under pressure, specifically in subjects requiring precise factual recall and formula application. The program is designed to close this gap over the period between the summer holiday and the November 2026 assessments.
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<h2 id="student">2. Student Profile and Context</h2>
+
+<h3>2.1 Academic Context</h3>
+<table>
+<tr><th>Item</th><th>Detail</th></tr>
+<tr><td>Name</td><td>Alessandro</td></tr>
+<tr><td>Age</td><td>14</td></tr>
+<tr><td>School</td><td>Charterhouse, Godalming, Surrey</td></tr>
+<tr><td>Current Year</td><td>Year 9 (completed June 2026)</td></tr>
+<tr><td>Next Year</td><td>Year 10 (from September 2026) — GCSE course begins</td></tr>
+<tr><td>GCSE exams</td><td>Summer 2028 (two years away)</td></tr>
+<tr><td>Target assessment</td><td>November 2026 internal exams</td></tr>
+<tr><td>Tutor</td><td>Private tutor — 15 lessons logged (April–June 2026)</td></tr>
+</table>
+
+<h3>2.2 Exam Boards and Specifications</h3>
+<table>
+<tr><th>Subject</th><th>Board</th><th>Code</th><th>Assessment</th></tr>
+<tr><td>Mathematics</td><td>Edexcel IGCSE</td><td>4MA1 Spec A</td><td>2 written papers, both calculator, Higher Tier only</td></tr>
+<tr><td>Physics</td><td>Edexcel IGCSE</td><td>4PH1</td><td>Written exams, no coursework</td></tr>
+<tr><td>Chemistry</td><td>Edexcel IGCSE</td><td>4CH1</td><td>Written exams, practical assessed in written paper</td></tr>
+<tr><td>Biology</td><td>Edexcel IGCSE</td><td>4BI0</td><td>Written exams, no coursework</td></tr>
+<tr><td>History</td><td>Edexcel IGCSE</td><td>—</td><td>2 × 90-min exams</td></tr>
+<tr><td>Geography</td><td>Edexcel IGCSE</td><td>4GE0</td><td>2 external exams, no coursework</td></tr>
+</table>
+
+<h3>2.3 Cognitive Profile</h3>
+<p>Alessandro's cognitive profile has been assessed and reveals a significant pattern that directly informs the program design.</p>
+
+<div class="profile-grid">
+<div class="profile-card"><h4>Fluid Reasoning</h4><div class="profile-val">92%</div><div class="profile-desc">Major strength — pattern recognition, problem-solving, seeing connections between concepts</div></div>
+<div class="profile-card"><h4>Visual Comprehension</h4><div class="profile-val">81%</div><div class="profile-desc">Above average — understanding visual information and diagrams</div></div>
+<div class="profile-card"><h4>Processing Speed</h4><div class="profile-val">77%</div><div class="profile-desc">Above average — executing familiar tasks efficiently</div></div>
+<div class="profile-card"><h4>Visual Spatial</h4><div class="profile-val">63%</div><div class="profile-desc">Average — mental rotation and spatial reasoning</div></div>
+<div class="profile-card"><h4>Visual Working Memory</h4><div class="profile-val">50%</div><div class="profile-desc">Average — key constraint. Limits ability to hold multiple problem components in mind simultaneously</div></div>
+<div class="profile-card"><h4>Auditory Working Memory</h4><div class="profile-val">High</div><div class="profile-desc">Strength — retains information heard or spoken aloud more effectively than information seen</div></div>
+</div>
+
+<div class="callout-amber callout">
+<strong>What the cognitive profile means for program design:</strong>
+The combination of high fluid reasoning (92%) with average visual working memory (50%) creates a specific pattern: Alessandro can solve complex problems when the cognitive path is clear, but struggles when he must hold multiple pieces of information in his head simultaneously while also reasoning about them. Under exam pressure, working memory is consumed by reading and interpreting the question, leaving insufficient capacity for retrieval and application. The intervention is therefore about reducing the cognitive load of retrieval — making facts and formulae automatic — so more working memory is available for reasoning.
+</div>
+
+<h3>2.4 End-of-Year Exam Results (June 2026)</h3>
+<table>
+<tr><th>Subject</th><th>Score</th><th>Interpretation</th></tr>
+<tr><td>Maths — Foundation paper</td><td>85%</td><td>Strong procedural fluency on familiar question types</td></tr>
+<tr><td>Maths — Harder paper</td><td>11%</td><td>Retrieval collapse under unfamiliar framing and multi-topic questions</td></tr>
+<tr><td>Physics</td><td>~35%</td><td>Knowledge gaps + retrieval under pressure</td></tr>
+<tr><td>Chemistry</td><td>~35%</td><td>Knowledge gaps + retrieval under pressure</td></tr>
+<tr><td>Biology</td><td>~35%</td><td>Knowledge gaps (no tutor coverage)</td></tr>
+<tr><td>English</td><td>65%</td><td>Top decile for the year — fluid reasoning translates well into written argument</td></tr>
+<tr><td>History</td><td>Decent</td><td>Analytical skills match fluid reasoning strength</td></tr>
+<tr><td>Geography</td><td>Decent</td><td>As above</td></tr>
+</table>
+
+<div class="callout-red callout">
+<strong>The 85%/11% gap is the central data point.</strong>
+This is not a knowledge problem — it is a retrieval-under-pressure problem. The Foundation paper tests familiar procedures in predictable formats. The harder paper tests the same knowledge but in unfamiliar contexts, with multi-topic questions, and without signposting which tool to use. The 74-point gap between these two scores defines the entire program design.
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<h2 id="philosophy">3. Design Philosophy</h2>
+
+<h3>3.1 Core Principles</h3>
+
+<p>The program is built on five principles derived from established learning science, adapted for Alessandro's specific cognitive profile.</p>
+
+<h4>Principle 1: Retrieval practice over re-study</h4>
+<p>Re-reading notes, re-watching videos and re-doing flashcards all feel productive but produce shallow encoding. The single most effective revision technique is attempting to recall without prompts, then checking. Every session in the program begins with a retrieval attempt — the student tries to answer questions on the topic before watching any video or reading any notes. Even wrong answers before learning produce better retention than correct answers after passive study. This is the most well-supported finding in learning science (Roediger & Karpicke, 2006; Agarwal et al., 2021).</p>
+
+<h4>Principle 2: Interleaved practice over blocked practice</h4>
+<p>Blocked practice (20 quadratic questions in a row) builds fluency but does not build the "which tool do I use?" discrimination that exam questions demand. Interleaved practice (mixing different topic types within a single practice session) is harder and feels less productive but produces dramatically better exam performance. The 11% on the harder paper is almost entirely explained by having done blocked practice — the student could solve any single topic but could not identify which approach to use when the topic was not signposted. From Week 3, every practice session in the program mixes topics.</p>
+
+<h4>Principle 3: Desirable difficulty</h4>
+<p>Making revision harder in the short term makes exam performance better in the long term. The program deliberately increases difficulty across the 8 weeks: Weeks 1-2 (Foundation) use familiar topics; Weeks 3-4 (Retrieval) introduce recall-first sessions; Weeks 5-6 (Interleaving) mix topics within sessions; Weeks 7-8 (Challenge) present exam-style questions with no topic labels. The Challenge Round on Day 6 each week is designed to replicate the cognitive conditions of the harder exam paper.</p>
+
+<h4>Principle 4: Elaborative encoding through connections</h4>
+<p>Isolated facts are harder to retrieve than connected facts. The program builds connections in three ways: within-subject mixed recall (linking different topics in the same subject), cross-subject paired recall (Maths↔Physics, Chemistry↔Biology, History↔Geography), and Weekly Connection scenarios (real-world stories that connect 2-4 subjects). For a student with 92% fluid reasoning, building these connections is almost effortless because pattern recognition is his strongest cognitive asset.</p>
+
+<h4>Principle 5: Trajectory visibility over grade fixation</h4>
+<p>A student moving from 35% to 50% to 65% is on a better trajectory than one scoring 60% each time. The program makes progress visible through a confidence tracker (traffic light grid that turns green over 8 weeks) and a trajectory panel (week-on-week comparison of green-rated topics). This creates a positive feedback loop — visible progress drives continued effort, which produces more progress.</p>
+
+<h3>3.2 What the Program Does NOT Do</h3>
+
+<p>The program is not a content delivery system. It does not attempt to teach the full GCSE syllabus — that is the school's and the tutor's job. Its role is to lock in what has been taught so it does not fade over the holiday, build retrieval fluency so knowledge is accessible under exam conditions, and establish study habits that will carry through Year 10.</p>
+
+<p>The program introduces a maximum of one new topic per subject per week. The remaining time is devoted to retrieval practice on previously covered topics. This "less is more" approach reflects the reality that deep retention of fewer topics produces better exam results than shallow coverage of many topics.</p>
+
+<!-- ═══════════════════════════════════════ -->
+<h2 id="structure">4. Program Structure</h2>
+
+<h3>4.1 Eight-Week Progression</h3>
+<table>
+<tr><th>Weeks</th><th>Phase</th><th>Focus</th><th>Session structure</th></tr>
+<tr><td>1–2</td><td>Foundation</td><td>Consolidate all tutor-covered topics</td><td>Video → Cornell notes → Flashcards → Mixed recall</td></tr>
+<tr><td>3–4</td><td>Retrieval</td><td>Retrieval-first sessions, spaced repetition</td><td>Retrieval attempt → Video → Cornell → Mixed recall</td></tr>
+<tr><td>5–6</td><td>Interleaving</td><td>Mixed-topic practice, cross-subject links</td><td>Retrieval attempt → Mixed practice → Cross-subject recall</td></tr>
+<tr><td>7–8</td><td>Challenge</td><td>Exam-condition practice, technique focus</td><td>Timed mixed questions → Self-mark → Weak topic drill</td></tr>
+</table>
+
+<h3>4.2 Daily Structure (1.5–2 hours)</h3>
+<table>
+<tr><th>Day</th><th>Block A (45–60 min)</th><th>Block B (45–60 min)</th></tr>
+<tr><td>Day 1</td><td>Maths</td><td>Physics</td></tr>
+<tr><td>Day 2</td><td>Chemistry</td><td>Biology</td></tr>
+<tr><td>Day 3</td><td>History</td><td>Geography</td></tr>
+<tr><td>Day 4</td><td>Physics</td><td>Maths</td></tr>
+<tr><td>Day 5</td><td>Biology</td><td>Chemistry</td></tr>
+<tr><td>Day 6</td><td colspan="2">Challenge Round (from Week 2) — mixed, timed, no topic labels</td></tr>
+<tr><td>Day 7</td><td colspan="2">Rest day — float (choose any day)</td></tr>
+</table>
+
+<h3>4.3 Session Flow</h3>
+<p>Every study session follows this sequence. The order is deliberate and evidence-based.</p>
+
+<div class="feature-box">
+<h4>Step 1: Retrieval attempt (3–5 min) — MOST IMPORTANT</h4>
+<p>Before watching any video or reading any notes, the student attempts 2 specific recall questions on the topic. Wrong answers are fine — attempting retrieval before learning makes the subsequent information stick far more deeply. This is the single highest-leverage intervention in the program.</p>
+
+<h4>Step 2: Watch video (10–15 min)</h4>
+<p>Topic-specific video from tutor-recommended sources (PMT, Cognito, Free Science Lessons). For tutor-covered topics, the exact YouTube links from the lesson log are used first.</p>
+
+<h4>Step 3: Cornell notes (5–10 min for new topics, optional for consolidation)</h4>
+<p>Questions in the left column, notes from the video in the right column, summary in own words at the bottom. The "explain it out loud" prompt after writing exploits Alessandro's strong auditory memory.</p>
+
+<h4>Step 4: Flashcards (5–10 min)</h4>
+<p>PMT flashcard PDFs specific to the Edexcel iGCSE chapter being studied.</p>
+
+<h4>Step 5: Practice questions (10–15 min)</h4>
+<p>PMT topic question papers — direct PDF links to the specific Higher-tier QPs used in the tutor's lessons where available.</p>
+
+<h4>Step 6: Mixed recall (10 min) — no notes</h4>
+<p>Two questions: one from a different topic within the same subject (within-subject interleaving), and one from the cross-subject partner (Maths↔Physics, Chemistry↔Biology, History↔Geography). No notes allowed.</p>
+
+<h4>Step 7: Rate yourself</h4>
+<p>Traffic light self-rating: 🟢 Solid, 🟡 Getting there, 🔴 Need more work. This feeds the confidence tracker and determines what surfaces in the weekly review.</p>
+</div>
+
+<h3>4.4 Cross-Subject Pairings</h3>
+<p>The mixed recall questions at the end of each session draw from the student's cross-subject partner, not from a random subject. The pairings are:</p>
+<table>
+<tr><th>Subject</th><th>Partner</th><th>Rationale</th></tr>
+<tr><td>Maths</td><td>Physics</td><td>Shared formulae, graphs, calculations — manipulation of formulae applies directly</td></tr>
+<tr><td>Chemistry</td><td>Biology</td><td>Both sciences, shared lab technique, molecular structure, diffusion/osmosis</td></tr>
+<tr><td>History</td><td>Geography</td><td>Both humanities, shared source/data analysis skills, structured argument</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════ -->
+<h2 id="features">5. Feature Guide</h2>
+
+<h3>5.1 Traffic Light Confidence Tracker</h3>
+<p>Every topic across all 6 subjects is represented as a dot in the confidence grid on the Overview page. After each session, the student rates their confidence:</p>
+<table>
+<tr><th>Rating</th><th>Meaning</th><th>What happens next</th></tr>
+<tr><td>🟢 Solid</td><td>Can recall and apply without prompting</td><td>Moves to mixed recall pool — appears as questions in other sessions</td></tr>
+<tr><td>🟡 Getting there</td><td>Understands but needs more practice</td><td>Gets paired with the new topic in that subject's next session</td></tr>
+<tr><td>🔴 Need more work</td><td>Not confident, needs to come back</td><td>Surfaces in the alert panel with "spend 5 min on flashcards before starting today's session"</td></tr>
+</table>
+<p>Ratings persist in browser localStorage across sessions. The grid is designed to turn progressively green over 8 weeks — this visual progress is the primary motivational mechanism.</p>
+
+<h3>5.2 Trajectory Panel</h3>
+<p>The Overview page shows a bar chart comparing green-rated topics this week vs last week, for each subject. The delta ("+ 3 ↑") makes progress visible even when absolute numbers are still low. This directly addresses the trajectory framing — progress matters more than any single score.</p>
+
+<h3>5.3 Challenge Round (Day 6, from Week 2)</h3>
+<p>Five pre-written questions per week, combining 2-3 topics each, with no topic labels. The student closes all notes, reads each question, attempts it, then reveals the answer only after a genuine attempt. Questions increase in complexity from Week 2 to Week 8. Week 8 includes a 3-topic combined question (density + area + pressure) that mirrors the harder exam paper format.</p>
+
+<p>The Challenge Round is framed as "practice under pressure" not as a test. The score does not matter — the attempt does. This framing is deliberate: the 11% on the harder paper was partly caused by anxiety under unfamiliar conditions. Repeated low-stakes exposure to those conditions reduces the anxiety response.</p>
+
+<h3>5.4 Weekly Connection (Day 5/6)</h3>
+<p>One curated real-world scenario per week that connects 2-4 subjects studied that week. Each scenario has a relatable context (hot air balloon, phone battery, speed camera, Titanic), 3-4 colour-coded subject branches explaining the science/maths/history behind it, and a "think about this" prompt that requires combining knowledge from multiple subjects.</p>
+
+<p>This feature exploits Alessandro's 92% fluid reasoning — building conceptual networks is nearly effortless for him because pattern recognition is his strongest asset. Connected facts are easier to retrieve than isolated facts because they have multiple entry points for recall.</p>
+
+<!-- ═══════════════════════════════════════ -->
+<h2 id="ai">6. The AI Practice Tutor</h2>
+
+<h3>6.1 Overview</h3>
+<p>The AI Practice Tutor is a Socratic revision partner built directly into the Holiday Program HTML. It uses the Anthropic API (Claude Sonnet) to conduct practice conversations that are tailored to Alessandro's specific context, cognitive profile and current study topic.</p>
+
+<p>It is accessible via the "Practice with AI" tab in the program. No separate account, login or app is required — Alessandro opens the same bookmarked URL on his iPad and clicks the tab.</p>
+
+<h3>6.2 Design Principles (informed by Khan Academy's Khanmigo)</h3>
+<p>The AI tutor's design draws on Khan Academy's three years of research with Khanmigo (700,000+ students). The central finding: an AI tutor that gives direct answers actively harms learning. An AI tutor that uses Socratic questioning — guiding through questions and hints rather than answers — produces measurably better outcomes.</p>
+
+<p>Our implementation goes further than Khanmigo in three specific ways:</p>
+
+<div class="feature-box">
+<h4>1. Context-awareness from the student's own data</h4>
+<p>The system prompt is built dynamically from Alessandro's live data — his current week, phase, topic, and confidence ratings (pulled from localStorage). This means the AI knows which topics are rated 🔴 (asks simpler questions, scaffolds more heavily) and which are 🟢 (immediately pushes to harder, combined-topic questions).</p>
+
+<h4>2. Cognitive profile adaptation</h4>
+<p>The system prompt instructs the AI to break multi-step problems into numbered steps (compensating for average visual working memory), suggest saying formulae out loud (exploiting strong auditory memory), and never ask the student to hold more than 2 pieces of information simultaneously.</p>
+
+<h4>3. Retrieval enforcement</h4>
+<p>Every session opens with "Before we start, tell me one thing you already know about this topic" — reinforcing the retrieval-first methodology used throughout the program.</p>
+</div>
+
+<h3>6.3 Rules (Non-Negotiable)</h3>
+<p>The AI tutor operates under 14 strict rules embedded in its system prompt. These cannot be overridden by the student.</p>
+
+<ol class="rule-list">
+<li>Never give a direct answer to a question. Always respond with a guiding question or hint first.</li>
+<li>Use the Socratic method: "What do you already know?", "What formula might help?", "What is the first step?"</li>
+<li>After two failed attempts, give a structured hint with numbered steps — but still make the student do the final calculation.</li>
+<li>After three failed attempts, walk through the solution step by step, explaining each step clearly.</li>
+<li>When the student gets something right, ask them to explain it back: "Good — now explain to me WHY you did that step."</li>
+<li>Occasionally connect to real-world examples: "This is the same formula that determines if a hot air balloon rises."</li>
+<li>Stay strictly within the Edexcel iGCSE syllabus for Year 9-10 level.</li>
+<li>If the student asks for a direct answer, refuse kindly: "I could tell you, but you won't remember it tomorrow."</li>
+<li>If confidence is 🔴, start with simpler questions and scaffold more. If 🟢, push harder with combined questions.</li>
+<li>Keep responses short — 2-4 sentences maximum. Long explanations overwhelm working memory.</li>
+<li>Suggest saying formulae out loud (exploiting auditory memory strength).</li>
+<li>Frame questions using GCSE command words: Calculate, State, Explain, Describe, Evaluate.</li>
+<li>Never discuss off-topic subjects. "I'm your revision partner — let's stay focused."</li>
+<li>Begin every session with a retrieval question about the current topic.</li>
+</ol>
+
+<h3>6.4 Session Limits</h3>
+<table>
+<tr><th>Limit</th><th>Value</th><th>Rationale</th></tr>
+<tr><td>Exchanges per session</td><td>15 maximum</td><td>Diminishing returns after 15-20 min of intensive retrieval practice</td></tr>
+<tr><td>Sessions per day</td><td>3 maximum</td><td>Prevents overreliance; brain needs consolidation time</td></tr>
+<tr><td>Closing message</td><td>Positive and encouraging</td><td>"Great session! Your brain needs time to consolidate. Come back tomorrow."</td></tr>
+</table>
+
+<h3>6.5 Parent Visibility</h3>
+<p>All AI tutor conversations are stored in browser localStorage. A "View session history" button in the AI tutor tab shows the last 10 sessions with timestamps, topics and conversation excerpts. This allows the parent to spot patterns — if the student is asking the same type of question repeatedly, it signals a gap for the human tutor to address.</p>
+
+<h3>6.6 Estimated Cost</h3>
+<p>The AI tutor uses Claude Sonnet via the Anthropic API. Each session of 15 exchanges costs approximately £0.05-0.15. Over 8 weeks with daily use, the estimated total is £10-20. No separate billing or account setup is required — the API calls are handled through the HTML artifact infrastructure.</p>
+
+<!-- ═══════════════════════════════════════ -->
+<h2 id="connections">7. Weekly Connections</h2>
+
+<h3>7.1 Purpose</h3>
+<p>Weekly Connections are curated real-world scenarios designed to build elaborative encoding — connecting topics across subjects through a single relatable story. They exploit Alessandro's strongest cognitive asset (92% fluid reasoning = pattern recognition) to compensate for his weakest (50% visual working memory = isolated facts are hard to retrieve).</p>
+
+<h3>7.2 Weekly Scenarios</h3>
+<table>
+<tr><th>Week</th><th>Scenario</th><th>Subjects Connected</th></tr>
+<tr><td>1</td><td>Why does a hot air balloon rise?</td><td>Physics (density, pressure) · Maths (formulae) · Chemistry (kinetic theory)</td></tr>
+<tr><td>2</td><td>How does a nuclear power station work?</td><td>Physics (fission, half-life) · Chemistry (atomic structure) · Biology (radiation + cells)</td></tr>
+<tr><td>3</td><td>Why does bread rise?</td><td>Biology (respiration) · Chemistry (reactions, rates) · Maths (%, ratio)</td></tr>
+<tr><td>4</td><td>How does your phone battery work?</td><td>Chemistry (reactivity) · Physics (circuits, V=IR) · Maths (standard form)</td></tr>
+<tr><td>5</td><td>Why do athletes train at altitude?</td><td>Biology (gas exchange) · Chemistry (concentration) · Physics (pressure)</td></tr>
+<tr><td>6</td><td>Why is fast fashion bad for the planet?</td><td>Chemistry (polymers) · Biology (bioaccumulation) · Geography (globalisation)</td></tr>
+<tr><td>7</td><td>How does a speed camera know you were speeding?</td><td>Physics (waves, EM, electricity) · Maths (speed = d/t)</td></tr>
+<tr><td>8</td><td>Why did the Titanic sink?</td><td>Physics (density, buoyancy) · Chemistry (corrosion) · Maths (bounds) · History (source analysis)</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════ -->
+<h2 id="resources">8. Resources and Data Sources</h2>
+
+<h3>8.1 Resource Priority</h3>
+<p>Resources in the program follow a strict priority order to maintain consistency with what Alessandro has already used:</p>
+<table>
+<tr><th>Priority</th><th>Source</th><th>Usage</th></tr>
+<tr><td>1st</td><td>Tutor-recommended YouTube videos</td><td>Exact URLs from 15 lesson logs. Labelled "tutor rec." in the program.</td></tr>
+<tr><td>2nd</td><td>PMT (Physics & Maths Tutor) — Edexcel iGCSE</td><td>Topic-specific flashcard PDFs, question papers (QPs) and mark schemes. Same domain as tutor resources.</td></tr>
+<tr><td>3rd</td><td>BBC Bitesize</td><td>History and Geography topic pages.</td></tr>
+<tr><td>4th</td><td>Save My Exams (SME)</td><td>Supplementary revision notes where PMT gaps exist.</td></tr>
+<tr><td>5th</td><td>Class notes and handouts</td><td>Flagged as PRIMARY for History (especially Browning interview, Wannsee Conference) — cannot be replaced by online resources.</td></tr>
+</table>
+
+<h3>8.2 Tutor Lesson Log</h3>
+<p>The program is informed by a detailed log of 15 tutor lessons conducted between April and June 2026. This log captures topics covered, assessment of student understanding, specific resources used (including direct YouTube and PMT URLs), and homework set. The log is maintained in a private CSV file and is used to determine which topics are consolidation (already taught) vs new introduction in the program.</p>
+
+<!-- ═══════════════════════════════════════ -->
+<h2 id="outcomes">9. Expected Outcomes</h2>
+
+<h3>9.1 Realistic Targets for November 2026</h3>
+<table>
+<tr><th>Subject</th><th>Current (June 2026)</th><th>Target (November 2026)</th><th>Rationale</th></tr>
+<tr><td>Maths</td><td>85% Foundation / 11% harder</td><td>65-70%+ overall</td><td>Retrieval gap, not knowledge gap. Interleaving directly addresses the 11% problem.</td></tr>
+<tr><td>Physics</td><td>~35%</td><td>55-60%</td><td>Knowledge gaps being filled by program + Year 10 teaching. Retrieval practice compounds.</td></tr>
+<tr><td>Chemistry</td><td>~35%</td><td>55-60%</td><td>Strong tutor foundation (15 lessons). Holiday program consolidates + extends.</td></tr>
+<tr><td>Biology</td><td>~35%</td><td>45-50%</td><td>No tutor coverage. Exploratory in holiday; Year 10 teaching does the content work.</td></tr>
+<tr><td>History</td><td>Decent</td><td>Maintain/improve</td><td>Skills-focused in holiday. GCSE content starts Year 10.</td></tr>
+<tr><td>Geography</td><td>Decent</td><td>Maintain/improve</td><td>As above.</td></tr>
+</table>
+
+<h3>9.2 Non-Numeric Outcomes</h3>
+<p>Beyond scores, the program aims to produce three behavioural changes by November:</p>
+
+<div class="callout-green callout">
+<strong>1. Automatic retrieval of core facts and formulae.</strong>
+Manipulation of formulae, balancing equations, density/pressure calculations, bonding types — these should be retrievable without conscious effort, freeing working memory for reasoning.
+</div>
+
+<div class="callout-green callout">
+<strong>2. Established study habits.</strong>
+The retrieval-first approach, Cornell notes method, mixed recall and self-rating should be second nature by September, so Year 10 content can be learned using these techniques from day one.
+</div>
+
+<div class="callout-green callout">
+<strong>3. Positive trajectory and intrinsic motivation.</strong>
+The confidence tracker and trajectory panel should give Alessandro a concrete sense of "this is working" — visible progress that drives continued effort through Year 10.
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<h2 id="parent">10. Parent and Tutor Guide</h2>
+
+<h3>10.1 How to Access</h3>
+<p>The program is hosted on GitHub Pages and accessible at a permanent URL. Alessandro bookmarks this on his iPad home screen. No login required. Updates are pushed via git and go live within 2 minutes.</p>
+
+<h3>10.2 What to Monitor</h3>
+<table>
+<tr><th>Signal</th><th>Where to find it</th><th>What it means</th></tr>
+<tr><td>Confidence grid mostly grey</td><td>Overview tab</td><td>Student is not rating after sessions — remind to use the traffic lights</td></tr>
+<tr><td>Multiple 🔴 on same topic across weeks</td><td>Overview tab</td><td>A persistent gap — flag for the human tutor</td></tr>
+<tr><td>Challenge Round ticks incomplete</td><td>Today tab → Day 6</td><td>Student may be skipping the hardest (and most valuable) session</td></tr>
+<tr><td>AI tutor history shows same question type</td><td>Practice with AI → View history</td><td>A retrieval gap the student is aware of but can't close independently</td></tr>
+<tr><td>Trajectory bars flat or declining</td><td>Overview tab → trajectory panel</td><td>Student may need a schedule adjustment or motivational support</td></tr>
+</table>
+
+<h3>10.3 What NOT to Do</h3>
+<p>Do not use the confidence tracker as a grading tool. It is a self-assessment mechanism designed to build metacognition. If the student feels that honest red ratings will be judged negatively, they will rate everything green and the system becomes useless.</p>
+
+<p>Do not add more topics or extend sessions beyond the designed 1.5-2 hours. The program is deliberately constrained — less breadth, more depth. Adding more content counteracts the retention-first design.</p>
+
+<h3>10.4 When to Involve the Human Tutor</h3>
+<p>The AI tutor is not a replacement for the human tutor. It handles retrieval practice and Socratic questioning well but cannot diagnose deep misconceptions, provide emotional support, or adjust the overall program strategy. Flag the following for the human tutor's attention:</p>
+
+<p>Any topic rated 🔴 for 3+ consecutive weeks. Any topic where the AI tutor conversation shows the student consistently fails after 3 attempts. Any subject where the trajectory panel shows no improvement over 3+ weeks. And any feedback from Alessandro that he finds the program frustrating or demotivating — the program should feel challenging but achievable, never punishing.</p>
+
+<h3>10.5 Technical Notes</h3>
+<p>All data (confidence ratings, tick boxes, AI session history) is stored in browser localStorage on the device. If Alessandro clears Safari data or switches devices, this data resets. Worth mentioning: do not clear Safari data during the 8-week program. The program has no server-side storage — it is entirely self-contained in a single HTML file.</p>
+
+</div>
+</body>
+</html>
