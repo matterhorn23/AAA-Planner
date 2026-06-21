@@ -293,6 +293,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,san
 <div class="view" id="view-tutor"><div style="margin-top:20px" id="tutor-content"></div></div>
 <div class="page-footer">Alessandro · Academic Holiday Program · Year 9→10 · Charterhouse · Target: November 2026</div>
 <script>
+
 // ── CONFIG ──────────────────────────────────────────
 const PHASES={1:'Foundation',2:'Foundation',3:'Retrieval',4:'Retrieval',5:'Interleaving',6:'Interleaving',7:'Challenge',8:'Challenge'};
 const SUBJECTS={maths:{name:'Maths',color:'#185FA5',bg:'#E6F1FB',text:'#0C447C'},physics:{name:'Physics',color:'#0F6E56',bg:'#E1F5EE',text:'#085041'},chemistry:{name:'Chemistry',color:'#8B3A1A',bg:'#FAECE7',text:'#5C2410'},biology:{name:'Biology',color:'#5B3FA6',bg:'#EEE9FC',text:'#3D2872'},history:{name:'History',color:'#7A5C00',bg:'#FDF3D6',text:'#5C4400'},geo:{name:'Geography',color:'#2E6B4F',bg:'#E3F5EC',text:'#1A4A33'}};
@@ -376,8 +377,8 @@ const DAY_PLAN=[
   {day:6,challenge:true},
   {day:7,rest:true},
 ];
-</script>
-<script>
+
+
 const RETRIEVAL_QS={
   m1:["Without notes: solve 2x + y = 10 and x − y = 2","Write the three steps for solving by elimination"],
   m2:["Without notes: rearrange v = u + at to make a the subject","What do you do when the subject appears on both sides?"],
@@ -520,8 +521,8 @@ const CHALLENGE_QS={
   7:[{q:"Ball thrown upward at 20m/s, g=10m/s². Calculate (a) time to max height and (b) max height.",hint:"At max height, v=0. Use v=u+at then s=ut+½at²",ans:"(a) 0=20−10t → t=2s. (b) s=20(2)+½(−10)(4)=40−20=20m"},{q:"Solve: (x+2)/(x−1)=3/2. Show all algebraic working.",hint:"Cross multiply first",ans:"2(x+2)=3(x−1) → 2x+4=3x−3 → x=7"},{q:"Student investigates surface area vs rate of reaction using marble chips+HCl. (a) What to measure? (b) What to control? (c) Sketch results graph.",hint:"Independent, dependent, control variables",ans:"(a) Volume CO₂ over time. (b) Same mass marble, same HCl volume and concentration, same temperature. (c) Time x-axis, volume CO₂ y-axis; steeper line for powder vs chips"},{q:"Plant placed in high-salt solution. Describe and explain what happens to its cells.",hint:"Osmosis — which way does water move?",ans:"Water moves OUT by osmosis (high water potential inside → low outside). Cells become plasmolysed. Plant wilts."},{q:"Analyse this source: 'The soldiers went over the top with great courage.' How useful is this for understanding WW1 soldier experience?",hint:"Provenance, content, tone, limitations",ans:"Useful for: attitude of soldiers, the act of going over the top. Limitations: one perspective; formal/positive language may be propaganda; doesn't show fear, injury or conditions"}],
   8:[{q:"Solid: density 2.5g/cm³, square cross-section 4cm×4cm, length 10cm. Calculate (a) volume, (b) mass, (c) pressure on surface.",hint:"Three calculations in order",ans:"(a) V=4×4×10=160cm³. (b) m=ρV=2.5×160=400g=0.4kg. (c) W=mg=4N. Area=0.04×0.04=0.0016m². P=4/0.0016=2500Pa"},{q:"Rearrange to make x the subject: (a+x)/(b−x)=c",hint:"'Subject appears twice' technique — multiply out first",ans:"a+x=c(b−x) → a+x=cb−cx → x+cx=cb−a → x(1+c)=cb−a → x=(cb−a)/(1+c)"},{q:"Student tests rate of reaction between zinc and H₂SO₄ at different temperatures. (a) Sketch results graph. (b) Explain trend. (c) One control variable.",hint:"Rate increases with temperature — what shape is the graph?",ans:"(a) Graph: steeper gradient at higher temps, plateaus when reactants used up. (b) Higher temp → more KE → more energetic collisions → faster rate. (c) Same mass zinc, same acid concentration"},{q:"'The primary cause of WW1 was the alliance system.' To what extent do you agree?",hint:"Agree (alliances escalated), disagree (nationalism, militarism, assassination), then judgement",ans:"Strong answer: alliances turned regional into world war; BUT nationalism, militarism and assassination all necessary too. Must have clear judgement + justification"},{q:"Ecosystem has 3 trophic levels. 10% energy transfer at each. Sun provides 1,000,000J to producers. Energy at level 3? What does this mean for human diet?",hint:"Apply 10% twice. Think efficiency of plants vs animals.",ans:"Level 2: 100,000J. Level 3: 10,000J. Eating plants directly is 10× more energy-efficient than eating animals — relevant to sustainable diets"}],
 };
-</script>
-<script>
+
+
 // ── STATE ──────────────────────────────────────────
 let currentWeek=1,currentDay=1;
 function ld(k){try{return JSON.parse(localStorage.getItem(k)||'{}')}catch{return{}}}
@@ -739,10 +740,7 @@ function doRate(topicId,rating){
 function prevDay(){if(currentDay>1){currentDay--;renderToday();}else if(currentWeek>1){currentWeek--;currentDay=7;document.getElementById('week-badge').textContent='Week '+currentWeek;renderToday();}}
 function nextDay(){if(currentDay<7){currentDay++;renderToday();}else if(currentWeek<8){currentWeek++;currentDay=1;document.getElementById('week-badge').textContent='Week '+currentWeek;renderToday();}}
 
-// ── INIT ──────────────────────────────────────────
-renderGrid();updateStats();renderAlert();renderTraj();
-</script>
-<script>
+// ── (init moved to end) ──
 // ═══════════════════════════════════════════════════
 // WEEKLY CONNECTION — curated real-world scenarios
 // ═══════════════════════════════════════════════════
@@ -956,7 +954,7 @@ SCAFFOLDING (matched to his cognitive profile):
 - Do NOT routinely suggest "say it out loud" — auditory sequencing is his specific weakness. Written externalisation is his reliable channel
 - "Say it out loud" only works when it is the SOLE task with no simultaneous reading or writing
 
-Celebrate every attempt: "Good — you wrote something down. That's exactly the right instinct." Celebrate trajectory: "You're building real fluency here — this is what it looks like when revision is working."\`;
+Celebrate every attempt: "Good — you wrote something down. That's exactly the right instinct." Celebrate trajectory: "You're building real fluency here — this is what it looks like when revision is working."`;
 }
 
 function renderTutor(){
@@ -1128,7 +1126,9 @@ function toggleHistory(){
   }
   panel.classList.add('show');
 }
-</script>
+// ── INIT ──────────────────────────────────────────
+renderGrid();updateStats();renderAlert();renderTraj();
 
+</script>
 </body>
 </html>
