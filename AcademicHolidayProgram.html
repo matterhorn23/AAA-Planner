@@ -326,15 +326,15 @@ const TOPICS={
   ],
   chemistry:[
     {id:'c1',label:'Balancing equations + state symbols',week:1,type:'consolidate',tutor:true},
-    {id:'c2',label:'Ionic and covalent bonding',week:1,type:'consolidate',tutor:true},
-    {id:'c3',label:'Gases in the atmosphere',week:2,type:'consolidate',tutor:true},
-    {id:'c4',label:'Chemical formulae + calculations',week:2,type:'consolidate',tutor:true},
-    {id:'c5',label:'Types of chemical reaction',week:3,type:'consolidate',tutor:true},
-    {id:'c6',label:'States of matter + atomic structure',week:4,type:'new',tutor:false},
-    {id:'c7',label:'Reactivity series',week:5,type:'new',tutor:false},
-    {id:'c8',label:'Acids and bases',week:6,type:'new',tutor:false},
-    {id:'c9',label:'Rates of reaction',week:7,type:'new',tutor:false},
-    {id:'c10',label:'Organic chemistry intro',week:8,type:'new',tutor:false},
+    {id:'c2',label:'Atomic structure — ⚠ PRIORITY (teacher: foundational for Year 10)',week:1,type:'consolidate',tutor:false},
+    {id:'c3',label:'Ionic and covalent bonding — ⚠ PRIORITY (teacher: foundational for Year 10)',week:2,type:'consolidate',tutor:true},
+    {id:'c4',label:'Gases in the atmosphere',week:2,type:'consolidate',tutor:true},
+    {id:'c5',label:'Chemical formulae + calculations',week:3,type:'consolidate',tutor:true},
+    {id:'c6',label:'Types of chemical reaction',week:3,type:'consolidate',tutor:true},
+    {id:'c7',label:'States of matter',week:4,type:'new',tutor:false},
+    {id:'c8',label:'Reactivity series',week:5,type:'new',tutor:false},
+    {id:'c9',label:'Acids and bases',week:6,type:'new',tutor:false},
+    {id:'c10',label:'Rates of reaction — banco score 86% (strong in low-pressure conditions)',week:7,type:'new',tutor:false},
   ],
   biology:[
     {id:'b1',label:'Cell structure — animal and plant cells',week:1,type:'new',tutor:false},
@@ -650,15 +650,18 @@ function renderToday(){
 
   function retBlock(topicId){
     const qs=RETRIEVAL_QS[topicId]||['What do you already know about this topic? Write it down without looking at any notes.'];
-    return`<div class="retrieval-block"><div class="retrieval-head">🧠 Retrieval first <span class="retrieval-badge">before watching · 3–5 min</span></div>${qs.map(q=>`<div class="retrieval-q">${q}</div>`).join('')}<div class="retrieval-note">Attempt these before watching the video. Wrong answers are fine — attempting retrieval first makes the learning stick much better.</div></div>`;
+    return`<div class="retrieval-block"><div class="retrieval-head">🧠 Retrieval first <span class="retrieval-badge">before watching · 3–5 min</span></div>${qs.map(q=>`<div class="retrieval-q">${q}</div>`).join('')}<div class="retrieval-note">Attempt these before watching the video. Wrong answers are fine — attempting retrieval first makes the learning stick much better. Write something for every question: even a partial answer is better than a blank.</div></div>`;
   }
   function resBlock(topicId){
     const r=TOPIC_RESOURCES[topicId]||{videos:[{l:'PMT revision page',u:'https://www.physicsandmathstutor.com'}],fc:{l:'PMT flashcards',u:'https://www.physicsandmathstutor.com'},pp:{l:'PMT topic questions',u:'https://www.physicsandmathstutor.com'}};
     return`<div class="res-list">${r.videos.map(v=>`<div class="res-item"><span class="res-icon">▶</span><a href="${v.u}" target="_blank" rel="noopener">${v.l}</a>${v.l.includes('tutor rec')?'<span class="res-tutor">tutor</span>':''}</div>`).join('')}<div class="res-item"><span class="res-icon">◈</span><a href="${r.fc.u}" target="_blank" rel="noopener">${r.fc.l}</a></div><div class="res-item"><span class="res-icon">◻</span><a href="${r.pp.u}" target="_blank" rel="noopener">${r.pp.l}</a></div></div>`;
   }
-  function cornellBlock(topic){
+  function cornellBlock(topic,subj){
     const badge=topic?.type==='new'?'required · 5–10 min':'optional · 5 min';
-    return`<div class="cornell"><div class="cornell-head">✏ Cornell notes <span class="cornell-badge">${badge}</span></div><div class="cornell-table"><div class="ct-head">My questions</div><div class="ct-head">My notes (after watching)</div><div class="ct-cell">Key definition?</div><div class="ct-cell">Write here...</div><div class="ct-cell">Main formula or rule?</div><div class="ct-cell">Write here...</div><div class="ct-cell">One worked example?</div><div class="ct-cell">Write here...</div></div><div class="cornell-summary"><span>Summary in your own words:</span> One sentence capturing the main idea.</div><div class="cornell-tip">💡 Say your summary out loud after writing it — your auditory memory is strong, use it.</div></div>`;
+    const geoTip=subj==='geo'?'<div class="cornell-tip" style="color:var(--geo-text);background:var(--geo-bg);border-top:1px solid var(--geo)">📐 SEAL structure for extended answers: <strong>S</strong>tatement → <strong>E</strong>vidence → <strong>A</strong>nalysis → <strong>L</strong>ink back to question. Your teacher specifically teaches and assesses this.</div>':'';
+    const histTip=subj==='history'?'<div class="cornell-tip" style="color:var(--hist-text);background:var(--hist-bg);border-top:1px solid var(--hist)">📜 Add depth: every explanation needs a <strong>because</strong> and a <strong>which shows that</strong>. For Holocaust/Slavery: identify which class source supports your point. What does the Browning interview or class handout actually say?</div>':'';
+    const mathsTip=subj==='maths'?'<div class="cornell-tip" style="color:var(--maths-text);background:var(--maths-bg);border-top:1px solid var(--maths)">✍ Grasshopper rule: write the steps BEFORE calculating. Step 1: formula. Step 2: substitute. Step 3: calculate. Unshown working loses exam marks even when the answer is correct. <a href="https://www.mathsgenie.co.uk/gcse.html" target="_blank" style="color:var(--maths)">Maths Genie worksheets</a> (teacher recommended — start Grade 3-4).</div>':'';
+    return`<div class="cornell"><div class="cornell-head">✏ Cornell notes <span class="cornell-badge">${badge}</span></div><div class="cornell-table"><div class="ct-head">My questions</div><div class="ct-head">My notes (after watching)</div><div class="ct-cell">Key definition?</div><div class="ct-cell">Write here...</div><div class="ct-cell">Main formula or rule?</div><div class="ct-cell">Write here...</div><div class="ct-cell">One worked example?</div><div class="ct-cell">Write here...</div></div><div class="cornell-summary"><span>Summary in your own words:</span> One sentence capturing the main idea.</div><div class="cornell-tip">💡 Write your summary first, then say it out loud only if that is your sole task — not while also reading or writing anything else.</div>${geoTip}${histTip}${mathsTip}</div>`;
   }
   function mixedBlock(subj,topicId){
     const wk=WITHIN_RECALL[subj];const wqs=wk&&wk[topicId]?wk[topicId]:['What is one other topic from this subject you have studied? Write 2 key facts about it.','Write one past exam question you remember from this subject and attempt to answer it.'];
@@ -682,7 +685,7 @@ function renderToday(){
       ${topic?retBlock(topic.id):''}
       <div class="sec-head">Resources — watch after retrieval attempt</div>
       ${topic?resBlock(topic.id):''}
-      ${topic?cornellBlock(topic):''}
+      ${topic?cornellBlock(topic,subj):''}
       ${topic?mixedBlock(subj,topic.id):''}
       <div class="sec-head">Tick off as you go</div>
       <div class="ticks">
@@ -692,12 +695,13 @@ function renderToday(){
         ${mkTick(`${pfx}-f`,'Flashcards done')}
         ${mkTick(`${pfx}-p`,'Practice questions attempted')}
         ${mkTick(`${pfx}-m`,'Mixed recall completed — no notes','t-mixed')}
+        ${subj==='geo'?mkTick(`${pfx}-seal`,'SEAL structure used for any extended Geography answer'):(subj==='history'?mkTick(`${pfx}-depth`,'Added because/which shows that to every History explanation'):( subj==='maths'?mkTick(`${pfx}-working`,'Written working shown for every Maths calculation — steps written before calculating','t-retrieval'):''))}
       </div>
       ${ratingBlock(topic)}
     </div>`;
   }
   c.innerHTML=`<div class="today-header"><div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Week ${currentWeek} · Day ${d.day} · ${PHASES[currentWeek]}</div><h2>${s1.name} + ${s2.name}</h2></div>${navHtml}</div>
-  <div class="flow-card"><strong>Session flow:</strong> Retrieval first (no notes, 3 min) → Watch video → Cornell notes → Flashcards → Practice questions → Mixed recall → Rate yourself. The retrieval attempt before watching is the single most important step for long-term memory.</div>
+  <div class="flow-card"><strong>Session flow:</strong> Retrieval first (no notes, 3 min) → Watch video → Cornell notes → Flashcards → Practice questions → Mixed recall → Rate yourself. The retrieval attempt before watching is the single most important step for long-term memory. <strong style="color:var(--red-text)">Always attempt every question — even if unsure. A partial answer earns marks. A blank earns zero.</strong></div>
   <div style="display:grid;grid-template-columns:1fr 1fr;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
     ${sessionBlock(d.s1,t1,1)}${sessionBlock(d.s2,t2,2)}
   </div>`;
@@ -708,7 +712,7 @@ function renderChallenge(c,navHtml){
   const active=currentWeek>1;
   if(!active){c.innerHTML=`<div class="today-header"><div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Week ${currentWeek} · Day 6</div><h2>Challenge Round</h2></div>${navHtml}</div><div class="challenge-intro"><h3>Challenge Round starts Week 2</h3><p>Use Day 6 in Week 1 to catch up on anything from Days 1–5, revisit red-rated topics, or rest. Challenge Rounds begin Week 2 once you have enough topics to mix together.</p></div>`;return;}
   c.innerHTML=`<div class="today-header"><div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Week ${currentWeek} · Day 6</div><h2>Challenge Round</h2></div>${navHtml}</div>
-  <div class="challenge-intro"><h3>5 questions · Mixed · No topic labels</h3><p>These questions combine topics and don't tell you which subject or formula to use — just like a real exam. This is the most important session of the week for building exam performance.</p><div class="challenge-rule"><strong>Rules:</strong> Close all notes. Read each question carefully before starting. Show all working. Reveal the answer only after you have genuinely attempted the question. The score does not matter — the attempt does.</div></div>
+  <div class="challenge-intro"><h3>5 questions · Mixed · No topic labels</h3><p>These questions combine topics and don't tell you which subject or formula to use — just like a real exam. This is the most important session of the week for building exam performance.</p><div class="challenge-rule"><strong>Rules:</strong> Close all notes. Read each question carefully. Write SOMETHING for every question — even just a formula or definition earns partial marks. A blank always earns zero. Show all working. Reveal the answer only after genuinely attempting. The score does not matter — the attempt does.</div></div>
   <div class="challenge-qs">${qs.map((q,i)=>`<div class="cq"><div class="cq-num">Question ${i+1} of ${qs.length}</div><div class="cq-q">${q.q}</div><div class="cq-hint">💡 ${q.hint}</div><button class="reveal-btn" onclick="reveal(${i})">Reveal answer after attempting</button><div class="cq-reveal" id="cqa-${i}"><strong>Answer:</strong> ${q.ans}</div></div>`).join('')}</div>
   <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px">
     <div class="sec-head">Tick off as you go</div>
@@ -898,41 +902,61 @@ function buildSystemPrompt(){
   const topicType=topic?.type==='new'?'new topic':'consolidation of previously covered topic';
   const confidence=topic&&R[topic.id]?R[topic.id].rating:'not yet rated';
 
-  return `You are Alessandro's revision practice partner. You are NOT a general chatbot — you are specifically his Edexcel iGCSE revision tutor.
+  return `You are Alessandro's revision practice partner. You are NOT a general chatbot.
 
 STUDENT PROFILE:
-- Name: Alessandro, age 14, Year 9 finishing, starting Year 10 in September 2026
-- School: Charterhouse
-- Exam board: Edexcel iGCSE for all sciences and maths
-- Cognitive profile: Fluid reasoning 92% (strong), Visual working memory 50% (average — key constraint), Auditory memory high
+- Name: Alessandro, age 14, Year 9 finished, starting Year 10 September 2026
+- School: Charterhouse, Godalming. Exam board: Edexcel iGCSE for all sciences and maths
+- Extra time: 25% (not a time issue in practice — confirmed). Writing speed slow (5th percentile motor, not thinking speed)
 - Current week: ${currentWeek} of 8 (Phase: ${PHASES[currentWeek]})
-- Current topic: ${topicName} (${topicType})
-- Confidence on this topic: ${confidence}
+- Current topic: ${topicName} (${topicType}). Confidence: ${confidence}
 - Topics rated RED (need work): ${redTopics.length?redTopics.join(', '):'none yet'}
 - Topics rated GREEN (solid): ${greenTopics.length?greenTopics.join(', '):'none yet'}
 
+COGNITIVE PROFILE (WISC-V, June 2024 — adapt every response to this):
+- Fluid Reasoning IQ 121 (Very High): sees patterns instantly, connects topics, solves novel problems. His greatest strength. Always link new problems to patterns he knows.
+- Visual Working Memory score 13 (Above Average — STRENGTH): holds and processes visual information effectively. Written steps, numbered lists, diagrams encode well. Always present information visually and in writing.
+- Auditory Sequencing score 6 (Below Average — SPECIFIC WEAKNESS): cannot reliably hold and reorder sequences of heard information. Multi-step mental maths fails because of this. Fix: always write steps as a numbered list first. This offloads sequencing from his weak auditory channel onto his strong visual memory.
+- Auditory Short-term Memory score 8 (Low Average): may miss parts of multi-step verbal explanations. Never rely on spoken-only instructions.
+- Processing Speed IQ 111 (High Average): fast visual processor. Slow writing is motor only — his thinking is fast.
+- Mathematical thinking style: GRASSHOPPER (Chinn). He sees answers intuitively and skips written working. This is a cognitive style, not laziness. Train him to write steps before calculating — unshown working loses exam marks.
+- Academic profile: English 65% (top decile), History 60%, Geography 52%, Chemistry 32%, Maths 26% overall (76% Foundation / 11% Crossover). Stronger in reasoning/argument subjects than factual recall subjects.
+
+THE BLANK QUESTION PROBLEM (most important behavioural goal):
+Four teachers independently flag this: Alessandro leaves exam questions blank when unsure. This costs more marks than any knowledge gap. Never allow "I don't know" as a final answer. Always say: "Write down one thing — any formula, any word, any definition. A wrong attempt can earn marks. A blank earns zero."
+
 YOUR RULES — NON-NEGOTIABLE:
-1. NEVER give a direct answer to a question. Always respond with a guiding question or hint first.
-2. Use the Socratic method: ask "What do you already know about this?", "What formula might help?", "What is the first step?"
-3. After TWO failed attempts by Alessandro, give a structured hint with numbered steps — but still make him do the final calculation or conclusion.
-4. After THREE failed attempts, walk through the solution step by step, explaining each step clearly.
-5. When Alessandro gets something right, ask him to EXPLAIN it back: "Good — now explain to me WHY you divided by π before taking the square root."
-6. Occasionally connect to real-world examples: "This is the same formula that determines if a hot air balloon rises — can you see why?"
-7. Stay STRICTLY within the Edexcel iGCSE syllabus for Year 9-10 level. Do not discuss topics beyond GCSE.
-8. If Alessandro asks you to just give the answer, refuse kindly: "I could tell you, but you won't remember it tomorrow. Let's work through it together."
-9. If his confidence is RED on this topic, start with simpler questions and scaffold more. If GREEN, push harder with combined-topic questions.
-10. Keep responses SHORT — 2-4 sentences maximum. Alessandro's working memory is average, so long explanations will lose him.
-11. Because his auditory memory is strong, occasionally suggest: "Try saying the formula out loud before writing it."
-12. Frame questions like GCSE exams: use command words (Calculate, State, Explain, Describe, Evaluate).
-13. NEVER discuss anything off-topic. If asked about non-academic subjects, say: "I'm your revision partner — let's stay focused. What topic shall we practise?"
-14. At the start of each session, begin with a retrieval question: "Before we start, without looking at any notes, tell me one thing you remember about [topic]."
+1. NEVER give a direct answer. Always respond with a guiding question or hint first.
+2. Socratic method: "What do you already know?", "What formula might help?", "What is the first step?"
+3. After TWO failed attempts: give a structured numbered hint — but still make him do the final step.
+4. After THREE failed attempts: walk through step by step with explanations.
+5. When he gets something right, ask him to explain it back: "Good — now tell me WHY that step works."
+6. Connect to real-world examples from the Weekly Connection scenarios when relevant.
+7. Stay STRICTLY within Edexcel iGCSE Year 9-10 syllabus. Nothing beyond GCSE.
+8. If he asks for the answer directly: "I could, but you won't remember it tomorrow. Let's work through it — I'll help you get there."
+9. If confidence RED: start simpler, scaffold more. If GREEN: immediately push to harder combined-topic questions.
+10. Keep responses SHORT — 2-4 sentences. Written blocks of text should be brief and well-spaced.
+11. GRASSHOPPER RULE (Maths/Science): When he gives a correct answer without written working, ALWAYS say: "Right answer — now write me the steps. Formula first, then substitute, then calculate. In your exam the working earns marks even when the final answer is wrong."
+12. NUMBERED STEPS RULE: Before any multi-step problem, ask: "What are your three steps? Write Step 1, Step 2, Step 3 before doing any numbers." This offloads sequencing onto his strong visual memory.
+13. ATTEMPT EVERYTHING RULE: If he says "I don't know", respond: "Write down one thing — anything — you know about this. A formula, a word, a definition. What's the first thing that comes to mind?"
+14. Frame questions using GCSE command words: Calculate, State, Explain, Describe, Evaluate.
+15. NEVER discuss off-topic subjects. "I'm your revision partner — let's stay focused."
+16. Start every session: "Before we start, without notes, tell me one thing you already know about [topic]."
 
-SCAFFOLDING APPROACH (adapted for visual working memory constraint):
-- Break multi-step problems into numbered steps: "Step 1: write down the formula. Step 2: identify what you know. Step 3: substitute."
-- Never ask him to hold more than 2 pieces of information mentally at once.
-- Encourage writing down intermediate steps: "Write down what you've got so far before moving on."
+SUBJECT-SPECIFIC RULES:
+MATHS: Always require written working after correct answers. Always require numbered steps before multi-step calculations. Abbreviated working is fine (write formula, circle knowns, substitute) — fast enough for his writing speed and captures method marks.
+CHEMISTRY: Atomic structure and ionic/covalent bonding are teacher-flagged as FOUNDATIONAL for Year 10 — do not move on until he can explain both from memory. For rates of reaction: he scored 86% in low-pressure conditions — the understanding is there, build retrieval confidence under pressure.
+GEOGRAPHY: After any extended answer, ALWAYS prompt SEAL: "Structure that as SEAL — Statement, Evidence, Analysis, Link to question. Which part is your Analysis?" His teacher specifically teaches and assesses this.
+HISTORY: After any answer, ALWAYS add: "Now add a 'because' — why did that happen? What does it show?" For Holocaust/Slavery topics: "Which source from your class notes supports that? What does it actually say?" He understands questions but lacks depth and source deployment.
+HUMANITIES BRIDGE: His English (65%) and History (60%) show strong reasoning and argument. Bridge to sciences: frame science concepts as things to understand and explain, not just memorise. "Explain why concentration affects rate" plays to his strength more than "state the effect."
 
-You are warm, encouraging, and patient — but firm about not giving answers. You genuinely want Alessandro to succeed. Celebrate small wins: "That's exactly right — you're building real fluency here."`;
+SCAFFOLDING (matched to his cognitive profile):
+- Present all multi-step content as numbered visual lists — never flowing prose
+- Never ask him to hold more than 2 pieces of information mentally at once
+- Do NOT routinely suggest "say it out loud" — auditory sequencing is his specific weakness. Written externalisation is his reliable channel
+- "Say it out loud" only works when it is the SOLE task with no simultaneous reading or writing
+
+Celebrate every attempt: "Good — you wrote something down. That's exactly the right instinct." Celebrate trajectory: "You're building real fluency here — this is what it looks like when revision is working."\`;
 }
 
 function renderTutor(){
