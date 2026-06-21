@@ -194,6 +194,49 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,san
 .pill-geo{background:var(--geo-bg);color:var(--geo-text)}
 .pill-challenge{background:var(--challenge-bg);color:var(--challenge-text)}
 .pill-rest{background:#F1EFE8;color:#5F5E5A}
+/* ── Weekly Connection ── */
+.connection-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
+.connection-header{background:linear-gradient(135deg,var(--navy),var(--navy-mid));color:#fff;padding:20px}
+.connection-header h3{font-family:Georgia,serif;font-size:20px;font-weight:normal;margin-bottom:6px}
+.connection-header p{font-size:12px;opacity:.75}
+.connection-scenario{padding:16px;font-size:13px;color:var(--text);line-height:1.7;border-bottom:1px solid var(--border)}
+.connection-branches{padding:16px;display:flex;flex-direction:column;gap:12px}
+.branch{border-left:3px solid var(--border);padding:8px 12px;border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+.branch-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.branch-text{font-size:12px;color:var(--muted);line-height:1.5}
+.connection-prompt{background:var(--challenge-bg);border-top:1px solid var(--challenge);padding:14px 16px}
+.connection-prompt strong{color:var(--challenge-text);font-size:12px}
+.connection-prompt p{font-size:12px;color:var(--challenge-text);margin-top:4px;opacity:.85}
+/* ── AI Tutor Chat ── */
+.tutor-wrap{max-width:640px;margin:0 auto}
+.tutor-header{background:var(--card);border:1px solid var(--border);border-radius:var(--radius) var(--radius) 0 0;padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+.tutor-header h3{font-family:Georgia,serif;font-size:16px;font-weight:normal}
+.tutor-meta{font-size:11px;color:var(--muted)}
+.tutor-topic{font-size:11px;background:var(--navy-light);color:var(--navy-mid);padding:2px 8px;border-radius:8px;margin-top:4px;display:inline-block}
+.session-counter{font-size:11px;color:var(--muted);background:var(--page-bg);padding:2px 8px;border-radius:8px}
+.chat-messages{background:var(--page-bg);border-left:1px solid var(--border);border-right:1px solid var(--border);padding:16px;min-height:300px;max-height:500px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:85%;padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.5}
+.msg-ai{background:var(--card);border:1px solid var(--border);align-self:flex-start;border-bottom-left-radius:4px}
+.msg-user{background:var(--navy);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.msg-system{background:var(--amber-bg);border:1px solid var(--amber);align-self:center;text-align:center;font-size:11px;color:var(--amber-text);max-width:90%;border-radius:8px;padding:8px 12px}
+.chat-input-wrap{display:flex;gap:8px;padding:12px 16px;background:var(--card);border:1px solid var(--border);border-radius:0 0 var(--radius) var(--radius);border-top:none}
+.chat-input{flex:1;border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 12px;font-size:13px;font-family:inherit;outline:none;resize:none;min-height:38px;max-height:100px}
+.chat-input:focus{border-color:var(--navy)}
+.chat-send{background:var(--navy);color:#fff;border:none;border-radius:var(--radius-sm);padding:8px 16px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .15s}
+.chat-send:hover{background:var(--navy-mid)}
+.chat-send:disabled{opacity:.4;cursor:default}
+.tutor-footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;flex-wrap:wrap;gap:8px}
+.tutor-btn{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 12px;font-size:12px;cursor:pointer;color:var(--muted);transition:background .15s}
+.tutor-btn:hover{background:var(--page-bg)}
+/* ── Parent History ── */
+.history-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-top:16px;max-height:400px;overflow-y:auto;display:none}
+.history-panel.show{display:block}
+.history-session{border-bottom:1px solid var(--border);padding:12px 16px}
+.history-session:last-child{border-bottom:none}
+.history-session-head{font-size:11px;color:var(--muted);font-weight:500;margin-bottom:8px}
+.history-msg{font-size:12px;margin-bottom:4px;padding:4px 8px;border-radius:6px}
+.history-msg.ai{background:var(--page-bg);color:var(--muted)}
+.history-msg.user{background:var(--navy-light);color:var(--navy)}
 </style>
 </head>
 <body>
@@ -205,6 +248,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,san
   <div class="nav-tab active" onclick="showView('overview')">Overview</div>
   <div class="nav-tab" onclick="showView('schedule')">Weekly Schedule</div>
   <div class="nav-tab" onclick="showView('today')">Today</div>
+  <div class="nav-tab" onclick="showView('connection')">Weekly Connection</div>
+  <div class="nav-tab" onclick="showView('tutor')">Practice with AI</div>
 </div>
 <div class="view active" id="view-overview"><div style="margin-top:20px">
 <div class="stats-row">
@@ -242,6 +287,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,san
   <div class="days-grid" id="sched-days"></div>
 </div></div>
 <div class="view" id="view-today"><div style="margin-top:20px" id="today-content"></div></div>
+<!-- WEEKLY CONNECTION -->
+<div class="view" id="view-connection"><div style="margin-top:20px" id="connection-content"></div></div>
+<!-- AI TUTOR -->
+<div class="view" id="view-tutor"><div style="margin-top:20px" id="tutor-content"></div></div>
 <div class="page-footer">Alessandro · Academic Holiday Program · Year 9→10 · Charterhouse · Target: November 2026</div>
 <script>
 // ── CONFIG ──────────────────────────────────────────
@@ -487,10 +536,12 @@ function showView(v){
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
-  const idx={overview:0,schedule:1,today:2};
+  const idx={overview:0,schedule:1,today:2,connection:3,tutor:4};
   document.querySelectorAll('.nav-tab')[idx[v]].classList.add('active');
   if(v==='schedule')renderSched();
   if(v==='today')renderToday();
+  if(v==='connection')renderConnection();
+  if(v==='tutor')renderTutor();
 }
 
 // ── OVERVIEW ──────────────────────────────────────
@@ -687,5 +738,373 @@ function nextDay(){if(currentDay<7){currentDay++;renderToday();}else if(currentW
 // ── INIT ──────────────────────────────────────────
 renderGrid();updateStats();renderAlert();renderTraj();
 </script>
+<script>
+// ═══════════════════════════════════════════════════
+// WEEKLY CONNECTION — curated real-world scenarios
+// ═══════════════════════════════════════════════════
+const WEEKLY_CONNECTIONS = {
+  1:{
+    title:"Why does a hot air balloon rise?",
+    scenario:"A hot air balloon floats above a field. Inside the envelope, a gas burner heats air. The balloon rises smoothly, carrying passengers hundreds of metres up. But why does heating air inside a fabric bag make it float? The answer connects three subjects you studied this week.",
+    branches:[
+      {subj:'physics',label:'Physics — density and pressure',text:'Hot air is less dense than cool air. The balloon rises because its overall density (bag + hot air + basket) is less than the surrounding atmosphere. This is exactly ρ=m/V — same mass of air in a larger volume (it expands when heated) means lower density. The pressure difference between top and bottom of the balloon creates an upward buoyant force.'},
+      {subj:'maths',label:'Maths — manipulation of formulae',text:'To calculate whether the balloon will rise, you rearrange ρ=m/V to find volume: V=m/ρ. If the heated air expands to a volume where its density is lower than surrounding air, the balloon lifts. The same manipulation skill you practised this week in simultaneous equations applies directly here.'},
+      {subj:'chemistry',label:'Chemistry — kinetic theory and gas behaviour',text:'When you heat air, the gas particles gain kinetic energy and move faster. They spread apart, increasing the volume. This is kinetic theory in action — the same concept you revised in Chemistry this week. The gas doesn\'t change chemically — it\'s the same nitrogen and oxygen — but its physical behaviour changes because of energy input.'},
+    ],
+    prompt:"If you wanted to make a balloon rise faster, would you (a) heat the air more, (b) use a lighter gas like helium, or (c) make the envelope bigger? Explain which approach changes which variable in the density formula.",
+  },
+  2:{
+    title:"How does a nuclear power station work — and why are people afraid of it?",
+    scenario:"A nuclear power station produces enough electricity for a city, from fuel rods the size of your finger. No smoke, no CO₂, no burning. Yet many people oppose nuclear power. The physics of how it works, the chemistry of the fuel, and the biology of what radiation does to living cells all connect here.",
+    branches:[
+      {subj:'physics',label:'Physics — fission, half-life and energy',text:'Nuclear fission splits uranium-235 atoms. Each split releases enormous energy (millions of times more than burning coal) and 2-3 neutrons that hit other atoms, causing a chain reaction. Half-life determines how long waste remains dangerous — some isotopes have half-lives of thousands of years.'},
+      {subj:'chemistry',label:'Chemistry — atomic structure and isotopes',text:'Uranium-235 and Uranium-238 are isotopes — same number of protons (92), different neutrons. Only U-235 is fissile. The fuel rods contain enriched uranium where the proportion of U-235 has been increased. This connects directly to atomic structure from your chemistry revision.'},
+      {subj:'biology',label:'Biology — radiation and living cells',text:'Alpha, beta and gamma radiation can damage DNA in living cells. Alpha is most ionising but can\'t penetrate skin. Gamma passes through the body and can damage cells deep inside. This is why nuclear waste storage and reactor shielding matter — it\'s the biology of radiation that makes people afraid.'},
+    ],
+    prompt:"A radioactive isotope has a half-life of 30 years. After 90 years, what fraction of the original sample remains? Now imagine you\'re a politician — would you support building a new nuclear power station? What scientific evidence would you use to support your decision?",
+  },
+  3:{
+    title:"Why does bread rise — and what does it have in common with a chemistry experiment?",
+    scenario:"You mix flour, water, yeast and sugar. Leave it for an hour and the dough doubles in size. Inside, invisible organisms are doing chemistry, producing a gas that gets trapped in a protein network. The same principles apply to the laboratory experiments you study in Chemistry.",
+    branches:[
+      {subj:'biology',label:'Biology — respiration and yeast as a living organism',text:'Yeast is a single-celled fungus. It performs anaerobic respiration: glucose → ethanol + carbon dioxide. The CO₂ gas makes bubbles in the dough, causing it to rise. This is the same gas exchange concept you studied this week — organisms taking in substances and releasing waste products.'},
+      {subj:'chemistry',label:'Chemistry — reactions, gas production and rates',text:'The yeast reaction is a chemical reaction with reactants (glucose) and products (ethanol + CO₂). The rate of this reaction depends on temperature — warm dough rises faster because particles have more kinetic energy. Too hot and the yeast dies (proteins denature). Same collision theory that affects any rate of reaction.'},
+      {subj:'maths',label:'Maths — percentages and ratio',text:'A recipe says use flour and water in ratio 5:3. If you want 800g of dough, how much of each? And if the dough rises by 120% of its original volume, what is its new volume? The same percentage and ratio skills from your Maths revision this week.'},
+    ],
+    prompt:"If you put bread dough in a fridge instead of a warm place, it still rises — but much more slowly. Explain why using collision theory. Then calculate: if dough at 30°C doubles in 1 hour, and dough at 5°C doubles in 8 hours, what is the ratio of these rates?",
+  },
+  4:{
+    title:"How does your phone battery work?",
+    scenario:"You plug your phone in for 30 minutes and it goes from 15% to 60%. Inside the battery, atoms are giving up electrons, which flow through a circuit powering your screen, speaker and processor. When you unplug, the reverse chemical reaction gradually runs down. Chemistry and physics working together in your pocket.",
+    branches:[
+      {subj:'chemistry',label:'Chemistry — reactivity and electron transfer',text:'A lithium-ion battery uses chemical reactions where lithium atoms lose electrons (oxidation) at one electrode and gain them at another (reduction). This is the same electron transfer concept as ionic bonding — metals losing electrons. The reactivity series tells you which metals lose electrons most easily.'},
+      {subj:'physics',label:'Physics — circuits, voltage and current',text:'The electrons flowing from one electrode to the other through the circuit IS the current. Voltage is the "push" driving them around. V=IR applies — your phone\'s resistance determines how much current flows at a given voltage. When the battery dies, the chemical reaction has finished and there\'s no more voltage to push electrons.'},
+      {subj:'maths',label:'Maths — ratio, standard form and graphs',text:'Phone batteries are measured in milliamp-hours (mAh) — typically 3000-5000 mAh = 3-5 Ah. That\'s 0.003-0.005 kAh in standard form: 3×10⁻³ kAh. Battery discharge graphs show voltage over time — reading and interpreting these uses the graph skills from your Maths revision.'},
+    ],
+    prompt:"Your phone battery is 4000 mAh. If the screen uses 400 mA of current, how many hours of screen time do you get? Write this as a formula, then rearrange it to find how much current you'd need to limit usage to make the battery last exactly 12 hours.",
+  },
+  5:{
+    title:"Why do athletes train at altitude?",
+    scenario:"Elite runners spend weeks training in the mountains at 2000-3000 metres before competing at sea level. They\'re not just running up hills — they\'re deliberately changing their blood chemistry. When they come back down, they perform better. This is biology, chemistry and physics working together.",
+    branches:[
+      {subj:'biology',label:'Biology — gas exchange, haemoglobin and red blood cells',text:'At altitude, there\'s less oxygen per breath (same percentage but lower air pressure means fewer molecules per lungful). Your body responds by producing more red blood cells and more haemoglobin to capture what oxygen is available. Back at sea level, you have extra oxygen-carrying capacity — like an engine with a bigger fuel tank.'},
+      {subj:'chemistry',label:'Chemistry — concentration gradients and equilibrium',text:'Oxygen diffuses from high concentration (air in alveoli) to low concentration (blood). At altitude, the concentration gradient is smaller because there\'s less O₂ in the air. The body\'s response — more haemoglobin — increases the blood\'s capacity to pick up O₂ even with a weaker gradient. This is the same diffusion concept from Chemistry.'},
+      {subj:'physics',label:'Physics — pressure and the atmosphere',text:'Atmospheric pressure decreases with altitude because there\'s less air above you pushing down. At 3000m, pressure is about 70% of sea level. P=F/A still applies — same area, less force from the column of air above. This lower pressure is why there are fewer gas molecules per breath.'},
+    ],
+    prompt:"At sea level, atmospheric pressure is about 101,000 Pa. At 3000m, it\'s about 70,000 Pa. Calculate the percentage decrease. Then explain: if an athlete trains at altitude for 4 weeks, why does the benefit fade after 2-3 weeks back at sea level? (Think about what the body does when it detects \'enough\' oxygen again.)",
+  },
+  6:{
+    title:"Why is fast fashion bad for the planet?",
+    scenario:"You buy a £5 polyester T-shirt. You wear it a few times, it goes in the wash, tiny fibres break off and flow into rivers. The dye contains chemicals. The fabric was made from oil. After a month you throw it away. Every step of this journey connects to science you\'re studying right now.",
+    branches:[
+      {subj:'chemistry',label:'Chemistry — polymers, monomers and PFAS',text:'Polyester is a polymer — long chains made by joining monomers (a diacid + a diol) in a condensation reaction. Many fabrics are coated with PFAS ("forever chemicals") to repel water. PFAS contain extremely strong carbon-fluorine bonds that don\'t break down in the environment. When you wash the shirt, microplastic fibres and PFAS enter the water supply.'},
+      {subj:'biology',label:'Biology — ecosystems, food chains and bioaccumulation',text:'Microplastics and chemicals from clothing enter rivers and oceans. Small organisms ingest them. Fish eat those organisms. Larger fish eat smaller fish. At each level, the concentration of toxins increases — this is bioaccumulation. The same energy transfer and food chain concepts from your ecology revision, but now tracking pollution instead of energy.'},
+      {subj:'geo',label:'Geography — globalisation, urban environments and sustainability',text:'The shirt was probably made in Bangladesh or Vietnam (globalisation), transported by container ship (carbon emissions), sold in an urban retail park (urban environments), and ends up in landfill or incinerated (waste management). The geography of fast fashion connects production, consumption and environmental impact across continents.'},
+    ],
+    prompt:"If a polyester shirt sheds 700,000 microplastic fibres per wash, and the average person does 5 washes of synthetic clothing per week, how many fibres enter the water system per person per year? Write your answer in standard form. Then explain: why are carbon-fluorine bonds in PFAS so difficult to break? (Think about bond strength from Chemistry.)",
+  },
+  7:{
+    title:"How does a speed camera know you were speeding?",
+    scenario:"You\'re in a car doing 35mph in a 30mph zone. A flash goes off. Three days later, a fine arrives. How did the camera know your exact speed, identify your car, and calculate that you were over the limit? Physics, maths and technology working together in a fraction of a second.",
+    branches:[
+      {subj:'physics',label:'Physics — waves, EM spectrum and electricity',text:'The camera uses infrared sensors (EM spectrum — just below visible light) to detect your car approaching. It measures the time between two points on the road. The flash uses visible light. The image is captured by a digital sensor powered by an electrical circuit. Modern cameras use radar — radio waves bounced off your car, frequency shift measured (Doppler effect).'},
+      {subj:'maths',label:'Maths — speed = distance/time, rearranging formulae',text:'The camera measures the time (t) your car takes to travel between two lines painted on the road, a known distance (d) apart. Speed = distance/time. If d = 1.5 metres and t = 0.029 seconds, speed = 1.5/0.029 = 51.7 m/s. Convert to mph: 51.7 × 2.237 = 115.7 mph. The same manipulation of formulae and unit conversion from your Maths sessions.'},
+      {subj:'physics',label:'Physics — electricity powering the system',text:'The camera, sensors, flash, computer and communications module all run on electricity. The circuit needs reliable voltage — V=IR determines the current through each component. A failure in any part of the circuit means no fine. This is why cameras have backup power and regular testing — the physics of circuits matters for real-world systems.'},
+    ],
+    prompt:"A speed camera has detection lines 1.5 metres apart. A car crosses them in 0.031 seconds. (a) Calculate the speed in m/s. (b) Convert to mph (multiply by 2.237). (c) The speed limit is 30 mph. By how much was the driver over the limit? (d) Cameras have a tolerance of 10% + 2mph. Was this driver actually fined? Show your working.",
+  },
+  8:{
+    title:"Why did the Titanic sink — and could it have been prevented?",
+    scenario:"The \'unsinkable\' ship hit an iceberg at 11:40pm on 14 April 1912 and sank in under 3 hours. 1,517 people died. The disaster involved physics (why ice floats, why steel sinks), chemistry (the metal that failed), maths (the calculations that were wrong), and history (the source analysis that revealed what really happened).",
+    branches:[
+      {subj:'physics',label:'Physics — density, pressure and buoyancy',text:'Ice floats because solid water is LESS dense than liquid water (unusual for a substance). The iceberg was 90% underwater — only 10% visible. The ship floated because its overall density (steel hull + air inside) was less than water. When compartments flooded, the average density exceeded water and it sank. Pressure increased on the lower hull as it tilted — P=ρgh.'},
+      {subj:'chemistry',label:'Chemistry — iron, corrosion and material properties',text:'The Titanic\'s hull was made of wrought iron with a high sulphur content. In freezing North Atlantic water, this made the metal brittle rather than flexible. When the iceberg scraped along the hull, the rivets shattered instead of bending. Modern steel would have deformed but held. The chemistry of the material was a contributing factor to the disaster.'},
+      {subj:'maths',label:'Maths — bounds, estimation and calculation errors',text:'The lookouts estimated the iceberg distance incorrectly — their binoculars were locked in a cabinet they didn\'t have the key to. The ship\'s speed was 22.5 knots. The turning distance at that speed was far longer than the distance to the iceberg when spotted. This is a bounds and estimation problem — the upper bound of stopping distance exceeded the lower bound of sighting distance. The maths made the collision inevitable once the iceberg was spotted too late.'},
+      {subj:'history',label:'History — source analysis and competing narratives',text:'The British and American inquiries into the disaster produced different conclusions. The British inquiry largely exonerated the ship\'s officers. The American inquiry blamed Captain Smith for excessive speed. Survivor accounts contradicted official reports. This is source analysis in practice — whose account do you trust, and why? The same skills you\'re building in History revision.'},
+    ],
+    prompt:"The Titanic was travelling at 22.5 knots (1 knot = 0.514 m/s). The iceberg was spotted approximately 500 metres ahead. (a) Convert the ship\'s speed to m/s. (b) At that speed, how many seconds until impact? (c) If the ship needed 850 metres to stop from that speed, explain why the collision was unavoidable using the concept of bounds. (d) As a historian, evaluate this source: \'The ship was unsinkable.\' How useful is this claim for understanding why so many people died?",
+  },
+};
+
+function renderConnection(){
+  const c=document.getElementById('connection-content');
+  const conn=WEEKLY_CONNECTIONS[currentWeek];
+  if(!conn){c.innerHTML='<p style="color:var(--muted)">No connection available for this week.</p>';return;}
+  const subColors={physics:'var(--physics)',maths:'var(--maths)',chemistry:'var(--chemistry)',biology:'var(--biology)',history:'var(--history)',geo:'var(--geo)'};
+  const subBgs={physics:'var(--physics-bg)',maths:'var(--maths-bg)',chemistry:'var(--chem-bg)',biology:'var(--bio-bg)',history:'var(--hist-bg)',geo:'var(--geo-bg)'};
+  c.innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Week ${currentWeek} · Weekly Connection</div>
+        <h2 style="font-family:Georgia,serif;font-size:22px;font-weight:normal;color:var(--navy)">${conn.title}</h2>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="week-btn" onclick="currentWeek=Math.max(1,currentWeek-1);document.getElementById('week-badge').textContent='Week '+currentWeek;renderConnection()">← Prev week</button>
+        <button class="week-btn" onclick="currentWeek=Math.min(8,currentWeek+1);document.getElementById('week-badge').textContent='Week '+currentWeek;renderConnection()">Next week →</button>
+      </div>
+    </div>
+    <div class="connection-card">
+      <div class="connection-header">
+        <h3>${conn.title}</h3>
+        <p>A real-world scenario connecting what you studied this week</p>
+      </div>
+      <div class="connection-scenario">${conn.scenario}</div>
+      <div class="connection-branches">
+        ${conn.branches.map(b=>`<div class="branch" style="border-left-color:${subColors[b.subj]};background:${subBgs[b.subj]}">
+          <div class="branch-label" style="color:${subColors[b.subj]}">${b.label}</div>
+          <div class="branch-text">${b.text}</div>
+        </div>`).join('')}
+      </div>
+      <div class="connection-prompt">
+        <strong>💡 Think about this:</strong>
+        <p>${conn.prompt}</p>
+      </div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px">
+      <div class="sec-head">After reading</div>
+      <div class="ticks">
+        ${mkTick(`conn-${currentWeek}-1`,'Read the scenario and all branches')}
+        ${mkTick(`conn-${currentWeek}-2`,'Attempted the thinking prompt — written or spoken')}
+        ${mkTick(`conn-${currentWeek}-3`,'Can name at least 2 subject connections from memory')}
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════
+// AI TUTOR — Socratic, context-aware, session-limited
+// ═══════════════════════════════════════════════════
+let tutorMessages=[];
+let tutorExchanges=0;
+const MAX_EXCHANGES=15;
+const MAX_SESSIONS_PER_DAY=3;
+
+function getTutorSessionKey(){return `tutor_sessions_${currentWeek}_${currentDay}`}
+function getTodaySessions(){const s=ld('ahp_tutor_sessions');const k=new Date().toDateString();return(s[k]||0)}
+function incTodaySessions(){const s=ld('ahp_tutor_sessions');const k=new Date().toDateString();s[k]=(s[k]||0)+1;sv('ahp_tutor_sessions',s)}
+
+function getCurrentTopic(){
+  const d=DAY_PLAN[currentDay-1];
+  if(!d||d.rest||d.challenge)return null;
+  const t1=getWeekTopic(d.s1,currentWeek,'a');
+  return t1;
+}
+
+function buildSystemPrompt(){
+  const topic=getCurrentTopic();
+  const R=loadR();
+  const redTopics=Object.values(TOPICS).flat().filter(t=>R[t.id]?.rating==='red').map(t=>t.label);
+  const greenTopics=Object.values(TOPICS).flat().filter(t=>R[t.id]?.rating==='green').map(t=>t.label);
+  const topicName=topic?topic.label:'general revision';
+  const topicType=topic?.type==='new'?'new topic':'consolidation of previously covered topic';
+  const confidence=topic&&R[topic.id]?R[topic.id].rating:'not yet rated';
+
+  return `You are Alessandro's revision practice partner. You are NOT a general chatbot — you are specifically his Edexcel iGCSE revision tutor.
+
+STUDENT PROFILE:
+- Name: Alessandro, age 14, Year 9 finishing, starting Year 10 in September 2026
+- School: Charterhouse
+- Exam board: Edexcel iGCSE for all sciences and maths
+- Cognitive profile: Fluid reasoning 92% (strong), Visual working memory 50% (average — key constraint), Auditory memory high
+- Current week: ${currentWeek} of 8 (Phase: ${PHASES[currentWeek]})
+- Current topic: ${topicName} (${topicType})
+- Confidence on this topic: ${confidence}
+- Topics rated RED (need work): ${redTopics.length?redTopics.join(', '):'none yet'}
+- Topics rated GREEN (solid): ${greenTopics.length?greenTopics.join(', '):'none yet'}
+
+YOUR RULES — NON-NEGOTIABLE:
+1. NEVER give a direct answer to a question. Always respond with a guiding question or hint first.
+2. Use the Socratic method: ask "What do you already know about this?", "What formula might help?", "What is the first step?"
+3. After TWO failed attempts by Alessandro, give a structured hint with numbered steps — but still make him do the final calculation or conclusion.
+4. After THREE failed attempts, walk through the solution step by step, explaining each step clearly.
+5. When Alessandro gets something right, ask him to EXPLAIN it back: "Good — now explain to me WHY you divided by π before taking the square root."
+6. Occasionally connect to real-world examples: "This is the same formula that determines if a hot air balloon rises — can you see why?"
+7. Stay STRICTLY within the Edexcel iGCSE syllabus for Year 9-10 level. Do not discuss topics beyond GCSE.
+8. If Alessandro asks you to just give the answer, refuse kindly: "I could tell you, but you won't remember it tomorrow. Let's work through it together."
+9. If his confidence is RED on this topic, start with simpler questions and scaffold more. If GREEN, push harder with combined-topic questions.
+10. Keep responses SHORT — 2-4 sentences maximum. Alessandro's working memory is average, so long explanations will lose him.
+11. Because his auditory memory is strong, occasionally suggest: "Try saying the formula out loud before writing it."
+12. Frame questions like GCSE exams: use command words (Calculate, State, Explain, Describe, Evaluate).
+13. NEVER discuss anything off-topic. If asked about non-academic subjects, say: "I'm your revision partner — let's stay focused. What topic shall we practise?"
+14. At the start of each session, begin with a retrieval question: "Before we start, without looking at any notes, tell me one thing you remember about [topic]."
+
+SCAFFOLDING APPROACH (adapted for visual working memory constraint):
+- Break multi-step problems into numbered steps: "Step 1: write down the formula. Step 2: identify what you know. Step 3: substitute."
+- Never ask him to hold more than 2 pieces of information mentally at once.
+- Encourage writing down intermediate steps: "Write down what you've got so far before moving on."
+
+You are warm, encouraging, and patient — but firm about not giving answers. You genuinely want Alessandro to succeed. Celebrate small wins: "That's exactly right — you're building real fluency here."`;
+}
+
+function renderTutor(){
+  const c=document.getElementById('tutor-content');
+  const topic=getCurrentTopic();
+  const sessionsToday=getTodaySessions();
+  const canStart=sessionsToday<MAX_SESSIONS_PER_DAY;
+
+  c.innerHTML=`<div class="tutor-wrap">
+    <div class="tutor-header">
+      <div>
+        <h3>Practice with AI</h3>
+        <div class="tutor-meta">Socratic method · Won't give direct answers · Adapts to your level</div>
+        ${topic?`<div class="tutor-topic">Practising: ${topic.label} (Week ${currentWeek})</div>`:'<div class="tutor-topic">Select a day with a topic in the Today view first</div>'}
+      </div>
+      <div style="text-align:right">
+        <div class="session-counter" id="exchange-counter">0 / ${MAX_EXCHANGES} exchanges</div>
+        <div style="font-size:10px;color:var(--muted);margin-top:4px">${sessionsToday}/${MAX_SESSIONS_PER_DAY} sessions today</div>
+      </div>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      ${!canStart?'<div class="msg-system">You\'ve completed your 3 practice sessions for today. Your brain needs time to consolidate — come back tomorrow and you\'ll remember more than you think.</div>':''}
+      ${canStart&&!topic?'<div class="msg-system">Navigate to a study day in the Today view first, then come back here to practise that topic with AI.</div>':''}
+      ${canStart&&topic&&tutorMessages.length===0?'<div class="msg-ai msg">Hi Alessandro! Let\'s practise <strong>'+topic.label+'</strong>. Before we start — without looking at any notes — tell me one thing you already know about this topic.</div>':''}
+      ${tutorMessages.map(m=>`<div class="msg ${m.role==='user'?'msg-user':'msg-ai'}">${m.content}</div>`).join('')}
+    </div>
+    <div class="chat-input-wrap">
+      <textarea class="chat-input" id="chat-input" placeholder="${canStart&&topic?'Type your answer here...':'Practice not available right now'}" ${!canStart||!topic?'disabled':''} onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"></textarea>
+      <button class="chat-send" id="chat-send" onclick="sendMessage()" ${!canStart||!topic?'disabled':''}>Send</button>
+    </div>
+    <div class="tutor-footer">
+      <button class="tutor-btn" onclick="newSession()">New session</button>
+      <button class="tutor-btn" onclick="toggleHistory()">View session history</button>
+    </div>
+    <div class="history-panel" id="history-panel"></div>
+  </div>`;
+
+  const msgs=document.getElementById('chat-messages');
+  if(msgs)msgs.scrollTop=msgs.scrollHeight;
+}
+
+async function sendMessage(){
+  const input=document.getElementById('chat-input');
+  const msg=input.value.trim();
+  if(!msg||tutorExchanges>=MAX_EXCHANGES)return;
+
+  const topic=getCurrentTopic();
+  if(!topic)return;
+
+  // Add user message
+  tutorMessages.push({role:'user',content:msg});
+  tutorExchanges++;
+  input.value='';
+  input.disabled=true;
+  document.getElementById('chat-send').disabled=true;
+
+  // Update UI
+  const msgsEl=document.getElementById('chat-messages');
+  msgsEl.innerHTML+=`<div class="msg msg-user">${msg}</div>`;
+  msgsEl.innerHTML+=`<div class="msg msg-ai" id="typing" style="opacity:.5">Thinking...</div>`;
+  msgsEl.scrollTop=msgsEl.scrollHeight;
+  document.getElementById('exchange-counter').textContent=`${tutorExchanges} / ${MAX_EXCHANGES} exchanges`;
+
+  try{
+    // Build conversation history for API
+    const apiMessages=[];
+    if(tutorMessages.length<=1){
+      // First message — include the opening retrieval prompt
+      apiMessages.push({role:'user',content:`Alessandro says: "${msg}"\n\nThis is the start of the session. Remember to begin with retrieval — ask what he already knows before teaching anything.`});
+    } else {
+      // Build full conversation history
+      for(const m of tutorMessages){
+        apiMessages.push({role:m.role==='user'?'user':'assistant',content:m.content});
+      }
+    }
+
+    const response=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        model:"claude-sonnet-4-6",
+        max_tokens:500,
+        system:buildSystemPrompt(),
+        messages:apiMessages,
+      })
+    });
+
+    const data=await response.json();
+    const aiText=data.content?.filter(c=>c.type==='text').map(c=>c.text).join('\n')||'I had trouble generating a response. Let\'s try again — what would you like to practise?';
+
+    // Remove typing indicator
+    document.getElementById('typing')?.remove();
+
+    // Add AI response
+    tutorMessages.push({role:'assistant',content:aiText});
+    msgsEl.innerHTML+=`<div class="msg msg-ai">${aiText}</div>`;
+    msgsEl.scrollTop=msgsEl.scrollHeight;
+
+    // Save to history
+    saveTutorHistory();
+
+    // Check if session limit reached
+    if(tutorExchanges>=MAX_EXCHANGES){
+      msgsEl.innerHTML+=`<div class="msg-system">Great session! You've done ${MAX_EXCHANGES} exchanges — that's a solid practice block. Your brain needs time to consolidate now. Rate this topic in your confidence tracker and come back tomorrow.</div>`;
+      msgsEl.scrollTop=msgsEl.scrollHeight;
+    } else {
+      input.disabled=false;
+      document.getElementById('chat-send').disabled=false;
+      input.focus();
+    }
+  }catch(err){
+    document.getElementById('typing')?.remove();
+    msgsEl.innerHTML+=`<div class="msg-system">Connection error — check your internet and try again. Error: ${err.message}</div>`;
+    input.disabled=false;
+    document.getElementById('chat-send').disabled=false;
+  }
+}
+
+function newSession(){
+  if(getTodaySessions()>=MAX_SESSIONS_PER_DAY){
+    alert('You\'ve completed your 3 sessions for today. Come back tomorrow!');
+    return;
+  }
+  // Save current session to history before resetting
+  if(tutorMessages.length>0){
+    saveTutorHistory();
+    incTodaySessions();
+  }
+  tutorMessages=[];
+  tutorExchanges=0;
+  renderTutor();
+}
+
+function saveTutorHistory(){
+  if(tutorMessages.length===0)return;
+  const history=ld('ahp_tutor_history');
+  const key=`w${currentWeek}d${currentDay}_${Date.now()}`;
+  const topic=getCurrentTopic();
+  history[key]={
+    week:currentWeek,
+    day:currentDay,
+    topic:topic?.label||'unknown',
+    timestamp:new Date().toISOString(),
+    messages:tutorMessages.slice()
+  };
+  sv('ahp_tutor_history',history);
+}
+
+function toggleHistory(){
+  const panel=document.getElementById('history-panel');
+  if(panel.classList.contains('show')){
+    panel.classList.remove('show');
+    return;
+  }
+  const history=ld('ahp_tutor_history');
+  const sessions=Object.entries(history).sort((a,b)=>b[0].localeCompare(a[0]));
+  if(sessions.length===0){
+    panel.innerHTML='<div style="padding:16px;font-size:12px;color:var(--muted)">No practice sessions yet. Start a session above to begin.</div>';
+  } else {
+    panel.innerHTML=sessions.slice(0,10).map(([key,sess])=>{
+      const date=new Date(sess.timestamp);
+      const dateStr=date.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+      const timeStr=date.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+      return`<div class="history-session">
+        <div class="history-session-head">Week ${sess.week} Day ${sess.day} · ${sess.topic} · ${dateStr} ${timeStr} · ${sess.messages.length} messages</div>
+        ${sess.messages.map(m=>`<div class="history-msg ${m.role==='user'?'user':'ai'}">${m.role==='user'?'Alessandro':'AI'}: ${m.content.substring(0,150)}${m.content.length>150?'...':''}</div>`).join('')}
+      </div>`;
+    }).join('');
+  }
+  panel.classList.add('show');
+}
+</script>
+
 </body>
 </html>
