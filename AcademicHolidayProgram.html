@@ -241,17 +241,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,san
 </head>
 <body>
 <div class="topbar">
-  <div class="topbar-left"><h1>Academic Holiday Program</h1><p>Alessandro · Year 9→10 · 8 weeks · Target: November 2026</p></div>
+  <div class="topbar-left"><h1>Academic Holiday Program</h1><p>After you open this, read the two questions below — that's all you need to do to start</p></div>
   <div class="week-badge" id="week-badge">Week 1</div>
 </div>
 <div class="nav">
-  <div class="nav-tab active" onclick="showView('overview')">Overview</div>
+  <div class="nav-tab" onclick="showView('overview')">Overview</div>
   <div class="nav-tab" onclick="showView('schedule')">Weekly Schedule</div>
-  <div class="nav-tab" onclick="showView('today')">Today</div>
+  <div class="nav-tab active" onclick="showView('today')">Today</div>
   <div class="nav-tab" onclick="showView('connection')">Weekly Connection</div>
   <div class="nav-tab" onclick="showView('tutor')">Practice with AI</div>
 </div>
-<div class="view active" id="view-overview"><div style="margin-top:20px">
+<div class="view" id="view-overview"><div style="margin-top:20px">
 <div class="stats-row">
   <div class="stat-card"><div class="stat-n">8</div><div class="stat-l">weeks program</div></div>
   <div class="stat-card"><div class="stat-n">6</div><div class="stat-l">subjects</div></div>
@@ -286,7 +286,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,san
   </div>
   <div class="days-grid" id="sched-days"></div>
 </div></div>
-<div class="view" id="view-today"><div style="margin-top:20px" id="today-content"></div></div>
+<div class="view active" id="view-today"><div style="margin-top:20px" id="today-content"></div></div>
 <!-- WEEKLY CONNECTION -->
 <div class="view" id="view-connection"><div style="margin-top:20px" id="connection-content"></div></div>
 <!-- AI TUTOR -->
@@ -701,8 +701,23 @@ function renderToday(){
       ${ratingBlock(topic)}
     </div>`;
   }
+  // Build combined above-fold retrieval block for both subjects
+  function aboveFoldRetrieval(t1,t2,s1name,s2name){
+    const q1=RETRIEVAL_QS[t1?.id]||['What do you already know about this topic?'];
+    const q2=RETRIEVAL_QS[t2?.id]||['What do you already know about this topic?'];
+    return`<div class="retrieval-block" style="margin-bottom:16px">
+      <div class="retrieval-head">🧠 Start here — retrieval first <span class="retrieval-badge">before anything else · 3 min · no notes</span></div>
+      <div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--green-text);margin:8px 0 4px;opacity:.8">${s1name}</div>
+      ${q1.map(q=>`<div class="retrieval-q">${q}</div>`).join('')}
+      <div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--green-text);margin:8px 0 4px;opacity:.8">${s2name}</div>
+      ${q2.map(q=>`<div class="retrieval-q">${q}</div>`).join('')}
+      <div class="retrieval-note">Attempt these before watching anything. Wrong answers are fine — this is the most important step. Write something for every question: even a partial answer is better than a blank.</div>
+    </div>`;
+  }
   c.innerHTML=`<div class="today-header"><div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Week ${currentWeek} · Day ${d.day} · ${PHASES[currentWeek]}</div><h2>${s1.name} + ${s2.name}</h2></div>${navHtml}</div>
-  <div class="flow-card"><strong>Session flow:</strong> Retrieval first (no notes, 3 min) → Watch video → Cornell notes → Flashcards → Practice questions → Mixed recall → Rate yourself. The retrieval attempt before watching is the single most important step for long-term memory. <strong style="color:var(--red-text)">Always attempt every question — even if unsure. A partial answer earns marks. A blank earns zero.</strong></div>
+  ${aboveFoldRetrieval(t1,t2,s1.name,s2.name)}
+  <div style="display:flex;align-items:center;gap:8px;margin:4px 0 16px"><div style="flex:1;height:0.5px;background:var(--border)"></div><div style="font-size:10px;color:var(--light);white-space:nowrap;letter-spacing:.05em">scroll to continue the session</div><div style="flex:1;height:0.5px;background:var(--border)"></div></div>
+  <div class="flow-card"><strong>Session flow:</strong> Retrieval first → Watch video → Cornell notes → Flashcards → Practice questions → Mixed recall → Rate yourself. <strong style="color:var(--red-text)">Always write something for every question. A partial answer earns marks. A blank earns zero.</strong></div>
   <div style="display:grid;grid-template-columns:1fr 1fr;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
     ${sessionBlock(d.s1,t1,1)}${sessionBlock(d.s2,t2,2)}
   </div>`;
@@ -1127,7 +1142,7 @@ function toggleHistory(){
   panel.classList.add('show');
 }
 // ── INIT ──────────────────────────────────────────
-renderGrid();updateStats();renderAlert();renderTraj();
+renderGrid();updateStats();renderAlert();renderTraj();renderToday();
 
 </script>
 </body>
