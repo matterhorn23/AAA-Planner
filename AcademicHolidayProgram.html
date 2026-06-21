@@ -14,108 +14,121 @@
   --biology:#5B3FA6;--bio-bg:#EEE9FC;--bio-text:#3D2872;
   --history:#7A5C00;--hist-bg:#FDF3D6;--hist-text:#5C4400;
   --geo:#2E6B4F;--geo-bg:#E3F5EC;--geo-text:#1A4A33;
-  --green:#1A7A4A;--green-bg:#D6F5E3;
-  --amber:#B85C00;--amber-bg:#FFF0D6;
-  --red:#C0392B;--red-bg:#FDEDED;
+  --green:#1A7A4A;--green-bg:#D6F5E3;--green-text:#0F4A2A;
+  --amber:#B85C00;--amber-bg:#FFF0D6;--amber-text:#7A3C00;
+  --red:#C0392B;--red-bg:#FDEDED;--red-text:#7A2020;
+  --challenge:#2C1F6B;--challenge-bg:#F0EEFF;--challenge-text:#2C1F6B;
   --page-bg:#F4F6F8;--card:#FFFFFF;--border:#DDE3EC;
   --text:#1C2B4A;--muted:#5A6780;--light:#8A96A8;
   --radius:12px;--radius-sm:7px;
 }
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--page-bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh}
-
-/* ── Top bar ── */
-.topbar{background:var(--navy);color:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.topbar-title{font-family:Georgia,serif;font-size:18px;font-weight:normal;letter-spacing:-0.3px}
-.topbar-sub{font-size:11px;opacity:.6;margin-top:2px}
-.week-badge{background:rgba(255,255,255,.15);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:500}
-
-/* ── Nav tabs ── */
-.nav{display:flex;gap:0;background:var(--card);border-bottom:1px solid var(--border);padding:0 20px}
-.nav-tab{padding:12px 18px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;user-select:none}
+.topbar{background:var(--navy);color:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:12px}
+.topbar-left h1{font-family:Georgia,serif;font-size:17px;font-weight:normal}
+.topbar-left p{font-size:11px;opacity:.6;margin-top:1px}
+.week-badge{background:rgba(255,255,255,.15);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:500;white-space:nowrap}
+.nav{display:flex;background:var(--card);border-bottom:1px solid var(--border);padding:0 20px;overflow-x:auto}
+.nav-tab{padding:12px 16px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;user-select:none}
 .nav-tab.active{color:var(--navy);border-bottom-color:var(--navy)}
-.nav-tab:hover:not(.active){color:var(--text)}
-
-/* ── Views ── */
 .view{display:none;padding:20px;max-width:960px;margin:0 auto}
 .view.active{display:block}
-
-/* ── Overview: confidence grid ── */
-.grid-header{margin-bottom:24px}
-.grid-header h2{font-family:Georgia,serif;font-size:26px;font-weight:normal;color:var(--navy);margin-bottom:4px}
-.grid-header p{font-size:13px;color:var(--muted)}
-.subject-grid{display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+@media(max-width:600px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px}
+.stat-n{font-family:Georgia,serif;font-size:26px;line-height:1;margin-bottom:3px}
+.stat-l{font-size:11px;color:var(--muted)}
+.prog-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:20px}
+.prog-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px}
+.prog-track{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:var(--green);border-radius:3px;transition:width .6s ease}
+.trajectory{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:20px}
+.trajectory h3{font-family:Georgia,serif;font-size:16px;font-weight:normal;margin-bottom:4px}
+.trajectory p{font-size:12px;color:var(--muted);margin-bottom:14px}
+.traj-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+@media(max-width:600px){.traj-grid{grid-template-columns:repeat(3,1fr)}}
+.traj-subject{text-align:center}
+.traj-label{font-size:10px;font-weight:500;margin-bottom:6px}
+.traj-bars{display:flex;gap:3px;align-items:flex-end;justify-content:center;height:40px}
+.traj-bar{width:14px;border-radius:2px 2px 0 0;transition:height .4s ease;min-height:4px}
+.traj-bar.green{background:var(--green)}.traj-bar.empty{background:var(--border)}
+.traj-delta{font-size:11px;margin-top:4px;font-weight:500}
+.delta-up{color:var(--green)}.delta-same{color:var(--muted)}
+.week-alert{border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:16px;font-size:13px}
+.alert-red{background:var(--red-bg);border-left:3px solid var(--red);color:var(--red-text)}
+.alert-amber{background:var(--amber-bg);border-left:3px solid var(--amber);color:var(--amber-text)}
+.alert-green{background:var(--green-bg);border-left:3px solid var(--green);color:var(--green-text)}
+.revisit-list{margin-top:6px;display:flex;flex-direction:column;gap:3px}
+.revisit-item{font-size:12px;padding-left:4px}
+.grid-header{margin-bottom:16px}
+.grid-header h2{font-family:Georgia,serif;font-size:22px;font-weight:normal;color:var(--navy);margin-bottom:3px}
+.grid-header p{font-size:12px;color:var(--muted)}
+.subject-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
 .subject-row{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
 .subject-row-header{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border)}
-.subject-dot-large{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.subject-name{font-size:13px;font-weight:500;flex:1}
-.subject-stats{font-size:11px;color:var(--muted)}
+.subj-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.subj-name{font-size:13px;font-weight:500;flex:1}
+.subj-stats{font-size:11px;color:var(--muted)}
 .topic-dots{display:flex;flex-wrap:wrap;gap:6px;padding:12px 14px}
 .topic-dot-wrap{position:relative;cursor:pointer}
-.topic-dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);background:#fff;transition:all .2s;display:flex;align-items:center;justify-content:center;font-size:10px}
-.topic-dot.green{background:var(--green-bg);border-color:var(--green)}
-.topic-dot.amber{background:var(--amber-bg);border-color:var(--amber)}
-.topic-dot.red{background:var(--red-bg);border-color:var(--red)}
-.topic-dot:hover{transform:scale(1.2)}
-.topic-tooltip{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;font-size:11px;padding:4px 8px;border-radius:5px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:10}
+.topic-dot{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);background:#fff;transition:all .2s;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500}
+.topic-dot.green{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.topic-dot.amber{background:var(--amber-bg);border-color:var(--amber);color:var(--amber)}
+.topic-dot.red{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+.topic-dot:hover{transform:scale(1.15)}
+.topic-tooltip{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;font-size:11px;padding:4px 8px;border-radius:5px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:10}
 .topic-dot-wrap:hover .topic-tooltip{opacity:1}
-
-/* ── Legend ── */
-.legend-row{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px;font-size:12px;color:var(--muted)}
-.legend-item{display:flex;align-items:center;gap:6px}
-.legend-dot{width:12px;height:12px;border-radius:50%;border:2px solid}
-
-/* ── Week alert ── */
-.week-alert{border-radius:var(--radius);padding:14px 16px;margin-bottom:20px;font-size:13px}
-.week-alert.red-alert{background:var(--red-bg);border-left:3px solid var(--red);color:#7A2020}
-.week-alert.amber-alert{background:var(--amber-bg);border-left:3px solid var(--amber);color:#7A3C00}
-.week-alert.clear{background:var(--green-bg);border-left:3px solid var(--green);color:#1A4A2E}
-.week-alert strong{font-weight:500}
-.revisit-list{margin-top:8px;display:flex;flex-direction:column;gap:4px}
-.revisit-item{display:flex;align-items:center;gap:8px;font-size:12px}
-
-/* ── Week schedule ── */
-.week-nav{display:flex;align-items:center;gap:12px;margin-bottom:20px}
-.week-nav h2{font-family:Georgia,serif;font-size:22px;font-weight:normal;flex:1}
+.legend-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:20px;font-size:12px;color:var(--muted)}
+.legend-item{display:flex;align-items:center;gap:5px}
+.legend-dot{width:10px;height:10px;border-radius:50%;border:2px solid}
+.week-nav{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.week-nav h2{font-family:Georgia,serif;font-size:20px;font-weight:normal;flex:1}
 .week-btn{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 14px;font-size:13px;cursor:pointer;color:var(--text);transition:background .15s}
-.week-btn:hover{background:var(--navy-light)}
+.week-btn:hover:not(:disabled){background:var(--navy-light)}
 .week-btn:disabled{opacity:.35;cursor:default}
-.days-grid{display:flex;flex-direction:column;gap:10px}
+.phase-badge{font-size:11px;background:var(--navy-light);color:var(--navy-mid);padding:2px 10px;border-radius:10px}
+.days-grid{display:flex;flex-direction:column;gap:8px}
 .day-row{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.day-row.rest-day{opacity:.7;border-style:dashed}
+.day-row.challenge-day{border-color:var(--challenge);background:var(--challenge-bg)}
+.day-row.rest-day{opacity:.65;border-style:dashed}
 .day-header-row{display:flex;align-items:center;padding:12px 16px;gap:12px;cursor:pointer;user-select:none;transition:background .15s}
-.day-header-row:hover{background:#FAFBFC}
-.day-num{font-family:Georgia,serif;font-size:22px;color:var(--light);line-height:1;min-width:24px}
+.day-header-row:hover{background:rgba(0,0,0,.02)}
+.day-num{font-family:Georgia,serif;font-size:22px;color:var(--light);min-width:24px}
 .day-info{flex:1}
 .day-label{font-size:14px;font-weight:500}
-.day-subjects-pills{display:flex;gap:5px;margin-top:3px;flex-wrap:wrap}
+.day-pills{display:flex;gap:5px;margin-top:3px;flex-wrap:wrap}
 .spill{font-size:11px;font-weight:500;padding:2px 8px;border-radius:10px}
-.day-status{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
 .day-chevron{font-size:16px;color:var(--light);transition:transform .2s}
 .day-row.open .day-chevron{transform:rotate(180deg)}
 .day-body-row{display:none;border-top:1px solid var(--border)}
 .day-row.open .day-body-row{display:grid;grid-template-columns:1fr 1fr}
 @media(max-width:600px){.day-row.open .day-body-row{grid-template-columns:1fr}}
-
-/* ── Session ── */
-.session-panel{padding:16px}
-.session-panel:first-child{border-right:1px solid var(--border)}
-@media(max-width:600px){.session-panel:first-child{border-right:none;border-bottom:1px solid var(--border)}}
+.session-panel{padding:14px 16px}
+.session-panel.left{border-right:1px solid var(--border)}
+@media(max-width:600px){.session-panel.left{border-right:none;border-bottom:1px solid var(--border)}}
 .session-eyebrow{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.session-bar{width:3px;height:12px;border-radius:2px}
-.session-title{font-size:14px;font-weight:500;margin-bottom:6px;line-height:1.4}
-.session-type{font-size:11px;font-weight:500;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:10px}
-.type-consolidate{background:#E8EDF5;color:var(--navy)}
-.type-new{background:#F1EFE8;color:#444}
-.type-recall{background:var(--mixed-bg,#F3F0FF);color:#3C3489}
-.cross-link{background:#EEF2FF;border-left:2px solid #6B7FD4;border-radius:0 5px 5px 0;padding:6px 10px;font-size:11px;color:#3044A8;margin-bottom:10px;line-height:1.4}
+.session-bar{width:3px;height:12px;border-radius:2px;flex-shrink:0}
+.session-title{font-size:13px;font-weight:500;margin-bottom:5px;line-height:1.4}
+.session-tag{font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;display:inline-block;margin-bottom:10px}
+.tag-consolidate{background:#E8EDF5;color:var(--navy)}
+.tag-new{background:#F1EFE8;color:#444}
+.tag-retrieval{background:var(--green-bg);color:var(--green-text)}
+.today-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.today-header h2{font-family:Georgia,serif;font-size:22px;font-weight:normal;color:var(--navy)}
+.today-nav{display:flex;gap:8px;flex-shrink:0}
+.flow-card{background:var(--navy-light);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:20px;font-size:12px;color:var(--navy-mid)}
+.flow-card strong{color:var(--navy)}
+.retrieval-block{background:var(--green-bg);border:1px solid var(--green);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:14px}
+.retrieval-head{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--green-text);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.retrieval-badge{font-size:9px;background:var(--green);color:#fff;padding:1px 6px;border-radius:8px}
+.retrieval-q{font-size:12px;color:var(--green-text);padding:4px 0 4px 8px;border-left:2px solid var(--green);margin-bottom:4px;line-height:1.4}
+.retrieval-note{font-size:11px;color:var(--green-text);opacity:.75;font-style:italic;margin-top:6px}
 .res-list{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
-.res-item{display:flex;gap:6px;font-size:12px;color:var(--muted);line-height:1.4}
-.res-icon{flex-shrink:0;margin-top:1px}
+.res-item{display:flex;gap:6px;font-size:12px;color:var(--muted);line-height:1.4;align-items:flex-start}
+.res-icon{flex-shrink:0}
 .res-item a{color:var(--maths);text-decoration:none}
 .res-item a:hover{text-decoration:underline}
-
-/* ── Cornell ── */
-.cornell{background:#FFFBF0;border:1px solid #E8D5A3;border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:10px}
+.res-tutor{font-size:9px;background:var(--maths-bg);color:var(--maths-text);padding:1px 5px;border-radius:6px;margin-left:4px}
+.cornell{background:#FFFBF0;border:1px solid #E8D5A3;border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:12px}
 .cornell-head{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:#5C4A1A;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .cornell-badge{font-size:9px;background:#E8D5A3;color:#5C4A1A;padding:1px 6px;border-radius:8px}
 .cornell-table{display:grid;grid-template-columns:1fr 1.5fr;border:1px solid #E8D5A3;border-radius:4px;overflow:hidden;font-size:11px;margin-bottom:6px}
@@ -123,19 +136,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,san
 .ct-head:first-child{border-right:1px solid #E8D5A3}
 .ct-cell{padding:5px 8px;color:var(--muted);line-height:1.4}
 .ct-cell:first-child{border-right:1px solid #E8D5A3}
-.cornell-summary{font-size:11px;color:var(--muted);border-top:1px solid #E8D5A3;padding-top:6px;margin-top:2px}
+.cornell-summary{font-size:11px;color:var(--muted);border-top:1px solid #E8D5A3;padding-top:5px}
 .cornell-summary span{font-weight:500;color:#5C4A1A}
-.cornell-examiner{font-size:11px;color:#3C3489;font-style:italic;border-top:1px solid #E8D5A3;padding-top:5px;margin-top:4px}
-
-/* ── Mixed recall ── */
-.mixed-block{background:#F3F0FF;border:1px solid #C4B8F0;border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:10px}
+.cornell-tip{font-size:11px;color:#3C3489;font-style:italic;border-top:1px solid #E8D5A3;padding-top:5px;margin-top:4px}
+.mixed-block{background:#F3F0FF;border:1px solid #C4B8F0;border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:12px}
 .mixed-head{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:#3C3489;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .mixed-badge{font-size:9px;background:#C4B8F0;color:#3C3489;padding:1px 6px;border-radius:8px}
 .mixed-q{font-size:12px;color:var(--muted);padding:3px 0 3px 8px;border-left:2px solid #C4B8F0;margin-bottom:4px;line-height:1.4}
-.mixed-q strong{color:#3C3489}
-
-/* ── Ticks ── */
-.ticks-head{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--light);border-top:1px solid var(--border);padding-top:8px;margin-bottom:6px}
+.mixed-q strong{color:#3C3489;font-weight:500}
+.sec-head{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--light);border-top:1px solid var(--border);padding-top:8px;margin-bottom:7px;margin-top:4px}
 .ticks{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
 .tick-item{display:flex;align-items:flex-start;gap:7px;cursor:pointer;user-select:none}
 .tick-box{width:14px;height:14px;border:1.5px solid #C0C8D8;border-radius:3px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s}
@@ -144,1129 +153,539 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,san
 .tick-item.done .tick-box svg{display:block}
 .tick-text{font-size:12px;color:var(--muted);line-height:1.4}
 .tick-item.done .tick-text{color:var(--light);text-decoration:line-through}
-.tick-item.cornell-t .tick-box{border-color:#E8D5A3}
-.tick-item.cornell-t.done .tick-box{background:#C8A84B;border-color:#C8A84B}
-.tick-item.mixed-t .tick-box{border-color:#C4B8F0}
-.tick-item.mixed-t.done .tick-box{background:#8B7ED8;border-color:#8B7ED8}
-
-/* ── Traffic light rating ── */
+.tick-item.t-retrieval .tick-box{border-color:var(--green)}
+.tick-item.t-retrieval.done .tick-box{background:var(--green)}
+.tick-item.t-cornell .tick-box{border-color:#E8D5A3}
+.tick-item.t-cornell.done .tick-box{background:#C8A84B;border-color:#C8A84B}
+.tick-item.t-mixed .tick-box{border-color:#C4B8F0}
+.tick-item.t-mixed.done .tick-box{background:#8B7ED8;border-color:#8B7ED8}
 .rating-block{border-top:1px solid var(--border);padding-top:10px;margin-top:4px}
-.rating-head{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--light);margin-bottom:8px}
+.rating-head{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--light);margin-bottom:6px}
 .rating-topic{font-size:12px;font-weight:500;color:var(--text);margin-bottom:6px}
 .rating-btns{display:flex;gap:6px}
-.rating-btn{flex:1;padding:7px 4px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:12px;font-weight:500;transition:all .15s;text-align:center}
-.rating-btn:hover{transform:translateY(-1px)}
-.rating-btn.r-green{border-color:var(--green);color:var(--green)}
-.rating-btn.r-green.selected{background:var(--green-bg)}
-.rating-btn.r-amber{border-color:var(--amber);color:var(--amber)}
-.rating-btn.r-amber.selected{background:var(--amber-bg)}
-.rating-btn.r-red{border-color:var(--red);color:var(--red)}
-.rating-btn.r-red.selected{background:var(--red-bg)}
-.rating-saved{font-size:11px;color:var(--green);margin-top:6px;display:none}
+.r-btn{flex:1;padding:7px 4px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:12px;font-weight:500;transition:all .15s;text-align:center}
+.r-btn.r-green{border-color:var(--green);color:var(--green)}
+.r-btn.r-green.sel{background:var(--green-bg)}
+.r-btn.r-amber{border-color:var(--amber);color:var(--amber)}
+.r-btn.r-amber.sel{background:var(--amber-bg)}
+.r-btn.r-red{border-color:var(--red);color:var(--red)}
+.r-btn.r-red.sel{background:var(--red-bg)}
+.rating-saved{font-size:11px;color:var(--green);margin-top:5px;display:none}
 .rating-saved.show{display:block}
-
-/* ── Rest day ── */
-.rest-content{padding:20px;text-align:center;color:var(--muted);font-size:13px}
-.rest-icon{font-size:28px;margin-bottom:8px}
-
-/* ── Progress bar ── */
-.prog-wrap{margin-bottom:24px}
-.prog-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:5px}
-.prog-track{height:5px;background:var(--border);border-radius:3px;overflow:hidden}
-.prog-fill{height:100%;background:var(--navy);border-radius:3px;transition:width .4s}
-
-/* ── Stats row ── */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px}
-.stat-n{font-family:Georgia,serif;font-size:28px;line-height:1;margin-bottom:3px}
-.stat-l{font-size:11px;color:var(--muted)}
-
-/* ── Footer ── */
+.challenge-intro{background:var(--challenge-bg);border:1px solid var(--challenge);border-radius:var(--radius);padding:16px;margin-bottom:20px}
+.challenge-intro h3{font-family:Georgia,serif;font-size:18px;font-weight:normal;color:var(--challenge-text);margin-bottom:6px}
+.challenge-intro p{font-size:12px;color:var(--challenge-text);opacity:.85;margin-top:4px}
+.challenge-rule{font-size:12px;color:var(--challenge-text);margin-top:8px;padding-top:8px;border-top:1px solid rgba(44,31,107,.15);opacity:.85}
+.challenge-qs{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.cq{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.cq-num{font-size:11px;font-weight:500;color:var(--muted);margin-bottom:6px}
+.cq-q{font-size:13px;font-weight:500;color:var(--text);margin-bottom:8px;line-height:1.5}
+.cq-hint{font-size:11px;color:var(--muted);font-style:italic;margin-bottom:8px}
+.cq-reveal{font-size:12px;background:var(--page-bg);border-radius:var(--radius-sm);padding:8px 10px;display:none;color:var(--muted);border-left:2px solid var(--green);line-height:1.5;margin-top:6px}
+.cq-reveal.show{display:block}
+.cq-reveal strong{color:var(--green-text);font-weight:500}
+.reveal-btn{font-size:11px;color:var(--maths);background:none;border:none;cursor:pointer;padding:0;text-decoration:underline}
 .page-footer{padding:20px;text-align:center;font-size:11px;color:var(--light);border-top:1px solid var(--border);margin-top:40px}
-
-/* ── Pill colours ── */
 .pill-maths{background:var(--maths-bg);color:var(--maths-text)}
 .pill-physics{background:var(--physics-bg);color:var(--physics-text)}
 .pill-chemistry{background:var(--chem-bg);color:var(--chem-text)}
 .pill-biology{background:var(--bio-bg);color:var(--bio-text)}
 .pill-history{background:var(--hist-bg);color:var(--hist-text)}
 .pill-geo{background:var(--geo-bg);color:var(--geo-text)}
+.pill-challenge{background:var(--challenge-bg);color:var(--challenge-text)}
 .pill-rest{background:#F1EFE8;color:#5F5E5A}
 </style>
 </head>
 <body>
-
 <div class="topbar">
-  <div>
-    <div class="topbar-title">Academic Holiday Program</div>
-    <div class="topbar-sub">Alessandro · Year 9→10 · 8 weeks</div>
-  </div>
-  <div class="week-badge" id="current-week-badge">Week 1</div>
+  <div class="topbar-left"><h1>Academic Holiday Program</h1><p>Alessandro · Year 9→10 · 8 weeks · Target: November 2026</p></div>
+  <div class="week-badge" id="week-badge">Week 1</div>
 </div>
-
 <div class="nav">
   <div class="nav-tab active" onclick="showView('overview')">Overview</div>
   <div class="nav-tab" onclick="showView('schedule')">Weekly Schedule</div>
   <div class="nav-tab" onclick="showView('today')">Today</div>
 </div>
-
-<!-- ════════════════ OVERVIEW ════════════════ -->
-<div class="view active" id="view-overview">
-
-  <div class="stats-row" style="margin-top:20px">
-    <div class="stat-card"><div class="stat-n">8</div><div class="stat-l">weeks program</div></div>
-    <div class="stat-card"><div class="stat-n">6</div><div class="stat-l">subjects</div></div>
-    <div class="stat-card"><div class="stat-n" id="stat-green">0</div><div class="stat-l">topics solid 🟢</div></div>
-    <div class="stat-card"><div class="stat-n" id="stat-red">0</div><div class="stat-l">topics to revisit 🔴</div></div>
-  </div>
-
-  <div class="prog-wrap">
-    <div class="prog-label"><span>Overall confidence</span><span id="prog-pct">0%</span></div>
-    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
-  </div>
-
-  <div id="week-alert-box"></div>
-
-  <div class="grid-header">
-    <h2>Confidence tracker</h2>
-    <p>Rate yourself after each session. Watch the grid turn green over 8 weeks.</p>
-  </div>
-
-  <div class="legend-row">
-    <div class="legend-item"><span class="legend-dot" style="background:var(--green-bg);border-color:var(--green)"></span>Solid — ready</div>
-    <div class="legend-item"><span class="legend-dot" style="background:var(--amber-bg);border-color:var(--amber)"></span>Getting there</div>
-    <div class="legend-item"><span class="legend-dot" style="background:var(--red-bg);border-color:var(--red)"></span>Needs work</div>
-    <div class="legend-item"><span class="legend-dot" style="background:#fff;border-color:var(--border)"></span>Not yet rated</div>
-  </div>
-
-  <div class="subject-grid" id="confidence-grid"></div>
-
+<div class="view active" id="view-overview"><div style="margin-top:20px">
+<div class="stats-row">
+  <div class="stat-card"><div class="stat-n">8</div><div class="stat-l">weeks program</div></div>
+  <div class="stat-card"><div class="stat-n">6</div><div class="stat-l">subjects</div></div>
+  <div class="stat-card"><div class="stat-n" id="stat-green">0</div><div class="stat-l">topics solid 🟢</div></div>
+  <div class="stat-card"><div class="stat-n" id="stat-red">0</div><div class="stat-l">need more work 🔴</div></div>
 </div>
-
-<!-- ════════════════ SCHEDULE ════════════════ -->
-<div class="view" id="view-schedule">
-  <div style="margin-top:20px">
-    <div class="week-nav">
-      <button class="week-btn" id="prev-week" onclick="changeWeek(-1)" disabled>← Prev</button>
-      <h2 id="schedule-week-title">Week 1</h2>
-      <button class="week-btn" id="next-week" onclick="changeWeek(1)">Next →</button>
-    </div>
-    <div class="days-grid" id="schedule-days"></div>
+<div class="prog-wrap">
+  <div class="prog-label"><span>Overall confidence</span><span id="prog-pct">0%</span></div>
+  <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+</div>
+<div class="trajectory">
+  <h3>Your trajectory</h3>
+  <p>Green topics this week vs last week — watch the bars grow. Progress is the goal, not perfection.</p>
+  <div class="traj-grid" id="traj-grid"></div>
+</div>
+<div id="alert-box"></div>
+<div class="grid-header"><h2>Confidence tracker</h2><p>Click any dot to rate yourself after each session. ★ = tutor-covered topic.</p></div>
+<div class="legend-row">
+  <div class="legend-item"><span class="legend-dot" style="background:var(--green-bg);border-color:var(--green)"></span>Solid</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--amber-bg);border-color:var(--amber)"></span>Getting there</div>
+  <div class="legend-item"><span class="legend-dot" style="background:var(--red-bg);border-color:var(--red)"></span>Needs work</div>
+  <div class="legend-item"><span class="legend-dot" style="background:#fff;border-color:var(--border)"></span>Not yet rated</div>
+</div>
+<div class="subject-grid" id="confidence-grid"></div>
+</div></div>
+<div class="view" id="view-schedule"><div style="margin-top:20px">
+  <div class="week-nav">
+    <button class="week-btn" id="prev-w" onclick="changeWeek(-1)" disabled>← Prev</button>
+    <h2 id="sched-title">Week 1</h2>
+    <span class="phase-badge" id="phase-badge">Foundation</span>
+    <button class="week-btn" id="next-w" onclick="changeWeek(1)">Next →</button>
   </div>
-</div>
-
-<!-- ════════════════ TODAY ════════════════ -->
-<div class="view" id="view-today">
-  <div style="margin-top:20px" id="today-content"></div>
-</div>
-
-<div class="page-footer">
-  Alessandro · Academic Holiday Program · Year 9→10 · Charterhouse · Edexcel iGCSE
-</div>
-
+  <div class="days-grid" id="sched-days"></div>
+</div></div>
+<div class="view" id="view-today"><div style="margin-top:20px" id="today-content"></div></div>
+<div class="page-footer">Alessandro · Academic Holiday Program · Year 9→10 · Charterhouse · Target: November 2026</div>
 <script>
-// ═══════════════════════════════════════════
-// DATA
-// ═══════════════════════════════════════════
-
-const SUBJECTS = {
-  maths:     {name:'Maths',     color:'#185FA5', bg:'#E6F1FB', text:'#0C447C'},
-  physics:   {name:'Physics',   color:'#0F6E56', bg:'#E1F5EE', text:'#085041'},
-  chemistry: {name:'Chemistry', color:'#8B3A1A', bg:'#FAECE7', text:'#5C2410'},
-  biology:   {name:'Biology',   color:'#5B3FA6', bg:'#EEE9FC', text:'#3D2872'},
-  history:   {name:'History',   color:'#7A5C00', bg:'#FDF3D6', text:'#5C4400'},
-  geo:       {name:'Geography', color:'#2E6B4F', bg:'#E3F5EC', text:'#1A4A33'},
-};
-
-// All topics across subjects with their week allocation
-const TOPICS = {
+// ── CONFIG ──────────────────────────────────────────
+const PHASES={1:'Foundation',2:'Foundation',3:'Retrieval',4:'Retrieval',5:'Interleaving',6:'Interleaving',7:'Challenge',8:'Challenge'};
+const SUBJECTS={maths:{name:'Maths',color:'#185FA5',bg:'#E6F1FB',text:'#0C447C'},physics:{name:'Physics',color:'#0F6E56',bg:'#E1F5EE',text:'#085041'},chemistry:{name:'Chemistry',color:'#8B3A1A',bg:'#FAECE7',text:'#5C2410'},biology:{name:'Biology',color:'#5B3FA6',bg:'#EEE9FC',text:'#3D2872'},history:{name:'History',color:'#7A5C00',bg:'#FDF3D6',text:'#5C4400'},geo:{name:'Geography',color:'#2E6B4F',bg:'#E3F5EC',text:'#1A4A33'}};
+const PAIRS={maths:'physics',physics:'maths',chemistry:'biology',biology:'chemistry',history:'geo',geo:'history'};
+const TOPICS={
   maths:[
-    {id:'m1', label:'Simultaneous equations', week:1, type:'consolidate'},
-    {id:'m2', label:'Manipulation of formulae', week:1, type:'consolidate'},
-    {id:'m3', label:'Quadratic equations (all methods)', week:1, type:'consolidate'},
-    {id:'m4', label:'Subject appears twice', week:2, type:'consolidate'},
-    {id:'m5', label:'Fractions (all operations)', week:2, type:'consolidate'},
-    {id:'m6', label:'Percentages + reverse % + compound interest', week:2, type:'consolidate'},
-    {id:'m7', label:'Ratio and proportion', week:3, type:'consolidate'},
-    {id:'m8', label:'Expanding + factorising brackets', week:3, type:'consolidate'},
-    {id:'m9', label:'Bounds', week:4, type:'new'},
-    {id:'m10',label:'Powers, roots and standard form', week:4, type:'new'},
-    {id:'m11',label:'Linear graphs (y=mx+c)', week:5, type:'new'},
-    {id:'m12',label:'Quadratic + other graphs', week:5, type:'new'},
-    {id:'m13',label:'Sequences (linear + quadratic)', week:6, type:'new'},
-    {id:'m14',label:'Inequalities', week:6, type:'new'},
-    {id:'m15',label:'Angles (interior/exterior)', week:7, type:'new'},
-    {id:'m16',label:'Sine and cosine rules', week:7, type:'new'},
-    {id:'m17',label:'Pythagoras + SOHCAHTOA', week:8, type:'consolidate'},
-    {id:'m18',label:'Area + mensuration', week:8, type:'consolidate'},
+    {id:'m1',label:'Simultaneous equations',week:1,type:'consolidate',tutor:true},
+    {id:'m2',label:'Manipulation of formulae',week:1,type:'consolidate',tutor:true},
+    {id:'m3',label:'Quadratic equations — all methods',week:2,type:'consolidate',tutor:true},
+    {id:'m4',label:'Subject appears twice (advanced)',week:2,type:'consolidate',tutor:true},
+    {id:'m5',label:'Fractions — all operations',week:3,type:'consolidate',tutor:true},
+    {id:'m6',label:'Percentages + reverse % + compound interest',week:3,type:'consolidate',tutor:true},
+    {id:'m7',label:'Ratio and proportion',week:4,type:'consolidate',tutor:true},
+    {id:'m8',label:'Expanding + factorising brackets',week:4,type:'consolidate',tutor:true},
+    {id:'m9',label:'Bounds',week:5,type:'new',tutor:false},
+    {id:'m10',label:'Powers, roots and standard form',week:6,type:'new',tutor:false},
+    {id:'m11',label:'Linear and quadratic graphs',week:7,type:'new',tutor:false},
+    {id:'m12',label:'Sequences and inequalities',week:8,type:'new',tutor:false},
   ],
   physics:[
-    {id:'p1', label:'Density (ρ=m/V)', week:1, type:'consolidate'},
-    {id:'p2', label:'Pressure in fluids (P=F/A)', week:1, type:'consolidate'},
-    {id:'p3', label:'Kinetic theory of gases', week:2, type:'consolidate'},
-    {id:'p4', label:'Nuclear Physics — radioactivity', week:2, type:'consolidate'},
-    {id:'p5', label:'Half-life and decay', week:3, type:'consolidate'},
-    {id:'p6', label:'Fission and fusion', week:3, type:'consolidate'},
-    {id:'p7', label:'Distance, speed and time', week:4, type:'new'},
-    {id:'p8', label:'Acceleration and Newton\'s laws', week:4, type:'new'},
-    {id:'p9', label:'Momentum', week:5, type:'new'},
-    {id:'p10',label:'Energy — stores and transfers', week:5, type:'new'},
-    {id:'p11',label:'Waves — properties and definitions', week:6, type:'new'},
-    {id:'p12',label:'EM spectrum', week:6, type:'new'},
-    {id:'p13',label:'Electricity — current and charge', week:7, type:'new'},
-    {id:'p14',label:'Voltage, resistance and Ohm\'s law', week:7, type:'new'},
-    {id:'p15',label:'Series and parallel circuits', week:8, type:'new'},
-    {id:'p16',label:'Astrophysics — stars and universe', week:8, type:'new'},
+    {id:'p1',label:'Density (ρ=m/V)',week:1,type:'consolidate',tutor:true},
+    {id:'p2',label:'Pressure in fluids (P=F/A)',week:1,type:'consolidate',tutor:true},
+    {id:'p3',label:'Kinetic theory of gases',week:2,type:'consolidate',tutor:true},
+    {id:'p4',label:'Nuclear Physics — radioactivity + half-life',week:2,type:'consolidate',tutor:true},
+    {id:'p5',label:'Fission and fusion',week:3,type:'consolidate',tutor:true},
+    {id:'p6',label:'Distance, speed and time',week:4,type:'new',tutor:false},
+    {id:'p7',label:"Forces — Newton's laws + acceleration",week:5,type:'new',tutor:false},
+    {id:'p8',label:'Energy — stores and transfers',week:6,type:'new',tutor:false},
+    {id:'p9',label:'Waves + EM spectrum',week:7,type:'new',tutor:false},
+    {id:'p10',label:'Electricity — circuits + V=IR',week:8,type:'new',tutor:false},
   ],
   chemistry:[
-    {id:'c1', label:'Balancing equations + state symbols', week:1, type:'consolidate'},
-    {id:'c2', label:'Ionic and covalent bonding', week:1, type:'consolidate'},
-    {id:'c3', label:'Metallic bonding + ECM', week:2, type:'consolidate'},
-    {id:'c4', label:'Gases in the atmosphere', week:2, type:'consolidate'},
-    {id:'c5', label:'Chemical formulae + calculations', week:3, type:'consolidate'},
-    {id:'c6', label:'Types of chemical reaction', week:3, type:'new'},
-    {id:'c7', label:'States of matter + state symbols', week:4, type:'new'},
-    {id:'c8', label:'Atomic structure + isotopes', week:4, type:'new'},
-    {id:'c9', label:'Reactivity series', week:5, type:'new'},
-    {id:'c10',label:'Acids and bases', week:5, type:'new'},
-    {id:'c11',label:'Rates of reaction — factors', week:6, type:'new'},
-    {id:'c12',label:'Rates of reaction — graphs', week:6, type:'new'},
-    {id:'c13',label:'Electrolysis', week:7, type:'new'},
-    {id:'c14',label:'Chromatography + separation', week:7, type:'new'},
-    {id:'c15',label:'Organic chemistry — alkanes', week:8, type:'new'},
-    {id:'c16',label:'Organic chemistry — alkenes', week:8, type:'new'},
+    {id:'c1',label:'Balancing equations + state symbols',week:1,type:'consolidate',tutor:true},
+    {id:'c2',label:'Ionic and covalent bonding',week:1,type:'consolidate',tutor:true},
+    {id:'c3',label:'Gases in the atmosphere',week:2,type:'consolidate',tutor:true},
+    {id:'c4',label:'Chemical formulae + calculations',week:2,type:'consolidate',tutor:true},
+    {id:'c5',label:'Types of chemical reaction',week:3,type:'consolidate',tutor:true},
+    {id:'c6',label:'States of matter + atomic structure',week:4,type:'new',tutor:false},
+    {id:'c7',label:'Reactivity series',week:5,type:'new',tutor:false},
+    {id:'c8',label:'Acids and bases',week:6,type:'new',tutor:false},
+    {id:'c9',label:'Rates of reaction',week:7,type:'new',tutor:false},
+    {id:'c10',label:'Organic chemistry intro',week:8,type:'new',tutor:false},
   ],
   biology:[
-    {id:'b1', label:'Cell structure — animal and plant', week:1, type:'new'},
-    {id:'b2', label:'Specialised cells', week:1, type:'new'},
-    {id:'b3', label:'Diffusion and osmosis', week:2, type:'new'},
-    {id:'b4', label:'Active transport', week:2, type:'new'},
-    {id:'b5', label:'Gas exchange in humans', week:3, type:'new'},
-    {id:'b6', label:'Breathing mechanism', week:3, type:'new'},
-    {id:'b7', label:'Human reproduction', week:4, type:'new'},
-    {id:'b8', label:'Menstrual cycle and hormones', week:4, type:'new'},
-    {id:'b9', label:'Plant reproduction', week:5, type:'new'},
-    {id:'b10',label:'Photosynthesis', week:5, type:'new'},
-    {id:'b11',label:'Ecology — food chains and webs', week:6, type:'new'},
-    {id:'b12',label:'Energy transfer in ecosystems', week:6, type:'new'},
-    {id:'b13',label:'Nutrient cycles', week:7, type:'new'},
-    {id:'b14',label:'Human impact on environment', week:7, type:'new'},
-    {id:'b15',label:'Variety of life — classification', week:8, type:'new'},
-    {id:'b16',label:'DNA and inheritance (intro)', week:8, type:'new'},
+    {id:'b1',label:'Cell structure — animal and plant cells',week:1,type:'new',tutor:false},
+    {id:'b2',label:'Diffusion and osmosis',week:2,type:'new',tutor:false},
+    {id:'b3',label:'Gas exchange in humans',week:3,type:'new',tutor:false},
+    {id:'b4',label:'Human reproduction',week:4,type:'new',tutor:false},
+    {id:'b5',label:'Photosynthesis',week:5,type:'new',tutor:false},
+    {id:'b6',label:'Ecology — food chains + energy transfer',week:6,type:'new',tutor:false},
+    {id:'b7',label:'Nutrient cycles',week:7,type:'new',tutor:false},
+    {id:'b8',label:'Variety of life + classification',week:8,type:'new',tutor:false},
   ],
   history:[
-    {id:'h1', label:'WW1 — causes and Schlieffen Plan', week:1, type:'consolidate'},
-    {id:'h2', label:'WW1 — trench warfare + Somme', week:2, type:'consolidate'},
-    {id:'h3', label:'Holocaust — Nazi racial ideology', week:3, type:'consolidate'},
-    {id:'h4', label:'Holocaust — from persecution to murder', week:4, type:'consolidate'},
-    {id:'h5', label:'Slavery — triangular trade', week:5, type:'consolidate'},
-    {id:'h6', label:'Slavery — abolition arguments', week:6, type:'consolidate'},
-    {id:'h7', label:'Source analysis skills', week:7, type:'new'},
-    {id:'h8', label:'Essay structure — explain + evaluate', week:8, type:'new'},
+    {id:'h1',label:'WW1 — causes + Schlieffen Plan',week:1,type:'consolidate',tutor:false},
+    {id:'h2',label:'WW1 — trenches, Somme, technology',week:2,type:'consolidate',tutor:false},
+    {id:'h3',label:'Holocaust — persecution + ideology',week:3,type:'consolidate',tutor:false},
+    {id:'h4',label:'Holocaust — Wannsee + Browning argument',week:4,type:'consolidate',tutor:false},
+    {id:'h5',label:'Slavery — triangular trade + experience',week:5,type:'consolidate',tutor:false},
+    {id:'h6',label:'Slavery — abolition arguments + scepticism',week:6,type:'consolidate',tutor:false},
+    {id:'h7',label:'Source analysis skills',week:7,type:'new',tutor:false},
+    {id:'h8',label:'Essay structure — explain + evaluate',week:8,type:'new',tutor:false},
   ],
   geo:[
-    {id:'g1', label:'River environments', week:1, type:'new'},
-    {id:'g2', label:'Coastal environments', week:2, type:'new'},
-    {id:'g3', label:'Hazardous environments', week:3, type:'new'},
-    {id:'g4', label:'Economic activity and energy', week:4, type:'new'},
-    {id:'g5', label:'Ecosystems and rural environments', week:5, type:'new'},
-    {id:'g6', label:'Urban environments', week:6, type:'new'},
-    {id:'g7', label:'Graph and map skills', week:7, type:'new'},
-    {id:'g8', label:'Global issues — fragile environments', week:8, type:'new'},
+    {id:'g1',label:'River environments',week:1,type:'new',tutor:false},
+    {id:'g2',label:'Coastal environments',week:2,type:'new',tutor:false},
+    {id:'g3',label:'Hazardous environments',week:3,type:'new',tutor:false},
+    {id:'g4',label:'Economic activity and energy',week:4,type:'new',tutor:false},
+    {id:'g5',label:'Ecosystems and rural environments',week:5,type:'new',tutor:false},
+    {id:'g6',label:'Urban environments',week:6,type:'new',tutor:false},
+    {id:'g7',label:'Graph, map and data skills',week:7,type:'new',tutor:false},
+    {id:'g8',label:'Global issues — fragile environments',week:8,type:'new',tutor:false},
   ],
 };
-
-// Week schedule — 6 study days + 1 float rest day
-const WEEK_SCHEDULE = [
-  {day:1, s1:{subj:'maths',type:'consolidate'}, s2:{subj:'physics',type:'new'}},
-  {day:2, s1:{subj:'chemistry',type:'consolidate'}, s2:{subj:'biology',type:'new'}},
-  {day:3, s1:{subj:'history',type:'consolidate'}, s2:{subj:'geo',type:'new'}},
-  {day:4, s1:{subj:'maths',type:'new'}, s2:{subj:'physics',type:'consolidate'}},
-  {day:5, s1:{subj:'chemistry',type:'new'}, s2:{subj:'biology',type:'consolidate'}},
-  {day:6, s1:{subj:'history',type:'new'}, s2:{subj:'geo',type:'consolidate'}},
-  {day:7, rest:true},
+const DAY_PLAN=[
+  {day:1,s1:'maths',s2:'physics'},
+  {day:2,s1:'chemistry',s2:'biology'},
+  {day:3,s1:'history',s2:'geo'},
+  {day:4,s1:'physics',s2:'maths'},
+  {day:5,s1:'biology',s2:'chemistry'},
+  {day:6,challenge:true},
+  {day:7,rest:true},
 ];
-
-// Session resources per subject per week
-function getSessionContent(subj, week, type) {
-  const weekTopics = TOPICS[subj].filter(t => t.week === week && t.type === type);
-  if(!weekTopics.length) {
-    // fallback: pick topics for this week
-    const allForWeek = TOPICS[subj].filter(t => t.week === week);
-    if(allForWeek.length) return allForWeek;
-    return TOPICS[subj].slice(0,2);
-  }
-  return weekTopics;
-}
-
-// Topic-specific resource map — tutor sources first, then PMT, then BBC/SME
-const TOPIC_RESOURCES = {
-  // ── MATHS ──────────────────────────────────────────────
-  m1:{
-    videos:[{label:'Simultaneous equations (Cognito — tutor rec.)',url:'https://www.youtube.com/watch?v=68hMhae269k'}],
-    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
-    pp:{label:'PMT Simultaneous Equations (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Solving-Equations-and-Inequalities/Simultaneous%20Equations%20(H)%20QP.pdf'}
-  },
-  m2:{
-    videos:[
-      {label:'Rearranging formulas (Cognito — tutor rec.)',url:'https://www.youtube.com/watch?v=_BYxuxEIZqw&t=33s'},
-      {label:'Subject appears twice — advanced (tutor rec.)',url:'https://www.youtube.com/watch?v=5lcefrczJlE&t=22s'}
-    ],
-    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
-    pp:{label:'PMT Manipulation of Formulae (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Notation-Vocabulary-and-Manipulation/Manipulation%20of%20Formulae%20(H)%20QP.pdf'}
-  },
-  m3:{
-    videos:[
-      {label:'Solving quadratics (Cognito — tutor rec.)',url:'https://www.youtube.com/watch?v=CaUgHGV-JdI'},
-      {label:'Factorising quadratics pt 1 (Cognito — tutor rec.)',url:'https://www.youtube.com/watch?v=3kE_Q-JdlO4'},
-      {label:'Quadratic formula (tutor rec.)',url:'https://www.youtube.com/watch?v=mYsHbiOEYAc'}
-    ],
-    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
-    pp:{label:'PMT Solving Quadratic Equations (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Solving-Equations-and-Inequalities/Solving%20Quadratic%20Equations%20(H)%20QP.pdf'}
-  },
-  m4:{
-    videos:[
-      {label:'Rearranging formulas (Cognito — tutor rec.)',url:'https://www.youtube.com/watch?v=_BYxuxEIZqw&t=33s'},
-      {label:'Subject appears twice — advanced (tutor rec.)',url:'https://www.youtube.com/watch?v=5lcefrczJlE&t=22s'}
-    ],
-    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
-    pp:{label:'PMT Manipulation of Formulae (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Notation-Vocabulary-and-Manipulation/Manipulation%20of%20Formulae%20(H)%20QP.pdf'}
-  },
-  m5:{
-    videos:[
-      {label:'Fractions (tutor rec. L13)',url:'https://www.youtube.com/watch?v=MTxNPBupKMo&t=18s'},
-      {label:'Fractions — operations (tutor rec. L13)',url:'https://www.youtube.com/watch?v=Kh-euMm_6Is'}
-    ],
-    fc:{label:'PMT iGCSE Number flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'},
-    pp:{label:'PMT Fractions (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Number/QP/Higher/Fractions-Decimals-and-Percentages/Fractions%20(H)%20QP.pdf'}
-  },
-  m6:{
-    videos:[
-      {label:'Percentages (tutor rec. L13)',url:'https://www.youtube.com/watch?v=qeWRewXB91g'},
-      {label:'Compound interest / reverse % (tutor rec. L13)',url:'https://www.youtube.com/watch?v=BKnPKiSrUm8'}
-    ],
-    fc:{label:'PMT iGCSE Number flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'},
-    pp:{label:'PMT % Increase/Decrease (H) QP iGCSE',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Ratio-Proportion-and-Rates-of-Change/QP/Higher/Percentage%20Increase%20or%20Decrease%20(H)%20QP.pdf'}
-  },
-  m7:{
-    videos:[{label:'Ratio and proportion (tutor rec. L12)',url:'https://www.youtube.com/watch?v=li-bS-50WxY&list=PLZWMa5i8p1cKe_JP9tb37xQQ6SzF204QL'}],
-    fc:{label:'PMT iGCSE Ratio flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-ratio-proportion-and-rates-of-change/questions-edexcel-igcse/'},
-    pp:{label:'PMT Ratio (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Ratio-Proportion-and-Rates-of-Change/QP/Higher/Ratio%20(H)%20QP.pdf'}
-  },
-  m8:{
-    videos:[
-      {label:'Expanding double brackets (Cognito — tutor rec.)',url:'https://www.youtube.com/watch?v=Dvo1Q-yBBhk'},
-      {label:'Expanding equations (tutor rec. L9)',url:'https://www.youtube.com/watch?v=oQlV9IEFp_o'}
-    ],
-    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
-    pp:{label:'PMT Expanding Equations (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Notation-Vocabulary-and-Manipulation/Expanding%20Equations%20(H)%20QP.pdf'}
-  },
-  m9:{
-    videos:[{label:'Bounds — PMT topic page',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'}],
-    fc:{label:'PMT iGCSE Number flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'},
-    pp:{label:'PMT Bounds (H) QP iGCSE',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Number/MA/Higher/Measures-and-Accuracy/Bounds%20(H)%20MA.pdf'}
-  },
-  m10:{
-    videos:[{label:'Standard form + indices — PMT iGCSE Number',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'}],
-    fc:{label:'PMT iGCSE Number flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'},
-    pp:{label:'PMT Indices & Standard Form (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Number/QP/Higher/Indices-and-Surds/Indices%20(H)%20QP.pdf'}
-  },
-  m11:{
-    videos:[{label:'Linear graphs y=mx+c — PMT iGCSE Algebra',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'}],
-    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
-    pp:{label:'PMT Graphs of Linear Equations (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Graphs/Graphs%20of%20Linear%20Equations%20(H)%20QP.pdf'}
-  },
-  m12:{
-    videos:[{label:'Quadratic + other graphs — PMT iGCSE Algebra',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'}],
-    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
-    pp:{label:'PMT Graphs of Quadratic Equations (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Graphs/Graphs%20of%20Quadratic%20Equations%20(H)%20QP.pdf'}
-  },
-  m13:{
-    videos:[{label:'Sequences nth term (Cognito — tutor rec.)',url:'https://www.youtube.com/watch?v=RAjTpz3yQ3Q'}],
-    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
-    pp:{label:'PMT Sequences (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Sequences/Sequences%20(H)%20QP.pdf'}
-  },
-  m14:{
-    videos:[{label:'Inequalities — PMT iGCSE Algebra',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'}],
-    fc:{label:'PMT iGCSE Algebra flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},
-    pp:{label:'PMT Inequalities (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Solving-Equations-and-Inequalities/Inequalities%20(H)%20QP.pdf'}
-  },
-  m15:{
-    videos:[{label:'Angles — PMT iGCSE Geometry',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-geometry-and-measures/questions-edexcel-igcse/'}],
-    fc:{label:'PMT iGCSE Geometry flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-geometry-and-measures/questions-edexcel-igcse/'},
-    pp:{label:'PMT Angles (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Geometry-and-Measures/QP/Higher/Angles/Angles%20(H)%20QP.pdf'}
-  },
-  m16:{
-    videos:[{label:'Sine & cosine rule — PMT iGCSE Geometry',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-geometry-and-measures/questions-edexcel-igcse/'}],
-    fc:{label:'PMT iGCSE Geometry flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-geometry-and-measures/questions-edexcel-igcse/'},
-    pp:{label:'PMT Trigonometry (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Geometry-and-Measures/QP/Higher/Trigonometry/Trigonometry%20(H)%20QP.pdf'}
-  },
-  m17:{
-    videos:[
-      {label:'SOHCAHTOA (tutor rec. L5)',url:'https://www.youtube.com/watch?v=CnHgqfBSgco&t=65s'},
-      {label:'Area + Pythagoras (tutor rec. L5)',url:'https://www.youtube.com/watch?v=WFH_7n7hpHo&t=159s'}
-    ],
-    fc:{label:'PMT iGCSE Geometry flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-geometry-and-measures/questions-edexcel-igcse/'},
-    pp:{label:'PMT Pythagoras (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Geometry-and-Measures/QP/Higher/Pythagoras/Pythagoras%20(H)%20QP.pdf'}
-  },
-  m18:{
-    videos:[
-      {label:'Area trapezium + compound shapes (tutor rec. L5)',url:'https://www.youtube.com/watch?v=tN95TLKpmVQ&t=3s'},
-      {label:'Area triangles (tutor rec. L5)',url:'https://www.youtube.com/watch?v=WFH_7n7hpHo&t=159s'}
-    ],
-    fc:{label:'PMT iGCSE Geometry flashcards',url:'https://www.physicsandmathstutor.com/maths-revision/gcse-geometry-and-measures/questions-edexcel-igcse/'},
-    pp:{label:'PMT Area (H) QP',url:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Geometry-and-Measures/QP/Higher/Mensuration-and-Calculation/Area%20(H)%20QP.pdf'}
-  },
-  // ── PHYSICS ────────────────────────────────────────────
-  p1:{
-    videos:[
-      {label:'Density (tutor rec. L2/L10)',url:'https://www.youtube.com/watch?v=sfnsuS0-o58&t=20s'},
-      {label:'Density supplementary (tutor rec. L10)',url:'https://www.youtube.com/watch?v=zjkBMk5d3tM'}
-    ],
-    fc:{label:'PMT Physics Ch.5 flashcards (tutor rec.)',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Flashcards%20-%20Topic%205%20Solids%2C%20Liquids%20and%20Gases%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Density & Pressure QP (tutor rec.)',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Topic-Qs/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Set-A1/Density%20and%20Pressure%201%20QP.pdf'}
-  },
-  p2:{
-    videos:[
-      {label:'Pressure in fluids (tutor rec. L2/L10)',url:'https://www.youtube.com/watch?v=m2P2DdfebiU&t=2s'},
-      {label:'Pressure extra (tutor rec. L10)',url:'https://www.youtube.com/watch?v=SnKba6aVZTc'},
-      {label:'Pressure extra 2 (tutor rec. L10)',url:'https://www.youtube.com/watch?v=OIpvOIb3GAg'}
-    ],
-    fc:{label:'PMT Physics Ch.5 flashcards (tutor rec.)',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Flashcards%20-%20Topic%205%20Solids%2C%20Liquids%20and%20Gases%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Density & Pressure MS (check answers)',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Topic-Qs/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Set-A1/Density%20and%20Pressure%201%20MS.pdf'}
-  },
-  p3:{
-    videos:[
-      {label:'Kinetic theory (tutor rec. L2)',url:'https://www.youtube.com/watch?v=oX7vbbF1wmk&t=64s'},
-      {label:'Kinetic theory supplementary (tutor rec. L10)',url:'https://www.youtube.com/watch?v=yumeVlrnj8s'}
-    ],
-    fc:{label:'PMT Physics Ch.5 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Flashcards%20-%20Topic%205%20Solids%2C%20Liquids%20and%20Gases%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Physics Ch.5 topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/solids-liquids-and-gases/'}
-  },
-  p4:{
-    videos:[{label:'Full radioactivity topic — 35 min animations (tutor rec. L7)',url:'https://www.youtube.com/watch?v=GoaPHUIxyYo'}],
-    fc:{label:'PMT Physics Ch.7 flashcards (tutor rec. L7)',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/7-Radioactivity-and-Particles/Flashcards%20-%20Topic%207%20Radioactivity%20and%20Particles%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Radioactivity topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/radioactivity-and-particles/'}
-  },
-  p5:{
-    videos:[{label:'Full radioactivity topic (tutor rec. L7)',url:'https://www.youtube.com/watch?v=GoaPHUIxyYo'}],
-    fc:{label:'PMT Physics Ch.7 flashcards (cards 42+)',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/7-Radioactivity-and-Particles/Flashcards%20-%20Topic%207%20Radioactivity%20and%20Particles%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Radioactivity topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/radioactivity-and-particles/'}
-  },
-  p6:{
-    videos:[{label:'Full radioactivity topic (tutor rec. L7)',url:'https://www.youtube.com/watch?v=GoaPHUIxyYo'}],
-    fc:{label:'PMT Physics Ch.7 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/7-Radioactivity-and-Particles/Flashcards%20-%20Topic%207%20Radioactivity%20and%20Particles%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Radioactivity topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/radioactivity-and-particles/'}
-  },
-  p7:{
-    videos:[{label:'PMT Physics Topic 1 — Forces & Motion (notes + videos)',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}],
-    fc:{label:'PMT Physics Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/1-Forces-and-Motion/Flashcards%20-%20Topic%201%20Forces%20and%20Motion%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Forces & Motion topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}
-  },
-  p8:{
-    videos:[{label:'PMT Physics Topic 1 — Forces & Motion',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}],
-    fc:{label:'PMT Physics Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/1-Forces-and-Motion/Flashcards%20-%20Topic%201%20Forces%20and%20Motion%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Forces & Motion topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}
-  },
-  p9:{
-    videos:[{label:'PMT Physics Topic 1 — Forces & Motion',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}],
-    fc:{label:'PMT Physics Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/1-Forces-and-Motion/Flashcards%20-%20Topic%201%20Forces%20and%20Motion%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Forces & Motion topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}
-  },
-  p10:{
-    videos:[{label:'PMT Physics Topic 4 — Energy Resources',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/energy-resources-and-transfer/'}],
-    fc:{label:'PMT Physics Ch.4 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/4-Energy-Resources-and-Energy-Transfer/Flashcards%20-%20Topic%204%20Energy%20Resources%20and%20Energy%20Transfer%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Energy topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/energy-resources-and-transfer/'}
-  },
-  p11:{
-    videos:[{label:'PMT Physics Topic 3 — Waves (notes + videos + questions)',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/waves/'}],
-    fc:{label:'PMT Physics Ch.3 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/3-Waves/Flashcards%20-%20Topic%203%20Waves%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Waves topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/waves/'}
-  },
-  p12:{
-    videos:[{label:'PMT Physics Topic 3 — Waves & EM Spectrum',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/waves/'}],
-    fc:{label:'PMT Physics Ch.3 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/3-Waves/Flashcards%20-%20Topic%203%20Waves%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Waves topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/waves/'}
-  },
-  p13:{
-    videos:[{label:'PMT Physics Topic 2 — Electricity (notes + videos + questions)',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/electricity/'}],
-    fc:{label:'PMT Physics Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/2-Electricity/Flashcards%20-%20Topic%202%20Electricity%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Electricity topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/electricity/'}
-  },
-  p14:{
-    videos:[{label:'PMT Physics Topic 2 — Electricity: V=IR',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/electricity/'}],
-    fc:{label:'PMT Physics Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/2-Electricity/Flashcards%20-%20Topic%202%20Electricity%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Electricity topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/electricity/'}
-  },
-  p15:{
-    videos:[{label:'PMT Physics Topic 2 — Electricity: Circuits',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/electricity/'}],
-    fc:{label:'PMT Physics Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/2-Electricity/Flashcards%20-%20Topic%202%20Electricity%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Electricity topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/electricity/'}
-  },
-  p16:{
-    videos:[{label:'PMT Physics Topic 8 — Astrophysics (notes + videos + questions)',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/astrophysics/'}],
-    fc:{label:'PMT Physics Ch.8 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/8-Astrophysics/Flashcards%20-%20Topic%208%20Astrophysics%20-%20Edexcel%20Physics%20IGCSE.pdf'},
-    pp:{label:'PMT Astrophysics topic questions',url:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/astrophysics/'}
-  },
-  // ── CHEMISTRY ──────────────────────────────────────────
-  c1:{
-    videos:[{label:'Balancing equations (tutor rec. L3)',url:'https://www.youtube.com/watch?v=rM7qErgZfNo'}],
-    fc:{label:'PMT Chemistry Ch.1 flashcards (tutor rec.)',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Chemical Formulae + Equations QP (tutor rec. L14)',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/1-Principles-of-Chemistry/Set-A1/Chemical%20Formulae%2C%20Equations%2C%20Calculations%201%20QP.pdf'}
-  },
-  c2:{
-    videos:[
-      {label:'Ionic bonding (tutor rec. L3)',url:'https://www.youtube.com/watch?v=7IkYm7ZgiAw'},
-      {label:'Covalent bonding (tutor rec. L3)',url:'https://www.youtube.com/watch?v=ybi6kQHKVws'}
-    ],
-    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Ionic Bonding QP (tutor rec. L14)',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/1-Principles-of-Chemistry/Set-A2/Ionic%20Bonding%20QP.pdf'}
-  },
-  c3:{
-    videos:[{label:'PMT Chemistry Topic 1 — Principles (notes + videos)',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],
-    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Elements Compounds Mixtures QP (tutor rec. L14)',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/1-Principles-of-Chemistry/Set-A2/Elements%2C%20Compounds%2C%20Mixtures%20QP.pdf'}
-  },
-  c4:{
-    videos:[{label:'SME Composition of Air revision notes (tutor rec.)',url:'https://www.savemyexams.com/igcse/chemistry/edexcel/19/revision-notes/2-inorganic-chemistry/2-3-gases-in-the-atmosphere/2-3-1-composition-of-air/'}],
-    fc:{label:'PMT Chemistry Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/2-Inorganic-Chemistry/Flashcards%20-%20Topic%202%20Inorganic%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Gases in Atmosphere QP (tutor rec. L12)',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/2-Inorganic-Chemistry/Set-A1/Gases%20in%20the%20Atmosphere%20QP.pdf'}
-  },
-  c5:{
-    videos:[{label:'PMT Chemistry Topic 1 — Chemical Formulae',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],
-    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Chemical Formulae Equations Calculations QP (tutor rec. L14)',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/1-Principles-of-Chemistry/Set-A1/Chemical%20Formulae%2C%20Equations%2C%20Calculations%201%20QP.pdf'}
-  },
-  c6:{
-    videos:[{label:'PMT Chemistry Topic 1 — Types of reactions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],
-    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Chemistry Topic 1 questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}
-  },
-  c7:{
-    videos:[{label:'PMT Chemistry Topic 1 — States of matter',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],
-    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Chemistry Topic 1 questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}
-  },
-  c8:{
-    videos:[{label:'PMT Chemistry Topic 1 — Atomic structure',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],
-    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Chemistry Topic 1 questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}
-  },
-  c9:{
-    videos:[{label:'PMT Chemistry Topic 2 — Inorganic Chemistry (reactivity)',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/inorganic-chemistry/'}],
-    fc:{label:'PMT Chemistry Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/2-Inorganic-Chemistry/Flashcards%20-%20Topic%202%20Inorganic%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Inorganic Chemistry topic questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/inorganic-chemistry/'}
-  },
-  c10:{
-    videos:[{label:'PMT Chemistry Topic 2 — Acids and bases',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/inorganic-chemistry/'}],
-    fc:{label:'PMT Chemistry Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/2-Inorganic-Chemistry/Flashcards%20-%20Topic%202%20Inorganic%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Acids topic questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/inorganic-chemistry/'}
-  },
-  c11:{
-    videos:[{label:'PMT Chemistry Topic 3 — Physical Chemistry (rates)',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/physical-chemistry/'}],
-    fc:{label:'PMT Chemistry Ch.3 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/3-Physical-Chemistry/Flashcards%20-%20Topic%203%20Physical%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Rates of Reaction QP',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/3-Physical-Chemistry/Set-A1/Rates%20of%20Reaction%20QP.pdf'}
-  },
-  c12:{
-    videos:[{label:'PMT Chemistry Topic 3 — Rates graphs',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/physical-chemistry/'}],
-    fc:{label:'PMT Chemistry Ch.3 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/3-Physical-Chemistry/Flashcards%20-%20Topic%203%20Physical%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Rates of Reaction QP',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/3-Physical-Chemistry/Set-A1/Rates%20of%20Reaction%20QP.pdf'}
-  },
-  c13:{
-    videos:[{label:'PMT Chemistry Topic 1 — Electrolysis',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],
-    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Chemistry Topic 1 questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}
-  },
-  c14:{
-    videos:[{label:'PMT Chemistry Topic 1 — Chromatography + separation',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],
-    fc:{label:'PMT Chemistry Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Chemistry Topic 1 questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}
-  },
-  c15:{
-    videos:[{label:'PMT Chemistry Topic 4 — Organic Chemistry',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/organic-chemistry/'}],
-    fc:{label:'PMT Chemistry Ch.4 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/4-Organic-Chemistry/Flashcards%20-%20Topic%204%20Organic%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Organic Chemistry topic questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/organic-chemistry/'}
-  },
-  c16:{
-    videos:[{label:'PMT Chemistry Topic 4 — Organic Chemistry (alkenes)',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/organic-chemistry/'}],
-    fc:{label:'PMT Chemistry Ch.4 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/4-Organic-Chemistry/Flashcards%20-%20Topic%204%20Organic%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},
-    pp:{label:'PMT Organic Chemistry topic questions',url:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/organic-chemistry/'}
-  },
-  // ── BIOLOGY ────────────────────────────────────────────
-  b1:{
-    videos:[{label:'PMT Biology Topic 1 — Nature and Variety of Living Organisms',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}],
-    fc:{label:'PMT Biology Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/1-Nature-and-Variety-of-Living-Organisms/Flashcards%20-%20Topic%201%20Nature%20and%20Variety%20of%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 1 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}
-  },
-  b2:{
-    videos:[{label:'PMT Biology Topic 1 — Living organisms + cells',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}],
-    fc:{label:'PMT Biology Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/1-Nature-and-Variety-of-Living-Organisms/Flashcards%20-%20Topic%201%20Nature%20and%20Variety%20of%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 1 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}
-  },
-  b3:{
-    videos:[{label:'PMT Biology Topic 2 — Structures and Functions in Living Organisms',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
-    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
-  },
-  b4:{
-    videos:[{label:'PMT Biology Topic 2 — Active transport',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
-    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
-  },
-  b5:{
-    videos:[{label:'PMT Biology Topic 2 — Gas exchange in humans',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
-    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
-  },
-  b6:{
-    videos:[{label:'PMT Biology Topic 2 — Breathing mechanism',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
-    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
-  },
-  b7:{
-    videos:[{label:'PMT Biology Topic 2 — Human reproduction',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
-    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
-  },
-  b8:{
-    videos:[{label:'PMT Biology Topic 2 — Menstrual cycle + hormones',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
-    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
-  },
-  b9:{
-    videos:[{label:'PMT Biology Topic 2 — Plant reproduction',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
-    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
-  },
-  b10:{
-    videos:[{label:'PMT Biology Topic 2 — Photosynthesis',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],
-    fc:{label:'PMT Biology Ch.2 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 2 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}
-  },
-  b11:{
-    videos:[{label:'PMT Biology Topic 4 — Ecology and Environment',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}],
-    fc:{label:'PMT Biology Ch.4 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/4-Ecology-and-the-Environment/Flashcards%20-%20Topic%204%20Ecology%20and%20the%20Environment%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 4 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}
-  },
-  b12:{
-    videos:[{label:'PMT Biology Topic 4 — Energy transfer in ecosystems',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}],
-    fc:{label:'PMT Biology Ch.4 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/4-Ecology-and-the-Environment/Flashcards%20-%20Topic%204%20Ecology%20and%20the%20Environment%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 4 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}
-  },
-  b13:{
-    videos:[{label:'PMT Biology Topic 4 — Nutrient cycles',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}],
-    fc:{label:'PMT Biology Ch.4 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/4-Ecology-and-the-Environment/Flashcards%20-%20Topic%204%20Ecology%20and%20the%20Environment%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 4 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}
-  },
-  b14:{
-    videos:[{label:'PMT Biology Topic 4 — Human impact on environment',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}],
-    fc:{label:'PMT Biology Ch.4 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/4-Ecology-and-the-Environment/Flashcards%20-%20Topic%204%20Ecology%20and%20the%20Environment%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 4 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}
-  },
-  b15:{
-    videos:[{label:'PMT Biology Topic 1 — Nature and Variety of Living Organisms',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}],
-    fc:{label:'PMT Biology Ch.1 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/1-Nature-and-Variety-of-Living-Organisms/Flashcards%20-%20Topic%201%20Nature%20and%20Variety%20of%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 1 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}
-  },
-  b16:{
-    videos:[{label:'PMT Biology Topic 3 — Reproduction and Inheritance',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/reproduction-and-inheritance/'}],
-    fc:{label:'PMT Biology Ch.3 flashcards',url:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/3-Reproduction-and-Inheritance/Flashcards%20-%20Topic%203%20Reproduction%20and%20Inheritance%20-%20Edexcel%20Biology%20IGCSE.pdf'},
-    pp:{label:'PMT Biology Topic 3 questions',url:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/reproduction-and-inheritance/'}
-  },
-  // ── HISTORY ────────────────────────────────────────────
-  h1:{
-    videos:[{label:'BBC Bitesize — WW1 causes',url:'https://www.bbc.co.uk/bitesize/topics/zqhyb9q'}],
-    fc:{label:'Class notes + handouts (PRIMARY resource)',url:'#'},
-    pp:{label:'SME GCSE History',url:'https://www.savemyexams.com/gcse/history/'}
-  },
-  h2:{
-    videos:[{label:'BBC Bitesize — WW1 trench warfare + Somme',url:'https://www.bbc.co.uk/bitesize/topics/zqhyb9q'}],
-    fc:{label:'Class notes + handouts (PRIMARY resource)',url:'#'},
-    pp:{label:'SME GCSE History',url:'https://www.savemyexams.com/gcse/history/'}
-  },
-  h3:{
-    videos:[{label:'BBC Bitesize — Holocaust + Nazi Germany',url:'https://www.bbc.co.uk/bitesize/topics/z83tn9q'}],
-    fc:{label:'Class notes + handouts (PRIMARY resource — Browning interview etc.)',url:'#'},
-    pp:{label:'SME GCSE History',url:'https://www.savemyexams.com/gcse/history/'}
-  },
-  h4:{
-    videos:[{label:'BBC Bitesize — Holocaust',url:'https://www.bbc.co.uk/bitesize/topics/z83tn9q'}],
-    fc:{label:'Class notes — Wannsee Conference, Police Battalion 101',url:'#'},
-    pp:{label:'SME GCSE History',url:'https://www.savemyexams.com/gcse/history/'}
-  },
-  h5:{
-    videos:[{label:'BBC Bitesize — Slave Trade',url:'https://www.bbc.co.uk/bitesize/topics/zrqqvcw'}],
-    fc:{label:'Class notes + handouts (PRIMARY resource)',url:'#'},
-    pp:{label:'SME GCSE History',url:'https://www.savemyexams.com/gcse/history/'}
-  },
-  h6:{
-    videos:[{label:'BBC Bitesize — Abolition of Slavery',url:'https://www.bbc.co.uk/bitesize/topics/zrqqvcw'}],
-    fc:{label:'Class notes + handouts (PRIMARY resource)',url:'#'},
-    pp:{label:'SME GCSE History',url:'https://www.savemyexams.com/gcse/history/'}
-  },
-  h7:{
-    videos:[{label:'BBC Bitesize — Source skills in History',url:'https://www.bbc.co.uk/bitesize/examspecs/zk8xtfr'}],
-    fc:{label:'Class notes on source analysis technique',url:'#'},
-    pp:{label:'SME GCSE History — source questions',url:'https://www.savemyexams.com/gcse/history/'}
-  },
-  h8:{
-    videos:[{label:'BBC Bitesize — History essay skills',url:'https://www.bbc.co.uk/bitesize/examspecs/zk8xtfr'}],
-    fc:{label:'Class essay frameworks',url:'#'},
-    pp:{label:'SME GCSE History — exam technique',url:'https://www.savemyexams.com/gcse/history/'}
-  },
-  // ── GEOGRAPHY ──────────────────────────────────────────
-  g1:{
-    videos:[{label:'PMT Geography — River Environments',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/river-environments/'}],
-    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
-    pp:{label:'PMT Geography River Environments topic questions',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/river-environments/'}
-  },
-  g2:{
-    videos:[{label:'PMT Geography — Coastal Environments',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/coastal-environments/'}],
-    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
-    pp:{label:'PMT Geography Coastal Environments topic questions',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/coastal-environments/'}
-  },
-  g3:{
-    videos:[{label:'PMT Geography — Hazardous Environments',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/hazardous-environments/'}],
-    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
-    pp:{label:'PMT Geography Hazardous Environments topic questions',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/hazardous-environments/'}
-  },
-  g4:{
-    videos:[{label:'PMT Geography — Economic Activity and Energy',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/economic-activity-and-energy/'}],
-    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
-    pp:{label:'PMT Geography Economic Activity topic questions',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/economic-activity-and-energy/'}
-  },
-  g5:{
-    videos:[{label:'PMT Geography — Ecosystems and Rural Environments',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/ecosystems-and-rural-environments/'}],
-    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
-    pp:{label:'PMT Geography Ecosystems topic questions',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/ecosystems-and-rural-environments/'}
-  },
-  g6:{
-    videos:[{label:'PMT Geography — Urban Environments',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/urban-environments/'}],
-    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
-    pp:{label:'PMT Geography Urban Environments topic questions',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/urban-environments/'}
-  },
-  g7:{
-    videos:[{label:'PMT Geography iGCSE — Skills + Practical Enquiry',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'}],
-    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
-    pp:{label:'SME GCSE Geography — skills questions',url:'https://www.savemyexams.com/gcse/geography/'}
-  },
-  g8:{
-    videos:[{label:'PMT Geography iGCSE — Global Issues',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/fragile-environments/'}],
-    fc:{label:'PMT Geography iGCSE flashcards',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},
-    pp:{label:'PMT Geography Fragile Environments topic questions',url:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/fragile-environments/'}
-  },
+</script>
+<script>
+const RETRIEVAL_QS={
+  m1:["Without notes: solve 2x + y = 10 and x − y = 2","Write the three steps for solving by elimination"],
+  m2:["Without notes: rearrange v = u + at to make a the subject","What do you do when the subject appears on both sides?"],
+  m3:["Without notes: solve x² + 5x + 6 = 0 by factorising","When do you use the quadratic formula instead?"],
+  m4:["Without notes: make x the subject of ax + b = cx + d","What is the first step when the subject appears on both sides?"],
+  m5:["Without notes: calculate 2⅓ × 1½","How do you convert a mixed number to top-heavy?"],
+  m6:["Without notes: a price increases from £80 to £96. What is the % increase?","What is the multiplier for a 15% decrease?"],
+  m7:["Without notes: divide £120 in the ratio 3:5","If 2 parts = 14, what is 1 part?"],
+  m8:["Without notes: expand (x+3)(x−2)","Factorise: x² + 7x + 12"],
+  m9:["What is an upper bound? Give one example","A length is 8 cm to the nearest cm — write upper and lower bounds"],
+  m10:["Write 0.000047 in standard form","What is 3⁻² equal to?"],
+  m11:["Sketch y = 2x − 3. Where does it cross the y-axis?","What is the gradient of the line through (1,3) and (4,9)?"],
+  m12:["Find the nth term of: 5, 8, 11, 14...","Solve: 3x − 4 > 11"],
+  p1:["Without notes: object has mass 600g and volume 200cm³. What is its density?","Write the density formula and its unit"],
+  p2:["Without notes: force 200N acts on area 0.4m². What is the pressure?","What happens to pressure as you go deeper in a fluid?"],
+  p3:["Describe what happens to gas particles when temperature increases","Why does a sealed balloon expand when heated?"],
+  p4:["Name the three types of radiation and one property of each","Sample starts with 800 atoms. After 2 half-lives, how many remain?"],
+  p5:["Explain the difference between fission and fusion","In which does a large nucleus split?"],
+  p6:["Without notes: a car travels 150km at 60km/h. How long?","Write the triangle connecting speed, distance and time"],
+  p7:["State Newton's Second Law as an equation","A 5kg object accelerates at 3m/s². What force acts on it?"],
+  p8:["Name two energy stores and two energy transfers","What is the unit of energy?"],
+  p9:["Difference between transverse and longitudinal waves?","Name three types of EM radiation in order of increasing frequency"],
+  p10:["State Ohm's Law as an equation","In a series circuit, what happens to current if you add a resistor?"],
+  c1:["Without notes: balance Fe + O₂ → Fe₂O₃ and add state symbols","What does conservation of mass mean?"],
+  c2:["Explain ionic bonding in one sentence","Give one example each of ionic and covalent"],
+  c3:["What percentage of air is oxygen? Nitrogen? CO₂?","Name two greenhouse gases"],
+  c4:["Write the formula for water","What does the subscript number tell you?"],
+  c5:["Name 5 main types of chemical reaction","Give an example of combustion"],
+  c6:["Describe particle arrangement in solid vs gas","Where is most of an atom's mass?"],
+  c7:["List top 5 of the reactivity series","Which is more reactive: sodium or copper?"],
+  c8:["What pH is a strong acid? Neutral? Strong alkali?","What is neutralisation?"],
+  c9:["Name 4 factors that affect rate of reaction","Why does temperature increase rate?"],
+  c10:["What is a hydrocarbon?","General formula for alkanes?"],
+  b1:["Name 3 organelles in plant cell but not animal cell","Function of mitochondria?"],
+  b2:["Explain diffusion in one sentence","How is osmosis different from diffusion?"],
+  b3:["Role of alveoli in gas exchange?","What adaptation makes alveoli efficient?"],
+  b4:["Name the male and female reproductive organs","What is fertilisation?"],
+  b5:["Write the word equation for photosynthesis","Name the two raw materials"],
+  b6:["Draw a simple food chain with 3 organisms","What is a producer?"],
+  b7:["Describe the carbon cycle in 2 sentences","One process that releases CO₂"],
+  b8:["What is the binomial naming system?","Name the 5 kingdoms"],
+  h1:["Name 4 causes of WW1 (MAIN)","Why did the assassination of Franz Ferdinand trigger a world war?"],
+  h2:["Describe trench conditions in 2 sentences","Why was the Battle of the Somme significant?"],
+  h3:["What was Nazi racial ideology?","What was the T4 Programme?"],
+  h4:["What was decided at the Wannsee Conference?","What is Browning's main argument?"],
+  h5:["Describe the triangular trade in 2 sentences","What was the Middle Passage?"],
+  h6:["Give 2 arguments for abolition","What sceptical arguments exist about abolition?"],
+  h7:["Difference between primary and secondary source?","Questions to ask when evaluating a source?"],
+  h8:["How to structure an 'explain why' answer?","What does 'evaluate significance' require?"],
+  g1:["Name 3 processes of river erosion","Where does a river deposit most sediment?"],
+  g2:["What is longshore drift?","One cause and effect of coastal erosion"],
+  g3:["Give 2 examples of natural hazards","Why do people live near volcanoes?"],
+  g4:["Difference between renewable and non-renewable energy?","2 advantages of wind energy"],
+  g5:["What is a food web?","One way humans damage ecosystems"],
+  g6:["What is urbanisation?","2 problems of rapid urban growth"],
+  g7:["How to calculate gradient on a graph?","What does a population pyramid show?"],
+  g8:["What is a fragile environment?","2 threats to a fragile environment"],
 };
+const WITHIN_RECALL={
+  maths:{m1:["Rearrange to make t: s=ut+½at²","Factorise: x²−9"],m2:["Solve: 3x+2y=16 and x+y=7","Expand: (a+b)(a−b)"],m3:["Rearrange P=F/A to make F","Solve: 2x−7=11"],m4:["Solve x²+5x+6=0 by factorising","Find the nth term of 2,5,8,11..."],m5:["Solve: 4x−y=10 and 2x+y=8","Rearrange v²=u²+2as to make u"],m6:["Add: 2⅓+1¾","Solve: x²−7x+12=0"],m7:["£60 increases by 25%. New price?","Rearrange A=πr² to make r"],m8:["Divide £200 in ratio 3:7","What is 40% of 360?"],m9:["Expand and simplify: (2x+1)(x−3)","Solve: 3x+2y=11 and x−y=2"],m10:["Upper bound of 7.4cm (1 d.p.)?","Solve: x²−4x−12=0"],m11:["Write 0.00056 in standard form","Rearrange F=ma to make m"],m12:["Gradient of y=3x−5?","nth term of 3,7,11,15...?"]},
+  physics:{p1:["Half-life: 400 to 100 atoms in 8 hours?","Name three types of radiation"],p2:["Object mass 900g volume 300cm³. Density?","Kinetic theory: what happens when cooled?"],p3:["Force 150N on area 0.5m². Pressure?","What happens to gas particles when cooled?"],p4:["Density ice=0.9g/cm³, volume=50cm³. Mass?","One use of radioactive isotopes in medicine"],p5:["Pressure: force=80N, area=0.2m²?","Why does KE increase when speed doubles?"],p6:["Difference between fission and fusion","Density: mass 1.2kg, volume 400cm³?"],p7:["Car travels 240km at 80km/h. How long?","Pressure: 60kg person, area 0.04m²?"],p8:["3kg object accelerates at 4m/s². Force?","Speed: distance 150m, time 30s?"],p9:["Spring: force 12N, extension 0.06m. Spring constant?","Energy transfer in a light bulb?"],p10:["Name 7 EM radiation types in wavelength order","Wave: speed 300m/s, frequency 50Hz. Wavelength?"]},
+  chemistry:{c1:["Explain ionic vs covalent bonding","What % of air is oxygen?"],c2:["Balance: Ca+O₂→CaO (with state symbols)","What is the greenhouse effect?"],c3:["Write formula for sodium chloride","Explain covalent bonding in one sentence"],c4:["Three main atmospheric gases and %?","Balance: CH₄+O₂→CO₂+H₂O"],c5:["Word equation for combustion of methane?","What is an ionic bond?"],c6:["Name 5 types of chemical reaction","State symbol for dissolved substance in water?"],c7:["Particle arrangement in a liquid?","What is thermal decomposition?"],c8:["Which is most reactive: iron, sodium, copper?","Test for oxygen gas?"],c9:["pH of a strong acid?","2 products of HCl+NaOH neutralisation?"],c10:["4 factors affecting rate of reaction?","Why does higher concentration speed up reaction?"]},
+  biology:{b1:["Difference between diffusion and active transport?","Role of cell membrane?"],b2:["3 organelles in plant not animal cells?","What process do plants use to make glucose?"],b3:["Describe diffusion in one sentence","What is osmosis?"],b4:["Organ where gas exchange occurs in humans?","Role of diaphragm in breathing?"],b5:["Female hormone that controls menstrual cycle?","Describe fertilisation in one sentence"],b6:["Word equation for photosynthesis?","One limiting factor for photosynthesis?"],b7:["What is a producer in a food chain?","% of energy transferred between trophic levels?"],b8:["Carbon cycle in 2 sentences","Human activity that disrupts nutrient cycles?"]},
+  history:{h1:["Describe trench conditions","Significance of Battle of Somme?"],h2:["4 causes of WW1","Technology that changed WW1?"],h3:["What was decided at Wannsee?","Who was Browning and what was his argument?"],h4:["What was Nazi racial thinking based on?","What was the T4 Programme?"],h5:["Arguments used to abolish slavery?","Sceptical view of abolition?"],h6:["Middle Passage in 2 sentences","Pre-Colonial Africa before slave trade?"],h7:["How to structure an 'explain why' answer?","What does 'evaluate' require differently?"],h8:["Questions to ask when analysing a primary source?","2 ways to evaluate source reliability?"]},
+  geo:{g1:["What is longshore drift?","One cause and effect of coastal erosion"],g2:["3 processes of river erosion","Where does a river deposit most material?"],g3:["2 examples of natural hazards","Why do tectonic boundaries have more hazards?"],g4:["What is a fragile environment?","2 threats to ecosystems from human activity"],g5:["Difference between renewable and non-renewable?","2 advantages of solar energy"],g6:["Problems caused by rapid urbanisation?","2 features of a squatter settlement"],g7:["What is globalisation?","2 effects of migration on the country people leave"],g8:["How to calculate gradient on a map?","Population pyramid of an ageing population?"]},
+};
+const CROSS_RECALL={
+  maths:["A car travels 180km at 90km/h. How long? (uses d=s×t — apply your formula skills)","Rearrange KE=½mv² to make v the subject (Physics formula — manipulation skills)"],
+  physics:["Rearrange v=u+at to make a the subject (Maths manipulation)","Calculate area of trapezium: parallel sides 6cm and 10cm, height 4cm (area applies to pressure Qs)"],
+  chemistry:["Name 3 organelles in a plant cell not found in animal cells (Biology — cell structure)","Explain the difference between diffusion and osmosis (Biology)"],
+  biology:["Balance: Mg+O₂→MgO and add state symbols (Chemistry balancing)","What % of air is oxygen? Name two greenhouse gases (Chemistry atmosphere)"],
+  history:["What is longshore drift? How does it shape coastlines? (Geography)","What is urbanisation? Give 2 problems it causes (Geography)"],
+  geo:["Explain why historians debate the causes of WW1 (History argument skills)","How would you structure an argument evaluating whether the Schlieffen Plan was Germany's biggest mistake? (History essay skills)"],
+};
+const TOPIC_RESOURCES={
+  m1:{videos:[{l:'Simultaneous equations (Cognito — tutor rec.)',u:'https://www.youtube.com/watch?v=68hMhae269k'}],fc:{l:'PMT iGCSE Algebra flashcards',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},pp:{l:'PMT Simultaneous Equations (H) QP',u:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Solving-Equations-and-Inequalities/Simultaneous%20Equations%20(H)%20QP.pdf'}},
+  m2:{videos:[{l:'Rearranging formulas (Cognito — tutor rec.)',u:'https://www.youtube.com/watch?v=_BYxuxEIZqw&t=33s'},{l:'Subject appears twice (tutor rec.)',u:'https://www.youtube.com/watch?v=5lcefrczJlE&t=22s'}],fc:{l:'PMT iGCSE Algebra flashcards',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},pp:{l:'PMT Manipulation of Formulae (H) QP',u:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Notation-Vocabulary-and-Manipulation/Manipulation%20of%20Formulae%20(H)%20QP.pdf'}},
+  m3:{videos:[{l:'Solving quadratics (Cognito — tutor rec.)',u:'https://www.youtube.com/watch?v=CaUgHGV-JdI'},{l:'Factorising (Cognito — tutor rec.)',u:'https://www.youtube.com/watch?v=3kE_Q-JdlO4'},{l:'Quadratic formula (tutor rec.)',u:'https://www.youtube.com/watch?v=mYsHbiOEYAc'}],fc:{l:'PMT iGCSE Algebra flashcards',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},pp:{l:'PMT Solving Quadratic Equations (H) QP',u:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Solving-Equations-and-Inequalities/Solving%20Quadratic%20Equations%20(H)%20QP.pdf'}},
+  m4:{videos:[{l:'Subject appears twice — advanced (tutor rec.)',u:'https://www.youtube.com/watch?v=5lcefrczJlE&t=22s'}],fc:{l:'PMT iGCSE Algebra flashcards',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},pp:{l:'PMT Manipulation of Formulae (H) QP',u:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Notation-Vocabulary-and-Manipulation/Manipulation%20of%20Formulae%20(H)%20QP.pdf'}},
+  m5:{videos:[{l:'Fractions (tutor rec. L13)',u:'https://www.youtube.com/watch?v=MTxNPBupKMo&t=18s'},{l:'Fractions operations (tutor rec. L13)',u:'https://www.youtube.com/watch?v=Kh-euMm_6Is'}],fc:{l:'PMT iGCSE Number flashcards',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'},pp:{l:'PMT Fractions (H) QP',u:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Number/QP/Higher/Fractions-Decimals-and-Percentages/Fractions%20(H)%20QP.pdf'}},
+  m6:{videos:[{l:'Percentages (tutor rec. L13)',u:'https://www.youtube.com/watch?v=qeWRewXB91g'},{l:'Compound interest/reverse % (tutor rec. L13)',u:'https://www.youtube.com/watch?v=BKnPKiSrUm8'}],fc:{l:'PMT iGCSE Number flashcards',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'},pp:{l:'PMT % Increase/Decrease (H) QP',u:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Ratio-Proportion-and-Rates-of-Change/QP/Higher/Percentage%20Increase%20or%20Decrease%20(H)%20QP.pdf'}},
+  m7:{videos:[{l:'Ratio and proportion (tutor rec. L12)',u:'https://www.youtube.com/watch?v=li-bS-50WxY&list=PLZWMa5i8p1cKe_JP9tb37xQQ6SzF204QL'}],fc:{l:'PMT iGCSE Ratio flashcards',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-ratio-proportion-and-rates-of-change/questions-edexcel-igcse/'},pp:{l:'PMT Ratio (H) QP',u:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Ratio-Proportion-and-Rates-of-Change/QP/Higher/Ratio%20(H)%20QP.pdf'}},
+  m8:{videos:[{l:'Expanding (Cognito — tutor rec.)',u:'https://www.youtube.com/watch?v=Dvo1Q-yBBhk'},{l:'Expanding equations (tutor rec. L9)',u:'https://www.youtube.com/watch?v=oQlV9IEFp_o'}],fc:{l:'PMT iGCSE Algebra flashcards',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},pp:{l:'PMT Expanding Equations (H) QP',u:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Notation-Vocabulary-and-Manipulation/Expanding%20Equations%20(H)%20QP.pdf'}},
+  m9:{videos:[{l:'Bounds — PMT iGCSE Number page',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'}],fc:{l:'PMT iGCSE Number flashcards',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'},pp:{l:'PMT Bounds (H) QP',u:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Number/MA/Higher/Measures-and-Accuracy/Bounds%20(H)%20MA.pdf'}},
+  m10:{videos:[{l:'Standard form + indices — PMT iGCSE',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'}],fc:{l:'PMT iGCSE Number flashcards',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-number/questions-edexcel-igcse/'},pp:{l:'PMT Indices (H) QP',u:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Number/QP/Higher/Indices-and-Surds/Indices%20(H)%20QP.pdf'}},
+  m11:{videos:[{l:'Graphs — PMT iGCSE Algebra',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'}],fc:{l:'PMT iGCSE Algebra flashcards',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},pp:{l:'PMT Graphs of Linear Equations (H) QP',u:'https://pmt.physicsandmathstutor.com/download/Maths/GCSE/Topic-Qs/Edexcel-IGCSE/Algebra/QP/Higher/Graphs/Graphs%20of%20Linear%20Equations%20(H)%20QP.pdf'}},
+  m12:{videos:[{l:'Sequences — PMT iGCSE Algebra',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'}],fc:{l:'PMT iGCSE Algebra flashcards',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'},pp:{l:'PMT Sequences + Inequalities — iGCSE page',u:'https://www.physicsandmathstutor.com/maths-revision/gcse-algebra/questions-edexcel-igcse/'}},
+  p1:{videos:[{l:'Density (tutor rec. L2/L10)',u:'https://www.youtube.com/watch?v=sfnsuS0-o58&t=20s'},{l:'Density supplementary (tutor rec. L10)',u:'https://www.youtube.com/watch?v=zjkBMk5d3tM'}],fc:{l:'PMT Physics Ch.5 flashcards (tutor rec.)',u:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Flashcards%20-%20Topic%205%20Solids%2C%20Liquids%20and%20Gases%20-%20Edexcel%20Physics%20IGCSE.pdf'},pp:{l:'PMT Density & Pressure QP (tutor rec.)',u:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Topic-Qs/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Set-A1/Density%20and%20Pressure%201%20QP.pdf'}},
+  p2:{videos:[{l:'Pressure in fluids (tutor rec. L10)',u:'https://www.youtube.com/watch?v=m2P2DdfebiU&t=2s'},{l:'Pressure extra (tutor rec. L10)',u:'https://www.youtube.com/watch?v=SnKba6aVZTc'},{l:'Pressure extra 2 (tutor rec. L10)',u:'https://www.youtube.com/watch?v=OIpvOIb3GAg'}],fc:{l:'PMT Physics Ch.5 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Flashcards%20-%20Topic%205%20Solids%2C%20Liquids%20and%20Gases%20-%20Edexcel%20Physics%20IGCSE.pdf'},pp:{l:'PMT Density & Pressure MS',u:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Topic-Qs/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Set-A1/Density%20and%20Pressure%201%20MS.pdf'}},
+  p3:{videos:[{l:'Kinetic theory (tutor rec. L2)',u:'https://www.youtube.com/watch?v=oX7vbbF1wmk&t=64s'},{l:'Kinetic theory supplementary (tutor rec. L10)',u:'https://www.youtube.com/watch?v=yumeVlrnj8s'}],fc:{l:'PMT Physics Ch.5 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/5-Solids-Liquids-and-Gases/Flashcards%20-%20Topic%205%20Solids%2C%20Liquids%20and%20Gases%20-%20Edexcel%20Physics%20IGCSE.pdf'},pp:{l:'PMT Physics Ch.5 topic questions',u:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/solids-liquids-and-gases/'}},
+  p4:{videos:[{l:'Full radioactivity topic 35min (tutor rec. L7)',u:'https://www.youtube.com/watch?v=GoaPHUIxyYo'}],fc:{l:'PMT Physics Ch.7 flashcards (tutor rec. L7)',u:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/7-Radioactivity-and-Particles/Flashcards%20-%20Topic%207%20Radioactivity%20and%20Particles%20-%20Edexcel%20Physics%20IGCSE.pdf'},pp:{l:'PMT Radioactivity topic questions',u:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/radioactivity-and-particles/'}},
+  p5:{videos:[{l:'Radioactivity full topic (tutor rec. L7)',u:'https://www.youtube.com/watch?v=GoaPHUIxyYo'}],fc:{l:'PMT Physics Ch.7 flashcards (cards 42+)',u:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/7-Radioactivity-and-Particles/Flashcards%20-%20Topic%207%20Radioactivity%20and%20Particles%20-%20Edexcel%20Physics%20IGCSE.pdf'},pp:{l:'PMT Radioactivity topic questions',u:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/radioactivity-and-particles/'}},
+  p6:{videos:[{l:'PMT Physics Topic 1 — Forces & Motion',u:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}],fc:{l:'PMT Physics Ch.1 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/1-Forces-and-Motion/Flashcards%20-%20Topic%201%20Forces%20and%20Motion%20-%20Edexcel%20Physics%20IGCSE.pdf'},pp:{l:'PMT Forces & Motion topic questions',u:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}},
+  p7:{videos:[{l:"PMT Physics Topic 1 — Newton's laws",u:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}],fc:{l:'PMT Physics Ch.1 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/1-Forces-and-Motion/Flashcards%20-%20Topic%201%20Forces%20and%20Motion%20-%20Edexcel%20Physics%20IGCSE.pdf'},pp:{l:'PMT Forces & Motion topic questions',u:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/forces-and-motion/'}},
+  p8:{videos:[{l:'PMT Physics Topic 4 — Energy Resources',u:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/energy-resources-and-transfer/'}],fc:{l:'PMT Physics Ch.4 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/4-Energy-Resources-and-Energy-Transfer/Flashcards%20-%20Topic%204%20Energy%20Resources%20and%20Energy%20Transfer%20-%20Edexcel%20Physics%20IGCSE.pdf'},pp:{l:'PMT Energy topic questions',u:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/energy-resources-and-transfer/'}},
+  p9:{videos:[{l:'PMT Physics Topic 3 — Waves',u:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/waves/'}],fc:{l:'PMT Physics Ch.3 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/3-Waves/Flashcards%20-%20Topic%203%20Waves%20-%20Edexcel%20Physics%20IGCSE.pdf'},pp:{l:'PMT Waves topic questions',u:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/waves/'}},
+  p10:{videos:[{l:'PMT Physics Topic 2 — Electricity',u:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/electricity/'}],fc:{l:'PMT Physics Ch.2 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Physics/GCSE/Notes/Edexcel-IGCSE/2-Electricity/Flashcards%20-%20Topic%202%20Electricity%20-%20Edexcel%20Physics%20IGCSE.pdf'},pp:{l:'PMT Electricity topic questions',u:'https://www.physicsandmathstutor.com/physics-revision/igcse-edexcel/electricity/'}},
+  c1:{videos:[{l:'Balancing equations (tutor rec. L3)',u:'https://www.youtube.com/watch?v=rM7qErgZfNo'}],fc:{l:'PMT Chemistry Ch.1 flashcards (tutor rec.)',u:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},pp:{l:'PMT Chemical Formulae + Equations QP',u:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/1-Principles-of-Chemistry/Set-A1/Chemical%20Formulae%2C%20Equations%2C%20Calculations%201%20QP.pdf'}},
+  c2:{videos:[{l:'Ionic bonding (tutor rec. L3)',u:'https://www.youtube.com/watch?v=7IkYm7ZgiAw'},{l:'Covalent bonding (tutor rec. L3)',u:'https://www.youtube.com/watch?v=ybi6kQHKVws'}],fc:{l:'PMT Chemistry Ch.1 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},pp:{l:'PMT Ionic Bonding QP',u:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/1-Principles-of-Chemistry/Set-A2/Ionic%20Bonding%20QP.pdf'}},
+  c3:{videos:[{l:'SME Composition of Air notes (tutor rec.)',u:'https://www.savemyexams.com/igcse/chemistry/edexcel/19/revision-notes/2-inorganic-chemistry/2-3-gases-in-the-atmosphere/2-3-1-composition-of-air/'}],fc:{l:'PMT Chemistry Ch.2 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/2-Inorganic-Chemistry/Flashcards%20-%20Topic%202%20Inorganic%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},pp:{l:'PMT Gases in Atmosphere QP (tutor rec. L12)',u:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/2-Inorganic-Chemistry/Set-A1/Gases%20in%20the%20Atmosphere%20QP.pdf'}},
+  c4:{videos:[{l:'PMT Chemistry Topic 1 — Chemical Formulae',u:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],fc:{l:'PMT Chemistry Ch.1 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},pp:{l:'PMT Chemical Formulae Equations Calculations QP',u:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/1-Principles-of-Chemistry/Set-A1/Chemical%20Formulae%2C%20Equations%2C%20Calculations%201%20QP.pdf'}},
+  c5:{videos:[{l:'PMT Chemistry Topic 1 — Types of reactions',u:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],fc:{l:'PMT Chemistry Ch.1 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},pp:{l:'PMT Chemistry Topic 1 questions',u:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}},
+  c6:{videos:[{l:'PMT Chemistry Topic 1 — States + Atomic structure',u:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}],fc:{l:'PMT Chemistry Ch.1 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/1-Principles-of-Chemistry/Flashcards%20-%20Topic%201%20Principles%20of%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},pp:{l:'PMT Chemistry Topic 1 questions',u:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/principles-of-chemistry/'}},
+  c7:{videos:[{l:'PMT Chemistry Topic 2 — Inorganic (reactivity)',u:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/inorganic-chemistry/'}],fc:{l:'PMT Chemistry Ch.2 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/2-Inorganic-Chemistry/Flashcards%20-%20Topic%202%20Inorganic%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},pp:{l:'PMT Inorganic Chemistry questions',u:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/inorganic-chemistry/'}},
+  c8:{videos:[{l:'PMT Chemistry Topic 2 — Acids and bases',u:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/inorganic-chemistry/'}],fc:{l:'PMT Chemistry Ch.2 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/2-Inorganic-Chemistry/Flashcards%20-%20Topic%202%20Inorganic%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},pp:{l:'PMT Acids topic questions',u:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/inorganic-chemistry/'}},
+  c9:{videos:[{l:'PMT Chemistry Topic 3 — Rates of reaction',u:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/physical-chemistry/'}],fc:{l:'PMT Chemistry Ch.3 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/3-Physical-Chemistry/Flashcards%20-%20Topic%203%20Physical%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},pp:{l:'PMT Rates of Reaction QP',u:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Topic-Qs/Edexcel-IGCSE/3-Physical-Chemistry/Set-A1/Rates%20of%20Reaction%20QP.pdf'}},
+  c10:{videos:[{l:'PMT Chemistry Topic 4 — Organic Chemistry',u:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/organic-chemistry/'}],fc:{l:'PMT Chemistry Ch.4 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Chemistry/GCSE/Notes/Edexcel-IGCSE/4-Organic-Chemistry/Flashcards%20-%20Topic%204%20Organic%20Chemistry%20-%20Edexcel%20Chemistry%20IGCSE.pdf'},pp:{l:'PMT Organic Chemistry questions',u:'https://www.physicsandmathstutor.com/chemistry-revision/igcse-edexcel/organic-chemistry/'}},
+  b1:{videos:[{l:'PMT Biology Topic 1 — Nature and Variety',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}],fc:{l:'PMT Biology Ch.1 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/1-Nature-and-Variety-of-Living-Organisms/Flashcards%20-%20Topic%201%20Nature%20and%20Variety%20of%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},pp:{l:'PMT Biology Topic 1 questions',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}},
+  b2:{videos:[{l:'PMT Biology Topic 2 — Structures and Functions',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],fc:{l:'PMT Biology Ch.2 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},pp:{l:'PMT Biology Topic 2 questions',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}},
+  b3:{videos:[{l:'PMT Biology Topic 2 — Gas exchange',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],fc:{l:'PMT Biology Ch.2 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},pp:{l:'PMT Biology Topic 2 questions',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}},
+  b4:{videos:[{l:'PMT Biology Topic 2 — Human reproduction',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],fc:{l:'PMT Biology Ch.2 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},pp:{l:'PMT Biology Topic 2 questions',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}},
+  b5:{videos:[{l:'PMT Biology Topic 2 — Photosynthesis',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}],fc:{l:'PMT Biology Ch.2 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/2-Structures-and-Functions-in-Living-Organisms/Flashcards%20-%20Topic%202%20Structures%20and%20Functions%20in%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},pp:{l:'PMT Biology Topic 2 questions',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/structures-and-functions-in-living-organisms/'}},
+  b6:{videos:[{l:'PMT Biology Topic 4 — Ecology',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}],fc:{l:'PMT Biology Ch.4 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/4-Ecology-and-the-Environment/Flashcards%20-%20Topic%204%20Ecology%20and%20the%20Environment%20-%20Edexcel%20Biology%20IGCSE.pdf'},pp:{l:'PMT Biology Topic 4 questions',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}},
+  b7:{videos:[{l:'PMT Biology Topic 4 — Nutrient cycles',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}],fc:{l:'PMT Biology Ch.4 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/4-Ecology-and-the-Environment/Flashcards%20-%20Topic%204%20Ecology%20and%20the%20Environment%20-%20Edexcel%20Biology%20IGCSE.pdf'},pp:{l:'PMT Biology Topic 4 questions',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/ecology-and-environment/'}},
+  b8:{videos:[{l:'PMT Biology Topic 1 — Variety of life',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}],fc:{l:'PMT Biology Ch.1 flashcards',u:'https://pmt.physicsandmathstutor.com/download/Biology/GCSE/Notes/Edexcel-IGCSE/1-Nature-and-Variety-of-Living-Organisms/Flashcards%20-%20Topic%201%20Nature%20and%20Variety%20of%20Living%20Organisms%20-%20Edexcel%20Biology%20IGCSE.pdf'},pp:{l:'PMT Biology Topic 1 questions',u:'https://www.physicsandmathstutor.com/biology-revision/igcse-edexcel/nature-and-variety-of-living-organisms/'}},
+  h1:{videos:[{l:'BBC Bitesize — WW1 causes',u:'https://www.bbc.co.uk/bitesize/topics/zqhyb9q'}],fc:{l:'Class notes + handouts (PRIMARY)',u:'#'},pp:{l:'SME GCSE History',u:'https://www.savemyexams.com/gcse/history/'}},
+  h2:{videos:[{l:'BBC Bitesize — WW1 trench warfare',u:'https://www.bbc.co.uk/bitesize/topics/zqhyb9q'}],fc:{l:'Class notes + handouts (PRIMARY)',u:'#'},pp:{l:'SME GCSE History',u:'https://www.savemyexams.com/gcse/history/'}},
+  h3:{videos:[{l:'BBC Bitesize — Holocaust + Nazi Germany',u:'https://www.bbc.co.uk/bitesize/topics/z83tn9q'}],fc:{l:'Class notes — Nazi racial ideology (PRIMARY)',u:'#'},pp:{l:'SME GCSE History',u:'https://www.savemyexams.com/gcse/history/'}},
+  h4:{videos:[{l:'BBC Bitesize — Holocaust',u:'https://www.bbc.co.uk/bitesize/topics/z83tn9q'}],fc:{l:'Class notes — Wannsee + Browning interview (PRIMARY)',u:'#'},pp:{l:'SME GCSE History',u:'https://www.savemyexams.com/gcse/history/'}},
+  h5:{videos:[{l:'BBC Bitesize — Slave Trade',u:'https://www.bbc.co.uk/bitesize/topics/zrqqvcw'}],fc:{l:'Class notes + handouts (PRIMARY)',u:'#'},pp:{l:'SME GCSE History',u:'https://www.savemyexams.com/gcse/history/'}},
+  h6:{videos:[{l:'BBC Bitesize — Abolition of Slavery',u:'https://www.bbc.co.uk/bitesize/topics/zrqqvcw'}],fc:{l:'Class notes + handouts (PRIMARY)',u:'#'},pp:{l:'SME GCSE History',u:'https://www.savemyexams.com/gcse/history/'}},
+  h7:{videos:[{l:'BBC Bitesize — History source skills',u:'https://www.bbc.co.uk/bitesize/examspecs/zk8xtfr'}],fc:{l:'Class source analysis frameworks (PRIMARY)',u:'#'},pp:{l:'SME GCSE History',u:'https://www.savemyexams.com/gcse/history/'}},
+  h8:{videos:[{l:'BBC Bitesize — History essay skills',u:'https://www.bbc.co.uk/bitesize/examspecs/zk8xtfr'}],fc:{l:'Class essay structure frameworks (PRIMARY)',u:'#'},pp:{l:'SME GCSE History',u:'https://www.savemyexams.com/gcse/history/'}},
+  g1:{videos:[{l:'PMT Geography — River Environments',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/river-environments/'}],fc:{l:'PMT Geography iGCSE flashcards',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},pp:{l:'PMT Geography River Environments questions',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/river-environments/'}},
+  g2:{videos:[{l:'PMT Geography — Coastal Environments',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/coastal-environments/'}],fc:{l:'PMT Geography iGCSE flashcards',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},pp:{l:'PMT Geography Coastal Environments questions',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/coastal-environments/'}},
+  g3:{videos:[{l:'PMT Geography — Hazardous Environments',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/hazardous-environments/'}],fc:{l:'PMT Geography iGCSE flashcards',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},pp:{l:'PMT Geography Hazardous Environments questions',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/hazardous-environments/'}},
+  g4:{videos:[{l:'PMT Geography — Economic Activity and Energy',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/economic-activity-and-energy/'}],fc:{l:'PMT Geography iGCSE flashcards',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},pp:{l:'PMT Geography Economic Activity questions',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/economic-activity-and-energy/'}},
+  g5:{videos:[{l:'PMT Geography — Ecosystems',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/ecosystems-and-rural-environments/'}],fc:{l:'PMT Geography iGCSE flashcards',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},pp:{l:'PMT Geography Ecosystems questions',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/ecosystems-and-rural-environments/'}},
+  g6:{videos:[{l:'PMT Geography — Urban Environments',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/urban-environments/'}],fc:{l:'PMT Geography iGCSE flashcards',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},pp:{l:'PMT Geography Urban questions',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/urban-environments/'}},
+  g7:{videos:[{l:'PMT Geography iGCSE — Skills + Enquiry',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'}],fc:{l:'PMT Geography iGCSE flashcards',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},pp:{l:'SME GCSE Geography — skills questions',u:'https://www.savemyexams.com/gcse/geography/'}},
+  g8:{videos:[{l:'PMT Geography — Fragile Environments',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/fragile-environments/'}],fc:{l:'PMT Geography iGCSE flashcards',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/'},pp:{l:'PMT Geography Fragile Environments questions',u:'https://www.physicsandmathstutor.com/geography-revision/igcse-edexcel/fragile-environments/'}},
+};
+const CHALLENGE_QS={
+  1:[{q:"An object has mass 750g and volume 250cm³. Calculate its density including the unit.",hint:"Which formula? What do I need to rearrange?",ans:"ρ=m/V=750/250=3 g/cm³"},{q:"Solve simultaneously: 3x+2y=17 and x−y=2. Show all working.",hint:"Which variable is easier to eliminate?",ans:"From eq2: x=y+2. Sub in: 3(y+2)+2y=17 → 5y=11 → y=2.2, x=4.2"},{q:"Balance and add state symbols: Mg+HCl→MgCl₂+H₂",hint:"Count atoms on each side before balancing",ans:"Mg(s)+2HCl(aq)→MgCl₂(aq)+H₂(g)"},{q:"Name 3 organelles in a plant cell but NOT in an animal cell. State the function of one.",hint:"What can plants do that animals cannot?",ans:"Chloroplasts (photosynthesis), cell wall (structure), large vacuole (water storage)"},{q:"Explain TWO causes of WW1. For each, explain how it contributed to the outbreak of war.",hint:"Use MAIN — but explain the mechanism, not just the label",ans:"Accept any 2: must include 'this contributed because...' — not just naming the cause"}],
+  2:[{q:"A radioactive sample has half-life 3 hours. Starts with 1600 atoms. How many after 9 hours?",hint:"How many half-lives fit into 9 hours?",ans:"3 half-lives: 1600→800→400→200 atoms"},{q:"Rearrange to make v the subject: KE=½mv²",hint:"What operations do you need to undo, in order?",ans:"v=√(2KE/m) — multiply by 2, divide by m, square root"},{q:"A price increases from £240 to £300. Calculate the percentage increase.",hint:"% change = (change/original) × 100",ans:"Change=£60. % increase=60/240×100=25%"},{q:"What % of air is oxygen? Name ONE experimental technique used to measure this.",hint:"You revised this with the tutor",ans:"~21%. Burning iron wool or copper in a sealed tube — volume decreases by ~21%"},{q:"Give THREE reasons why people continue to live near natural hazards such as volcanoes.",hint:"Think economic, cultural and practical reasons",ans:"Fertile soil, lack of money to move, long intervals between eruptions, cultural ties, economic opportunities"}],
+  3:[{q:"A car accelerates from rest to 30m/s in 10 seconds. Calculate: (a) acceleration and (b) force if mass=1200kg.",hint:"Two formulae needed — one for each part",ans:"a=(v-u)/t=30/10=3m/s². F=ma=1200×3=3600N"},{q:"Solve: x²−3x−10=0 using factorisation. Check your answer.",hint:"Find two numbers that multiply to −10 and add to −3",ans:"(x−5)(x+2)=0, x=5 or x=−2. Check: 25−15−10=0 ✓"},{q:"Explain the difference between ionic and covalent bonding. Give one example of each.",hint:"What happens to electrons in each case?",ans:"Ionic: electron transfer between metal and non-metal (e.g. NaCl). Covalent: electron sharing between non-metals (e.g. H₂O)"},{q:"Describe the role of alveoli in gas exchange. Give TWO adaptations that make them efficient.",hint:"Think surface area, thickness, blood supply",ans:"O₂ diffuses into blood; CO₂ out. Adaptations: large surface area, thin walls (one cell thick), rich capillary network"},{q:"Describe what happened at the Wannsee Conference (1942) and explain its significance.",hint:"Who met? What was decided? Why does it matter?",ans:"Nazi officials coordinated the 'Final Solution' — systematic murder of European Jews. Shows genocide was state-organised policy"}],
+  4:[{q:"A spring has spring constant 25N/m. How far does it extend under 75N? What assumption are you making?",hint:"Hooke's Law — rearrange it",ans:"F=kx → x=F/k=75/25=3m. Assumption: spring is within elastic limit"},{q:"Expand and simplify: (2x+3)(x−4)−(x+1)(x−1)",hint:"Expand each bracket fully then collect like terms",ans:"(2x²−5x−12)−(x²−1)=x²−5x−11"},{q:"Place in order from most to least reactive: copper, sodium, iron, zinc.",hint:"Which metals react with water? Which with acid only?",ans:"Sodium>zinc>iron>copper"},{q:"Food chain: grass→rabbit→fox. Grass produces 10,000J. 10% transferred at each level. Energy at fox?",hint:"Apply 10% twice",ans:"Rabbit: 1000J. Fox: 100J"},{q:"Explain why some historians are sceptical about the traditional narrative of abolition of slavery.",hint:"Beyond moral arguments — think economic and political interests",ans:"Sceptics argue slavery became economically unviable (industrial revolution made free labour more profitable). Williams thesis: capitalism, not morality, drove abolition"}],
+  5:[{q:"Circuit: voltage 12V, resistance 4Ω. Calculate (a) current and (b) power.",hint:"Two formulae: Ohm's Law and Power=V×I",ans:"I=V/R=12/4=3A. P=VI=12×3=36W"},{q:"A length is 8.4cm to 1 d.p. Calculate upper and lower bounds of area of a square with this side.",hint:"Find bounds of side first, then apply to area",ans:"Lower bound side: 8.35cm. Upper: 8.45cm. Area lower: 69.72cm². Area upper: 71.40cm²"},{q:"Explain the difference between combustion and thermal decomposition. Give one equation for each.",hint:"One uses oxygen; the other uses only heat",ans:"Combustion: reacts with O₂ (e.g. CH₄+2O₂→CO₂+2H₂O). Thermal decomp: heat breaks compound apart (e.g. CaCO₃→CaO+CO₂)"},{q:"Compare diffusion and osmosis: definition, what moves, driving force, energy needed.",hint:"Structure your answer point by point",ans:"Diffusion: any particles, concentration gradient, no energy. Osmosis: water only, through semi-permeable membrane, water potential gradient, no energy"},{q:"Evaluate the significance of the Battle of the Somme. Was it a success or failure? Use evidence.",hint:"Give both sides then a clear judgement",ans:"Failure: 57,000 casualties on Day 1. Success: relieved Verdun, Germany suffered 500,000 casualties, wore down German resources. Overall: tactical failure, strategic partial success"}],
+  6:[{q:"Wave: frequency 200Hz, wavelength 1.5m. Calculate speed. What EM radiation type could this be?",hint:"Speed=frequency×wavelength. Compare to EM spectrum wavelengths.",ans:"Speed=200×1.5=300m/s. 1.5m wavelength = radio waves"},{q:"Find the nth term of: 3, 8, 15, 24, 35...",hint:"Find first then second differences. Second diff÷2 gives coefficient of n²",ans:"First diffs: 5,7,9,11. Second diffs: 2. a=1(n²). Subtract n²: 2,4,6,8 → 2n. nth term=n²+2n"},{q:"Student adds acid to alkali. pH changes 12→7. (a) Reaction type? (b) Word equation? (c) Indicator colour change?",hint:"Three parts — tackle one at a time",ans:"(a) Neutralisation. (b) Acid+alkali→salt+water. (c) Universal indicator: purple/blue→green at pH7"},{q:"Explain why increasing concentration of a reactant increases rate of reaction. Use collision theory.",hint:"Think about frequency and energy of collisions",ans:"Higher concentration → more particles per unit volume → more frequent collisions → more successful collisions per second → faster rate"},{q:"Compare economic vs moral causes of abolition of slavery. Which was more significant? Defend your answer.",hint:"Evidence for both, then a clear judgement",ans:"Economic: Williams thesis — industrial capitalism made wage labour more efficient. Moral: Wilberforce, religious campaigners, slave resistance. Judgement must be supported with specific evidence"}],
+  7:[{q:"Ball thrown upward at 20m/s, g=10m/s². Calculate (a) time to max height and (b) max height.",hint:"At max height, v=0. Use v=u+at then s=ut+½at²",ans:"(a) 0=20−10t → t=2s. (b) s=20(2)+½(−10)(4)=40−20=20m"},{q:"Solve: (x+2)/(x−1)=3/2. Show all algebraic working.",hint:"Cross multiply first",ans:"2(x+2)=3(x−1) → 2x+4=3x−3 → x=7"},{q:"Student investigates surface area vs rate of reaction using marble chips+HCl. (a) What to measure? (b) What to control? (c) Sketch results graph.",hint:"Independent, dependent, control variables",ans:"(a) Volume CO₂ over time. (b) Same mass marble, same HCl volume and concentration, same temperature. (c) Time x-axis, volume CO₂ y-axis; steeper line for powder vs chips"},{q:"Plant placed in high-salt solution. Describe and explain what happens to its cells.",hint:"Osmosis — which way does water move?",ans:"Water moves OUT by osmosis (high water potential inside → low outside). Cells become plasmolysed. Plant wilts."},{q:"Analyse this source: 'The soldiers went over the top with great courage.' How useful is this for understanding WW1 soldier experience?",hint:"Provenance, content, tone, limitations",ans:"Useful for: attitude of soldiers, the act of going over the top. Limitations: one perspective; formal/positive language may be propaganda; doesn't show fear, injury or conditions"}],
+  8:[{q:"Solid: density 2.5g/cm³, square cross-section 4cm×4cm, length 10cm. Calculate (a) volume, (b) mass, (c) pressure on surface.",hint:"Three calculations in order",ans:"(a) V=4×4×10=160cm³. (b) m=ρV=2.5×160=400g=0.4kg. (c) W=mg=4N. Area=0.04×0.04=0.0016m². P=4/0.0016=2500Pa"},{q:"Rearrange to make x the subject: (a+x)/(b−x)=c",hint:"'Subject appears twice' technique — multiply out first",ans:"a+x=c(b−x) → a+x=cb−cx → x+cx=cb−a → x(1+c)=cb−a → x=(cb−a)/(1+c)"},{q:"Student tests rate of reaction between zinc and H₂SO₄ at different temperatures. (a) Sketch results graph. (b) Explain trend. (c) One control variable.",hint:"Rate increases with temperature — what shape is the graph?",ans:"(a) Graph: steeper gradient at higher temps, plateaus when reactants used up. (b) Higher temp → more KE → more energetic collisions → faster rate. (c) Same mass zinc, same acid concentration"},{q:"'The primary cause of WW1 was the alliance system.' To what extent do you agree?",hint:"Agree (alliances escalated), disagree (nationalism, militarism, assassination), then judgement",ans:"Strong answer: alliances turned regional into world war; BUT nationalism, militarism and assassination all necessary too. Must have clear judgement + justification"},{q:"Ecosystem has 3 trophic levels. 10% energy transfer at each. Sun provides 1,000,000J to producers. Energy at level 3? What does this mean for human diet?",hint:"Apply 10% twice. Think efficiency of plants vs animals.",ans:"Level 2: 100,000J. Level 3: 10,000J. Eating plants directly is 10× more energy-efficient than eating animals — relevant to sustainable diets"}],
+};
+</script>
+<script>
+// ── STATE ──────────────────────────────────────────
+let currentWeek=1,currentDay=1;
+function ld(k){try{return JSON.parse(localStorage.getItem(k)||'{}')}catch{return{}}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}
+function loadR(){return ld('ahp_r3')}
+function saveR(id,rating){const r=loadR();r[id]={rating,week:currentWeek};sv('ahp_r3',r);renderGrid();updateStats();renderAlert();renderTraj()}
+function loadT(){return ld('ahp_t3')}
+function saveT(id,done){const t=loadT();t[id]=done;sv('ahp_t3',t)}
 
-function getResources(subj, week, type) {
-  // Not used directly anymore — getTopicResources is called per topic
-  return null;
-}
-
-function getTopicResources(topicId) {
-  return TOPIC_RESOURCES[topicId] || {
-    videos:[{label:'PMT iGCSE revision — topic page',url:'https://www.physicsandmathstutor.com'}],
-    fc:{label:'PMT flashcards',url:'https://www.physicsandmathstutor.com'},
-    pp:{label:'PMT topic questions',url:'https://www.physicsandmathstutor.com'}
-  };
-}
-
-function getMixedQuestions(subj, week) {
-  const others = Object.keys(SUBJECTS).filter(s=>s!==subj);
-  const picks = [
-    others[week%others.length],
-    others[(week+2)%others.length],
-  ];
-  const mixedQs = {
-    maths:     ['Solve: 3x + 5 = 20. Show all working.','Expand and simplify: (x+3)(x−2)','Rearrange to make t the subject: v = u + at'],
-    physics:   ['An object has mass 500g and volume 200cm³. Calculate its density.','State the three types of nuclear radiation and one property of each.','What is Newton\'s First Law of motion?'],
-    chemistry: ['Balance: Fe + O₂ → Fe₂O₃ (include state symbols)','Explain the difference between ionic and covalent bonding.','What percentage of air is oxygen? How is this measured?'],
-    biology:   ['Name three organelles found in a plant cell but not an animal cell.','Explain the difference between diffusion and active transport.','What is the role of the alveoli in gas exchange?'],
-    history:   ['State two causes of World War One.','What was the Schlieffen Plan and why did it fail?','Explain one reason why the Battle of the Somme is considered significant.'],
-    geo:       ['Describe two processes of river erosion.','What is a hazardous environment? Give one example.','Explain one human impact on an ecosystem.'],
-  };
-  return picks.map(s=>({q: mixedQs[s][week%3] || mixedQs[s][0], subj:SUBJECTS[s].name}));
-}
-
-// ═══════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════
-let currentWeek = 1;
-let currentDay = 1;
-
-function loadRatings() {
-  try { return JSON.parse(localStorage.getItem('ahp_ratings') || '{}'); }
-  catch { return {}; }
-}
-function saveRating(topicId, rating) {
-  const r = loadRatings();
-  r[topicId] = {rating, week:currentWeek, day:currentDay};
-  try { localStorage.setItem('ahp_ratings', JSON.stringify(r)); } catch{}
-  renderGrid();
-  updateStats();
-  renderWeekAlert();
-}
-function loadTicks() {
-  try { return JSON.parse(localStorage.getItem('ahp_ticks') || '{}'); }
-  catch { return {}; }
-}
-function saveTick(id, done) {
-  const t = loadTicks();
-  t[id] = done;
-  try { localStorage.setItem('ahp_ticks', JSON.stringify(t)); } catch{}
-}
-
-// ═══════════════════════════════════════════
-// VIEWS
-// ═══════════════════════════════════════════
-function showView(v) {
+// ── NAV ──────────────────────────────────────────
+function showView(v){
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
   document.getElementById('view-'+v).classList.add('active');
-  const tabs = document.querySelectorAll('.nav-tab');
-  const idx = {overview:0,schedule:1,today:2};
-  tabs[idx[v]].classList.add('active');
-  if(v==='schedule') renderSchedule();
-  if(v==='today') renderToday();
+  const idx={overview:0,schedule:1,today:2};
+  document.querySelectorAll('.nav-tab')[idx[v]].classList.add('active');
+  if(v==='schedule')renderSched();
+  if(v==='today')renderToday();
 }
 
-// ═══════════════════════════════════════════
-// OVERVIEW — confidence grid
-// ═══════════════════════════════════════════
-function renderGrid() {
-  const ratings = loadRatings();
-  const grid = document.getElementById('confidence-grid');
-  grid.innerHTML = '';
+// ── OVERVIEW ──────────────────────────────────────
+function renderGrid(){
+  const R=loadR();
+  const grid=document.getElementById('confidence-grid');
+  grid.innerHTML='';
   Object.entries(SUBJECTS).forEach(([key,subj])=>{
-    const topics = TOPICS[key];
-    const rated = topics.filter(t=>ratings[t.id]);
-    const green = topics.filter(t=>ratings[t.id]?.rating==='green').length;
-    const amber = topics.filter(t=>ratings[t.id]?.rating==='amber').length;
-    const red = topics.filter(t=>ratings[t.id]?.rating==='red').length;
-    const dotsHtml = topics.map(t=>{
-      const r = ratings[t.id]?.rating || '';
-      return `<div class="topic-dot-wrap">
-        <div class="topic-dot ${r}" data-id="${t.id}" onclick="cycleDot('${t.id}')">
-          ${r==='green'?'✓':r==='amber'?'~':r==='red'?'✗':''}
-        </div>
-        <div class="topic-tooltip">${t.label} (W${t.week})</div>
-      </div>`;
+    const topics=TOPICS[key];
+    const g=topics.filter(t=>R[t.id]?.rating==='green').length;
+    const a=topics.filter(t=>R[t.id]?.rating==='amber').length;
+    const r=topics.filter(t=>R[t.id]?.rating==='red').length;
+    const rated=topics.filter(t=>R[t.id]).length;
+    const dots=topics.map(t=>{
+      const rv=R[t.id]?.rating||'';
+      const icon=rv==='green'?'✓':rv==='amber'?'~':rv==='red'?'✗':'';
+      return`<div class="topic-dot-wrap"><div class="topic-dot ${rv}" onclick="cycleDot('${t.id}')">${icon}</div><div class="topic-tooltip">${t.label}${t.tutor?' ★':''} (W${t.week})</div></div>`;
     }).join('');
-    grid.innerHTML += `<div class="subject-row">
-      <div class="subject-row-header">
-        <span class="subject-dot-large" style="background:${subj.color}"></span>
-        <span class="subject-name">${subj.name}</span>
-        <span class="subject-stats">${green}🟢 ${amber}🟡 ${red}🔴 · ${topics.length-rated.length} unrated</span>
-      </div>
-      <div class="topic-dots">${dotsHtml}</div>
-    </div>`;
+    grid.innerHTML+=`<div class="subject-row"><div class="subject-row-header"><span class="subj-dot" style="background:${subj.color}"></span><span class="subj-name">${subj.name}</span><span class="subj-stats">${g}🟢 ${a}🟡 ${r}🔴 · ${topics.length-rated} unrated</span></div><div class="topic-dots">${dots}</div></div>`;
+  });
+}
+function cycleDot(id){
+  const R=loadR();const cur=R[id]?.rating||'';const next={'':"green","green":"amber","amber":"red","red":""}[cur];
+  if(!next){const r=loadR();delete r[id];sv('ahp_r3',r);}else saveR(id,next);
+}
+function updateStats(){
+  const R=loadR();const all=Object.values(TOPICS).flat();
+  const g=all.filter(t=>R[t.id]?.rating==='green').length;
+  const r=all.filter(t=>R[t.id]?.rating==='red').length;
+  document.getElementById('stat-green').textContent=g;
+  document.getElementById('stat-red').textContent=r;
+  const pct=Math.round((g/all.length)*100);
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+}
+function renderAlert(){
+  const R=loadR();const box=document.getElementById('alert-box');
+  const red=Object.values(TOPICS).flat().filter(t=>R[t.id]?.rating==='red');
+  const amber=Object.values(TOPICS).flat().filter(t=>R[t.id]?.rating==='amber');
+  if(red.length){box.innerHTML=`<div class="week-alert alert-red"><strong>🔴 ${red.length} topic${red.length>1?'s':''} to focus on</strong> — start each session with 5 min flashcards on these before anything else.<div class="revisit-list">${red.map(t=>`<div class="revisit-item">· ${t.label}</div>`).join('')}</div></div>`;}
+  else if(amber.length){box.innerHTML=`<div class="week-alert alert-amber"><strong>🟡 ${amber.length} topic${amber.length>1?'s':''} getting there</strong> — include these in your mixed recall this week.<div class="revisit-list">${amber.slice(0,4).map(t=>`<div class="revisit-item">· ${t.label}</div>`).join('')}</div></div>`;}
+  else if(Object.keys(R).length>0){box.innerHTML=`<div class="week-alert alert-green"><strong>🟢 All rated topics are solid.</strong> Keep rating as you complete sessions this week. Your trajectory is positive.</div>`;}
+  else{box.innerHTML='';}
+}
+function renderTraj(){
+  const R=loadR();const grid=document.getElementById('traj-grid');
+  grid.innerHTML='';
+  Object.entries(SUBJECTS).forEach(([key,subj])=>{
+    const topics=TOPICS[key];
+    const thisW=topics.filter(t=>R[t.id]?.week===currentWeek&&R[t.id]?.rating==='green').length;
+    const lastW=topics.filter(t=>R[t.id]?.week===(currentWeek-1)&&R[t.id]?.rating==='green').length;
+    const total=topics.length;
+    const bh=n=>Math.max(4,Math.round((n/total)*40));
+    const delta=thisW-lastW;
+    const dhtml=currentWeek>1?(delta>0?`<span class="delta-up">+${delta} ↑</span>`:`<span class="delta-same">${delta===0?'—':delta}</span>`):'';
+    grid.innerHTML+=`<div class="traj-subject"><div class="traj-label" style="color:${subj.color}">${subj.name}</div><div class="traj-bars">${currentWeek>1?`<div class="traj-bar ${lastW>0?'green':'empty'}" style="height:${bh(lastW)}px" title="Last week: ${lastW}/${total}"></div>`:''}<div class="traj-bar ${thisW>0?'green':'empty'}" style="height:${bh(thisW)}px" title="This week: ${thisW}/${total}"></div></div><div class="traj-delta">${dhtml||`<span class="delta-same">${thisW}/${total}</span>`}</div></div>`;
   });
 }
 
-function cycleDot(id) {
-  const ratings = loadRatings();
-  const cur = ratings[id]?.rating || '';
-  const next = {'':"green","green":"amber","amber":"red","red":""}[cur];
-  if(next==='') {
-    const r = loadRatings();
-    delete r[id];
-    try{localStorage.setItem('ahp_ratings',JSON.stringify(r));}catch{}
-  } else {
-    saveRating(id, next);
-  }
-  renderGrid();
-  updateStats();
-  renderWeekAlert();
+// ── SCHEDULE ──────────────────────────────────────
+function changeWeek(dir){
+  currentWeek=Math.max(1,Math.min(8,currentWeek+dir));
+  document.getElementById('week-badge').textContent='Week '+currentWeek;
+  document.getElementById('prev-w').disabled=currentWeek===1;
+  document.getElementById('next-w').disabled=currentWeek===8;
+  renderSched();
 }
-
-function updateStats() {
-  const ratings = loadRatings();
-  const all = Object.values(TOPICS).flat();
-  const green = all.filter(t=>ratings[t.id]?.rating==='green').length;
-  const red = all.filter(t=>ratings[t.id]?.rating==='red').length;
-  const rated = all.filter(t=>ratings[t.id]).length;
-  document.getElementById('stat-green').textContent = green;
-  document.getElementById('stat-red').textContent = red;
-  const pct = rated>0 ? Math.round((green/all.length)*100) : 0;
-  document.getElementById('prog-pct').textContent = pct+'%';
-  document.getElementById('prog-fill').style.width = pct+'%';
+function getWeekTopic(subj,week,slot){
+  const topics=TOPICS[subj];
+  const fw=topics.filter(t=>t.week===week);
+  if(fw.length>=2)return slot==='a'?fw[0]:fw[1];
+  if(fw.length===1)return fw[0];
+  const past=topics.filter(t=>t.week<week);
+  return past.length?past[past.length-1]:topics[0];
 }
-
-function renderWeekAlert() {
-  const ratings = loadRatings();
-  const box = document.getElementById('week-alert-box');
-  const redTopics = Object.values(TOPICS).flat().filter(t=>ratings[t.id]?.rating==='red');
-  const amberTopics = Object.values(TOPICS).flat().filter(t=>ratings[t.id]?.rating==='amber');
-  if(redTopics.length) {
-    box.innerHTML = `<div class="week-alert red-alert">
-      <strong>🔴 ${redTopics.length} topic${redTopics.length>1?'s':''} need attention</strong> — spend 10 min on flashcards for each before starting today's session.
-      <div class="revisit-list">${redTopics.map(t=>`<div class="revisit-item">· ${t.label}</div>`).join('')}</div>
-    </div>`;
-  } else if(amberTopics.length) {
-    box.innerHTML = `<div class="week-alert amber-alert">
-      <strong>🟡 ${amberTopics.length} topic${amberTopics.length>1?'s':''} to consolidate</strong> — pair with today's session or add to mixed recall.
-      <div class="revisit-list">${amberTopics.slice(0,4).map(t=>`<div class="revisit-item">· ${t.label}</div>`).join('')}</div>
-    </div>`;
-  } else if(Object.keys(ratings).length>0) {
-    box.innerHTML = `<div class="week-alert clear"><strong>🟢 All rated topics are solid.</strong> Keep going — the unrated ones come up in future weeks.</div>`;
-  } else {
-    box.innerHTML = '';
-  }
-}
-
-// ═══════════════════════════════════════════
-// SCHEDULE
-// ═══════════════════════════════════════════
-function changeWeek(dir) {
-  currentWeek = Math.max(1, Math.min(8, currentWeek+dir));
-  document.getElementById('current-week-badge').textContent = 'Week '+currentWeek;
-  document.getElementById('prev-week').disabled = currentWeek===1;
-  document.getElementById('next-week').disabled = currentWeek===8;
-  renderSchedule();
-}
-
-function renderSchedule() {
-  document.getElementById('schedule-week-title').textContent = 'Week '+currentWeek;
-  const container = document.getElementById('schedule-days');
-  container.innerHTML = '';
-  WEEK_SCHEDULE.forEach(d=>{
-    if(d.rest) {
-      container.innerHTML += `<div class="day-row rest-day">
-        <div class="day-header-row" style="cursor:default">
-          <div class="day-num">7</div>
-          <div class="day-info">
-            <div class="day-label">Rest Day — float</div>
-            <div class="day-subjects-pills"><span class="spill pill-rest">No study</span></div>
-          </div>
-        </div>
-      </div>`;
+function renderSched(){
+  document.getElementById('sched-title').textContent='Week '+currentWeek;
+  document.getElementById('phase-badge').textContent=PHASES[currentWeek];
+  const c=document.getElementById('sched-days');c.innerHTML='';
+  DAY_PLAN.forEach(d=>{
+    if(d.rest){c.innerHTML+=`<div class="day-row rest-day"><div class="day-header-row" style="cursor:default"><div class="day-num">7</div><div class="day-info"><div class="day-label">Rest Day — float</div><div class="day-pills"><span class="spill pill-rest">Choose your day</span></div></div></div></div>`;return;}
+    if(d.challenge){
+      const active=currentWeek>1;
+      c.innerHTML+=`<div class="day-row challenge-day" id="sd-6"><div class="day-header-row" onclick="tsd(6)"><div class="day-num">6</div><div class="day-info"><div class="day-label">Challenge Round${!active?' — starts Week 2':''}</div><div class="day-pills"><span class="spill pill-challenge">Mixed · No topic labels · Timed</span></div></div><div class="day-chevron">▾</div></div><div class="day-body-row"><div class="session-panel left" style="grid-column:1/-1"><div style="font-size:12px;color:var(--muted);padding:4px 0">5 mixed questions from all subjects studied so far. No notes. No topic labels. Timed. Self-mark at the end. ${!active?'Starts in Week 2 once you have enough topics to mix.':''}</div></div></div></div>`;
       return;
     }
-    const s1topics = getSessionContent(d.s1.subj, currentWeek, d.s1.type);
-    const s2topics = getSessionContent(d.s2.subj, currentWeek, d.s2.type);
-    const s1 = SUBJECTS[d.s1.subj];
-    const s2 = SUBJECTS[d.s2.subj];
-    const phaseLabel = {1:'Foundation',2:'Foundation',3:'Expansion',4:'Expansion',5:'Integration',6:'Integration',7:'Exam practice',8:'Exam practice'}[currentWeek]||'';
-    container.innerHTML += `<div class="day-row" id="sched-day-${d.day}">
-      <div class="day-header-row" onclick="toggleSchedDay(${d.day})">
-        <div class="day-num">${d.day}</div>
-        <div class="day-info">
-          <div class="day-label">Day ${d.day} <span style="font-size:11px;color:var(--muted);font-weight:normal">· ${phaseLabel}</span></div>
-          <div class="day-subjects-pills">
-            <span class="spill" style="background:${s1.bg};color:${s1.text}">${s1.name}</span>
-            <span class="spill" style="background:${s2.bg};color:${s2.text}">${s2.name}</span>
-          </div>
-        </div>
-        <div class="day-chevron">▾</div>
-      </div>
-      <div class="day-body-row">
-        <div class="session-panel">
-          <div class="session-eyebrow"><span class="session-bar" style="background:${s1.color}"></span>${s1.name} · Block A · 45–60 min</div>
-          <div class="session-title">${s1topics.map(t=>t.label).join(' + ')}</div>
-          <span class="session-type ${d.s1.type==='consolidate'?'type-consolidate':'type-new'}">${d.s1.type==='consolidate'?'Consolidation':'New topic'}</span>
-          <div class="session-eyebrow" style="margin-top:4px">Topics this session</div>
-          ${s1topics.map(t=>`<div style="font-size:12px;color:var(--muted);padding:2px 0">· ${t.label}</div>`).join('')}
-        </div>
-        <div class="session-panel">
-          <div class="session-eyebrow"><span class="session-bar" style="background:${s2.color}"></span>${s2.name} · Block B · 45–60 min</div>
-          <div class="session-title">${s2topics.map(t=>t.label).join(' + ')}</div>
-          <span class="session-type ${d.s2.type==='consolidate'?'type-consolidate':'type-new'}">${d.s2.type==='consolidate'?'Consolidation':'New topic'}</span>
-          <div class="session-eyebrow" style="margin-top:4px">Topics this session</div>
-          ${s2topics.map(t=>`<div style="font-size:12px;color:var(--muted);padding:2px 0">· ${t.label}</div>`).join('')}
-        </div>
-      </div>
-    </div>`;
+    const s1=SUBJECTS[d.s1],s2=SUBJECTS[d.s2];
+    const t1=getWeekTopic(d.s1,currentWeek,'a'),t2=getWeekTopic(d.s2,currentWeek,'b');
+    const tagCls=w=>w>=3?'tag-retrieval':'tag-consolidate';const tagLbl=t=>t?.type==='new'?'New topic':currentWeek>=3?'Retrieval + interleaving':'Consolidation';
+    c.innerHTML+=`<div class="day-row" id="sd-${d.day}"><div class="day-header-row" onclick="tsd(${d.day})"><div class="day-num">${d.day}</div><div class="day-info"><div class="day-label">Day ${d.day} <span style="font-size:11px;color:var(--muted);font-weight:normal">· ${PHASES[currentWeek]}</span></div><div class="day-pills"><span class="spill" style="background:${s1.bg};color:${s1.text}">${s1.name}</span><span class="spill" style="background:${s2.bg};color:${s2.text}">${s2.name}</span></div></div><div class="day-chevron">▾</div></div><div class="day-body-row"><div class="session-panel left"><div class="session-eyebrow"><span class="session-bar" style="background:${s1.color}"></span>${s1.name} · Block A</div><div class="session-title">${t1?t1.label:'Retrieval practice'}</div><span class="session-tag ${tagCls(currentWeek)}">${tagLbl(t1)}</span></div><div class="session-panel"><div class="session-eyebrow"><span class="session-bar" style="background:${s2.color}"></span>${s2.name} · Block B</div><div class="session-title">${t2?t2.label:'Retrieval practice'}</div><span class="session-tag ${tagCls(currentWeek)}">${tagLbl(t2)}</span></div></div></div>`;
   });
 }
+function tsd(n){const el=document.getElementById('sd-'+n);if(el)el.classList.toggle('open')}
 
-function toggleSchedDay(n) {
-  const el = document.getElementById('sched-day-'+n);
-  el.classList.toggle('open');
+// ── TODAY ──────────────────────────────────────────
+function svgTick(){return`<svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
+function mkTick(id,label,type=''){const done=loadT()[id]?'done':'';return`<div class="tick-item ${type} ${done}" onclick="toggleTick('${id}',this)"><div class="tick-box">${svgTick()}</div><span class="tick-text">${label}</span></div>`}
+
+function renderToday(){
+  const d=DAY_PLAN[currentDay-1];const c=document.getElementById('today-content');
+  const navHtml=`<div class="today-nav"><button class="week-btn" onclick="prevDay()">← Prev</button><button class="week-btn" onclick="nextDay()">Next →</button></div>`;
+  if(d.rest){c.innerHTML=`<div class="today-header"><div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Week ${currentWeek} · Day ${d.day}</div><h2>Rest Day</h2></div>${navHtml}</div><div style="text-align:center;padding:40px 20px;background:var(--card);border-radius:var(--radius);border:1px solid var(--border)"><div style="font-size:36px;margin-bottom:12px">🛌</div><p style="color:var(--muted);font-size:13px;max-width:320px;margin:0 auto">Rest is part of the program. Memory consolidation happens during sleep. Float this to whichever day works best each week.</p></div>`;return;}
+  if(d.challenge){renderChallenge(c,navHtml);return;}
+  const s1=SUBJECTS[d.s1],s2=SUBJECTS[d.s2];
+  const t1=getWeekTopic(d.s1,currentWeek,'a'),t2=getWeekTopic(d.s2,currentWeek,'b');
+
+  function retBlock(topicId){
+    const qs=RETRIEVAL_QS[topicId]||['What do you already know about this topic? Write it down without looking at any notes.'];
+    return`<div class="retrieval-block"><div class="retrieval-head">🧠 Retrieval first <span class="retrieval-badge">before watching · 3–5 min</span></div>${qs.map(q=>`<div class="retrieval-q">${q}</div>`).join('')}<div class="retrieval-note">Attempt these before watching the video. Wrong answers are fine — attempting retrieval first makes the learning stick much better.</div></div>`;
+  }
+  function resBlock(topicId){
+    const r=TOPIC_RESOURCES[topicId]||{videos:[{l:'PMT revision page',u:'https://www.physicsandmathstutor.com'}],fc:{l:'PMT flashcards',u:'https://www.physicsandmathstutor.com'},pp:{l:'PMT topic questions',u:'https://www.physicsandmathstutor.com'}};
+    return`<div class="res-list">${r.videos.map(v=>`<div class="res-item"><span class="res-icon">▶</span><a href="${v.u}" target="_blank" rel="noopener">${v.l}</a>${v.l.includes('tutor rec')?'<span class="res-tutor">tutor</span>':''}</div>`).join('')}<div class="res-item"><span class="res-icon">◈</span><a href="${r.fc.u}" target="_blank" rel="noopener">${r.fc.l}</a></div><div class="res-item"><span class="res-icon">◻</span><a href="${r.pp.u}" target="_blank" rel="noopener">${r.pp.l}</a></div></div>`;
+  }
+  function cornellBlock(topic){
+    const badge=topic?.type==='new'?'required · 5–10 min':'optional · 5 min';
+    return`<div class="cornell"><div class="cornell-head">✏ Cornell notes <span class="cornell-badge">${badge}</span></div><div class="cornell-table"><div class="ct-head">My questions</div><div class="ct-head">My notes (after watching)</div><div class="ct-cell">Key definition?</div><div class="ct-cell">Write here...</div><div class="ct-cell">Main formula or rule?</div><div class="ct-cell">Write here...</div><div class="ct-cell">One worked example?</div><div class="ct-cell">Write here...</div></div><div class="cornell-summary"><span>Summary in your own words:</span> One sentence capturing the main idea.</div><div class="cornell-tip">💡 Say your summary out loud after writing it — your auditory memory is strong, use it.</div></div>`;
+  }
+  function mixedBlock(subj,topicId){
+    const wk=WITHIN_RECALL[subj];const wqs=wk&&wk[topicId]?wk[topicId]:['What is one other topic from this subject you have studied? Write 2 key facts about it.','Write one past exam question you remember from this subject and attempt to answer it.'];
+    const cqs=CROSS_RECALL[subj]||['Think of a connection between this subject and another you study. Write it down.'];
+    const partner=SUBJECTS[PAIRS[subj]]?.name||'paired subject';
+    return`<div class="mixed-block"><div class="mixed-head">🔀 Mixed recall <span class="mixed-badge">end of session · no notes · 10 min</span></div><div class="mixed-q"><strong>Same subject, different topic:</strong> ${wqs[currentWeek%2]||wqs[0]}</div><div class="mixed-q"><strong>Cross-subject (${partner}):</strong> ${cqs[currentWeek%2]||cqs[0]}</div></div>`;
+  }
+  function ratingBlock(topic){
+    if(!topic)return'';
+    const R=loadR();const cur=R[topic.id]?.rating||'';
+    return`<div class="rating-block"><div class="rating-head">Rate your confidence after this session</div><div class="rating-topic">${topic.label}</div><div class="rating-btns"><button class="r-btn r-green ${cur==='green'?'sel':''}" onclick="doRate('${topic.id}','green')">🟢 Solid</button><button class="r-btn r-amber ${cur==='amber'?'sel':''}" onclick="doRate('${topic.id}','amber')">🟡 Getting there</button><button class="r-btn r-red ${cur==='red'?'sel':''}" onclick="doRate('${topic.id}','red')">🔴 Need more work</button></div><div class="rating-saved" id="saved-${topic.id}">✓ Saved to your confidence tracker</div></div>`;
+  }
+  function sessionBlock(subj,topic,idx){
+    const s=SUBJECTS[subj];const pfx=`${currentWeek}-${currentDay}-s${idx}`;
+    const tagCls=topic?.type==='new'?'tag-new':currentWeek>=3?'tag-retrieval':'tag-consolidate';
+    const tagLbl=topic?.type==='new'?'New topic':currentWeek>=3?'Retrieval + interleaving':'Consolidation';
+    return`<div class="session-panel${idx===1?' left':''}">
+      <div class="session-eyebrow"><span class="session-bar" style="background:${s.color}"></span>${s.name} · Block ${idx===1?'A':'B'} · 45–60 min</div>
+      <div class="session-title">${topic?topic.label:'Retrieval practice'}</div>
+      <span class="session-tag ${tagCls}">${tagLbl}</span>
+      ${topic?retBlock(topic.id):''}
+      <div class="sec-head">Resources — watch after retrieval attempt</div>
+      ${topic?resBlock(topic.id):''}
+      ${topic?cornellBlock(topic):''}
+      ${topic?mixedBlock(subj,topic.id):''}
+      <div class="sec-head">Tick off as you go</div>
+      <div class="ticks">
+        ${mkTick(`${pfx}-r`,'Retrieval attempt — before watching','t-retrieval')}
+        ${mkTick(`${pfx}-v`,'Watched video')}
+        ${mkTick(`${pfx}-c`,'Cornell notes completed','t-cornell')}
+        ${mkTick(`${pfx}-f`,'Flashcards done')}
+        ${mkTick(`${pfx}-p`,'Practice questions attempted')}
+        ${mkTick(`${pfx}-m`,'Mixed recall completed — no notes','t-mixed')}
+      </div>
+      ${ratingBlock(topic)}
+    </div>`;
+  }
+  c.innerHTML=`<div class="today-header"><div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Week ${currentWeek} · Day ${d.day} · ${PHASES[currentWeek]}</div><h2>${s1.name} + ${s2.name}</h2></div>${navHtml}</div>
+  <div class="flow-card"><strong>Session flow:</strong> Retrieval first (no notes, 3 min) → Watch video → Cornell notes → Flashcards → Practice questions → Mixed recall → Rate yourself. The retrieval attempt before watching is the single most important step for long-term memory.</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+    ${sessionBlock(d.s1,t1,1)}${sessionBlock(d.s2,t2,2)}
+  </div>`;
 }
 
-// ═══════════════════════════════════════════
-// TODAY — full session detail
-// ═══════════════════════════════════════════
-function renderToday() {
-  const d = WEEK_SCHEDULE[currentDay-1];
-  const container = document.getElementById('today-content');
-  if(d.rest) {
-    container.innerHTML = `<div style="text-align:center;padding:40px">
-      <div style="font-size:40px;margin-bottom:12px">🛌</div>
-      <h2 style="font-family:Georgia,serif;font-weight:normal;font-size:22px;margin-bottom:8px">Rest day</h2>
-      <p style="color:var(--muted);font-size:13px">No study today. Rest is part of the program — retention improves with recovery time.</p>
-      <div style="margin-top:20px;display:flex;gap:10px;justify-content:center">
-        <button class="week-btn" onclick="currentDay=Math.max(1,currentDay-1);renderToday()">← Previous day</button>
-        <button class="week-btn" onclick="if(currentDay<7){currentDay++;renderToday()}else{currentWeek=Math.min(8,currentWeek+1);currentDay=1;document.getElementById('current-week-badge').textContent='Week '+currentWeek;renderToday()}">Next day →</button>
-      </div>
-    </div>`;
-    return;
-  }
-  const s1topics = getSessionContent(d.s1.subj, currentWeek, d.s1.type);
-  const s2topics = getSessionContent(d.s2.subj, currentWeek, d.s2.type);
-  // Resources are rendered per-topic below
-  const res1 = null;
-  const res2 = null;
-  const mixed = getMixedQuestions(d.s1.subj, currentWeek);
-  const s1 = SUBJECTS[d.s1.subj];
-  const s2 = SUBJECTS[d.s2.subj];
-  const ticks = loadTicks();
-
-  function tickHtml(id, label, type='') {
-    const done = ticks[id] ? 'done' : '';
-    return `<div class="tick-item ${type} ${done}" onclick="toggleTick('${id}',this)">
-      <div class="tick-box"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <span class="tick-text">${label}</span>
-    </div>`;
-  }
-
-  function cornelHtml(topics, subj) {
-    const q = topics.slice(0,4).map(t=>`<div class="ct-cell">${t.label}?</div><div class="ct-cell">Write your answer here...</div>`).join('');
-    return `<div class="cornell">
-      <div class="cornell-head">✏ Cornell notes <span class="cornell-badge">${topics[0]?.type==='new'?'required · 5–10 min':'optional · 5 min'}</span></div>
-      <div class="cornell-table">
-        <div class="ct-head">My questions</div><div class="ct-head">My notes</div>
-        ${q}
-      </div>
-      <div class="cornell-summary"><span>Summary (own words):</span> Write one sentence summing up the key idea from this session.</div>
-      <div class="cornell-examiner">💡 How might an examiner combine this with another topic?</div>
-    </div>`;
-  }
-
-  function ratingHtml(topics, prefix) {
-    return topics.map(t=>`<div class="rating-block">
-      <div class="rating-head">Rate your confidence after this session</div>
-      <div class="rating-topic">${t.label}</div>
-      <div class="rating-btns">
-        <button class="rating-btn r-green ${loadRatings()[t.id]?.rating==='green'?'selected':''}" onclick="saveRating('${t.id}','green');updateRatingUI('${t.id}')">🟢 Solid</button>
-        <button class="rating-btn r-amber ${loadRatings()[t.id]?.rating==='amber'?'selected':''}" onclick="saveRating('${t.id}','amber');updateRatingUI('${t.id}')">🟡 Getting there</button>
-        <button class="rating-btn r-red ${loadRatings()[t.id]?.rating==='red'?'selected':''}" onclick="saveRating('${t.id}','red');updateRatingUI('${t.id}')">🔴 Need more work</button>
-      </div>
-      <div class="rating-saved" id="saved-${t.id}">✓ Saved — will appear in your confidence grid</div>
-    </div>`).join('');
-  }
-
-  container.innerHTML = `
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
-      <div>
-        <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Week ${currentWeek} · Day ${currentDay}</div>
-        <h2 style="font-family:Georgia,serif;font-size:22px;font-weight:normal;color:var(--navy)">Today's sessions</h2>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button class="week-btn" onclick="currentDay=Math.max(1,currentDay-1);renderToday()">← Previous</button>
-        <button class="week-btn" onclick="if(currentDay<7){currentDay++;renderToday()}else if(currentWeek<8){currentWeek++;currentDay=1;document.getElementById('current-week-badge').textContent='Week '+currentWeek;renderToday()}">Next →</button>
-      </div>
+function renderChallenge(c,navHtml){
+  const qs=CHALLENGE_QS[currentWeek]||CHALLENGE_QS[1];
+  const active=currentWeek>1;
+  if(!active){c.innerHTML=`<div class="today-header"><div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Week ${currentWeek} · Day 6</div><h2>Challenge Round</h2></div>${navHtml}</div><div class="challenge-intro"><h3>Challenge Round starts Week 2</h3><p>Use Day 6 in Week 1 to catch up on anything from Days 1–5, revisit red-rated topics, or rest. Challenge Rounds begin Week 2 once you have enough topics to mix together.</p></div>`;return;}
+  c.innerHTML=`<div class="today-header"><div><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Week ${currentWeek} · Day 6</div><h2>Challenge Round</h2></div>${navHtml}</div>
+  <div class="challenge-intro"><h3>5 questions · Mixed · No topic labels</h3><p>These questions combine topics and don't tell you which subject or formula to use — just like a real exam. This is the most important session of the week for building exam performance.</p><div class="challenge-rule"><strong>Rules:</strong> Close all notes. Read each question carefully before starting. Show all working. Reveal the answer only after you have genuinely attempted the question. The score does not matter — the attempt does.</div></div>
+  <div class="challenge-qs">${qs.map((q,i)=>`<div class="cq"><div class="cq-num">Question ${i+1} of ${qs.length}</div><div class="cq-q">${q.q}</div><div class="cq-hint">💡 ${q.hint}</div><button class="reveal-btn" onclick="reveal(${i})">Reveal answer after attempting</button><div class="cq-reveal" id="cqa-${i}"><strong>Answer:</strong> ${q.ans}</div></div>`).join('')}</div>
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px">
+    <div class="sec-head">Tick off as you go</div>
+    <div class="ticks">
+      ${mkTick(`cr-${currentWeek}-0`,'All notes closed before starting','t-retrieval')}
+      ${[1,2,3,4,5].map(n=>mkTick(`cr-${currentWeek}-${n}`,`Q${n} attempted before revealing answer`)).join('')}
+      ${mkTick(`cr-${currentWeek}-6`,'Answers reviewed — noted what to revisit')}
+      ${mkTick(`cr-${currentWeek}-7`,'Rated any newly-confident topics in the tracker')}
     </div>
-
-    <div style="background:var(--navy-light);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:20px;font-size:12px;color:var(--navy-mid)">
-      <strong>Session flow:</strong> Watch video → Cornell notes (new topics) → Flashcards → Practice questions → Mixed recall → Rate yourself
-    </div>
-
-    <div class="days-grid">
-      <div class="day-row open">
-        <div class="day-header-row">
-          <div class="day-num">A</div>
-          <div class="day-info">
-            <div class="day-label">${s1.name} — ${d.s1.type==='consolidate'?'Consolidation':'New topic'}</div>
-            <div class="day-subjects-pills"><span class="spill" style="background:${s1.bg};color:${s1.text}">${s1topics.map(t=>t.label).join(' · ')}</span></div>
-          </div>
-        </div>
-        <div class="day-body-row" style="display:block">
-          <div class="session-panel" style="border-right:none">
-            <div class="session-eyebrow"><span class="session-bar" style="background:${s1.color}"></span>${s1.name} · 45–60 minutes</div>
-            <div class="session-title">${s1topics.map(t=>t.label).join(' + ')}</div>
-            <span class="session-type ${d.s1.type==='consolidate'?'type-consolidate':'type-new'}">${d.s1.type==='consolidate'?'Consolidation':'New topic'}</span>
-
-            <div class="session-eyebrow" style="margin-top:12px">Resources</div>
-            <div class="res-list">
-              ${s1topics.map(t=>{const r=getTopicResources(t.id);return r.videos.map(v=>`<div class="res-item"><span class="res-icon">▶</span><a href="${v.url}" target="_blank">${v.label}</a></div>`).join('')+`<div class="res-item"><span class="res-icon">◈</span><a href="${r.fc.url}" target="_blank">${r.fc.label}</a></div><div class="res-item"><span class="res-icon">◻</span><a href="${r.pp.url}" target="_blank">${r.pp.label}</a></div>`;}).join('')}
-            </div>
-
-            ${cornelHtml(s1topics, d.s1.subj)}
-
-            <div class="mixed-block">
-              <div class="mixed-head">🔀 Mixed recall <span class="mixed-badge">end of session · no notes · 10 min</span></div>
-              ${mixed.map(q=>`<div class="mixed-q"><strong>${q.q}</strong> <span style="font-size:10px;opacity:.7">${q.subj}</span></div>`).join('')}
-            </div>
-
-            <div class="ticks-head">Tick off as you go</div>
-            <div class="ticks">
-              ${tickHtml(`${currentWeek}-${currentDay}-s1-v`,'Watched video')}
-              ${tickHtml(`${currentWeek}-${currentDay}-s1-c`,'Cornell notes completed','cornell-t')}
-              ${tickHtml(`${currentWeek}-${currentDay}-s1-f`,'Flashcards done')}
-              ${tickHtml(`${currentWeek}-${currentDay}-s1-p`,'Practice questions attempted')}
-              ${tickHtml(`${currentWeek}-${currentDay}-s1-m`,'Mixed recall completed','mixed-t')}
-            </div>
-
-            ${ratingHtml(s1topics,'s1')}
-          </div>
-        </div>
-      </div>
-
-      <div class="day-row open" style="margin-top:16px">
-        <div class="day-header-row">
-          <div class="day-num">B</div>
-          <div class="day-info">
-            <div class="day-label">${s2.name} — ${d.s2.type==='consolidate'?'Consolidation':'New topic'}</div>
-            <div class="day-subjects-pills"><span class="spill" style="background:${s2.bg};color:${s2.text}">${s2topics.map(t=>t.label).join(' · ')}</span></div>
-          </div>
-        </div>
-        <div class="day-body-row" style="display:block">
-          <div class="session-panel" style="border-right:none">
-            <div class="session-eyebrow"><span class="session-bar" style="background:${s2.color}"></span>${s2.name} · 45–60 minutes</div>
-            <div class="session-title">${s2topics.map(t=>t.label).join(' + ')}</div>
-            <span class="session-type ${d.s2.type==='consolidate'?'type-consolidate':'type-new'}">${d.s2.type==='consolidate'?'Consolidation':'New topic'}</span>
-
-            <div class="session-eyebrow" style="margin-top:12px">Resources</div>
-            <div class="res-list">
-              ${s2topics.map(t=>{const r=getTopicResources(t.id);return r.videos.map(v=>`<div class="res-item"><span class="res-icon">▶</span><a href="${v.url}" target="_blank">${v.label}</a></div>`).join('')+`<div class="res-item"><span class="res-icon">◈</span><a href="${r.fc.url}" target="_blank">${r.fc.label}</a></div><div class="res-item"><span class="res-icon">◻</span><a href="${r.pp.url}" target="_blank">${r.pp.label}</a></div>`;}).join('')}
-            </div>
-
-            ${cornelHtml(s2topics, d.s2.subj)}
-
-            <div class="ticks-head">Tick off as you go</div>
-            <div class="ticks">
-              ${tickHtml(`${currentWeek}-${currentDay}-s2-v`,'Watched video')}
-              ${tickHtml(`${currentWeek}-${currentDay}-s2-c`,'Cornell notes completed','cornell-t')}
-              ${tickHtml(`${currentWeek}-${currentDay}-s2-f`,'Flashcards done')}
-              ${tickHtml(`${currentWeek}-${currentDay}-s2-p`,'Practice questions attempted')}
-              ${tickHtml(`${currentWeek}-${currentDay}-s2-t`,'Self-test: close everything, recall 3 key points')}
-            </div>
-
-            ${ratingHtml(s2topics,'s2')}
-          </div>
-        </div>
-      </div>
-    </div>`;
+  </div>`;
 }
 
-function toggleTick(id, el) {
-  const done = !el.classList.contains('done');
-  el.classList.toggle('done', done);
-  saveTick(id, done);
-}
-
-function updateRatingUI(topicId) {
-  const saved = document.getElementById('saved-'+topicId);
-  if(saved) { saved.classList.add('show'); setTimeout(()=>saved.classList.remove('show'),2500); }
-  // Update all rating buttons for this topic
-  const r = loadRatings()[topicId]?.rating || '';
+function reveal(i){const el=document.getElementById('cqa-'+i);if(el)el.classList.toggle('show')}
+function toggleTick(id,el){const done=!el.classList.contains('done');el.classList.toggle('done',done);saveT(id,done)}
+function doRate(topicId,rating){
+  saveR(topicId,rating);
+  const saved=document.getElementById('saved-'+topicId);
+  if(saved){saved.classList.add('show');setTimeout(()=>saved.classList.remove('show'),2500);}
   document.querySelectorAll(`[onclick*="'${topicId}'"]`).forEach(btn=>{
-    btn.classList.remove('selected');
-    if((r==='green'&&btn.classList.contains('r-green'))||
-       (r==='amber'&&btn.classList.contains('r-amber'))||
-       (r==='red'&&btn.classList.contains('r-red'))) btn.classList.add('selected');
+    btn.classList.remove('sel');
+    if((rating==='green'&&btn.classList.contains('r-green'))||(rating==='amber'&&btn.classList.contains('r-amber'))||(rating==='red'&&btn.classList.contains('r-red')))btn.classList.add('sel');
   });
-  renderGrid();
-  updateStats();
-  renderWeekAlert();
 }
+function prevDay(){if(currentDay>1){currentDay--;renderToday();}else if(currentWeek>1){currentWeek--;currentDay=7;document.getElementById('week-badge').textContent='Week '+currentWeek;renderToday();}}
+function nextDay(){if(currentDay<7){currentDay++;renderToday();}else if(currentWeek<8){currentWeek++;currentDay=1;document.getElementById('week-badge').textContent='Week '+currentWeek;renderToday();}}
 
-// ═══════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════
-renderGrid();
-updateStats();
-renderWeekAlert();
+// ── INIT ──────────────────────────────────────────
+renderGrid();updateStats();renderAlert();renderTraj();
 </script>
 </body>
 </html>
