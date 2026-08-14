@@ -1046,10 +1046,12 @@ async function sendMessage(){
       }
     }
 
-    const response=await fetch("https://aaa-planner.netlify.app/.netlify/functions/chat",{
+    const response=await fetch("https://api.anthropic.com/v1/messages",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
+        model:"claude-sonnet-4-6",
+        max_tokens:500,
         system:buildSystemPrompt(),
         messages:apiMessages,
       })
